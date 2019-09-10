@@ -58,10 +58,15 @@ n개의 중심점을 찍은 후에
 
 
 
-
 ## 2. Hierarchical
 
 
 
 ## 3. EM(Gaussian Mixture)
+
+
+
+
+
+
 
