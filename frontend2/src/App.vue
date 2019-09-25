@@ -6,7 +6,7 @@
           <router-link :to="{ name: 'Home' }">NEMO</router-link>
         </div>
         <div class="navItems__body">
-          <div class="btn btn--primary" v-if="isNotInConfig() && searchToggle === true" @click="searchToggle = !searchToggle">검색</div>
+          <div class="btn btn--primary btn--sm" v-if="isNotInConfig() && searchToggle === true" @click="searchToggle = !searchToggle">검색</div>
           <input type="text" v-if="isNotInConfig() && searchToggle === false ">
           <router-link :to="{ name: 'Movie' }" v-if="isNotInConfig()">Movie</router-link>
           <router-link :to="{ name: 'Profile' }" v-if="isNotInConfig()">Profile</router-link>
