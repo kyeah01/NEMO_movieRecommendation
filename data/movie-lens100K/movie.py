@@ -60,7 +60,7 @@ def create_user():
 def rating_create():
     request_data = {'ratings': []}
     with open('u.data', 'r', encoding="UTF-8") as p:
-        for line in p.readlines():
+        for line in p.readlines()[:1]:
             [UserID, MovieID, Rating, Timestamp] = line.split('\t')
             request_data['ratings'].append({
                 'userid': int(UserID),
@@ -79,5 +79,5 @@ if __name__ == '__main__':
     # genres = genre_make()
     # movie_make(genres, poster_url())
     # create_user()
-    rating_create()
-    # setupCluster()
+    # rating_create()
+    setupCluster()
