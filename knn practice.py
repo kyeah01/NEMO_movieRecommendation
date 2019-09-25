@@ -36,3 +36,33 @@ def knn_classify(k, labeled_points, your_point):
 
     return majority_vote(k_nearest_labels)
 
+
+
+
+import os
+import pandas as pd
+# configure file path
+data_path = os.path.join(os.environ[], 'MovieLens')
+movies_filename = 'movies.csv'
+ratings_filename = 'ratings.csv'
+# read data
+df_movies = pd.read_csv(
+    os.path.join(data_path, movies_filename),
+    usecols=['movieId', 'title'],
+    dtype={'movieId': 'int32', 'title': 'str'})
+
+df_ratings = pd.read_csv(
+    os.path.join(data_path, ratings_filename),
+    usecols=['userId', 'movieId', 'rating'],
+    dtype={'userId': 'int32', 'movieId': 'int32', 'rating': 'float32'})
+
+
+from scipy.sparse import csr_matrix
+# pivot ratings into movie features
+df_movie_features = df_ratings.pivot(
+    index='movieId',
+    columns='userId',
+    values='rating'
+).fillna(0)
+# convert dataframe of movie features to scipy sparse matrix
+mat_movie_features = csr_matrix(df_movie_features.values)
