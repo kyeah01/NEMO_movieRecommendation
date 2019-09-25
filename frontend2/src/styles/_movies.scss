@@ -1,0 +1,116 @@
+// MoviePage.vue
+.moviePage {
+  margin: {
+    top: 10vh;
+  }
+}
+// MovieList.vue
+.movieList {
+  height: 50vh;
+  p {
+    color: black;
+    text-align: left;
+    font-weight: bold;
+    font-size: 24px;
+    padding: {
+      left: 10em;
+    }
+  }
+}
+.pageBtn {
+  background:rgba(255, 255, 255, 0);
+  color:#fff;
+  border:none;
+  position: relative;
+  height: 43vh;
+  font-size: 1em;
+  cursor:pointer;
+  transition: .5s ease all;
+  outline:none;
+  &:disabled {
+    opacity: 0;
+    cursor: default;
+  }
+}
+.pagePrev {
+  top: 1.5em;
+  right: 75vh;
+  &:hover{
+    background: linear-gradient(to left, rgba(70, 70, 70, 0), rgba(0, 0, 0, 0.8));
+    color:#ffffff;
+  }
+}
+.pageNext {
+  top: 1.5em;
+  left: 75vh;
+  &:hover{
+    background: linear-gradient(to right, rgba(70, 70, 70, 0), rgba(0, 0, 0, 0.8));
+    color:#ffffff;
+  }
+}
+// MovieImg.vue
+.movieImg {
+  display: inline;
+  img {
+    height: 43vh;
+    width: 30vh;
+    margin: {
+      left: 5px;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .selectedMovie {
+    border: 2px solid white;
+    height: 42.5vh !important;
+    width: 29.5vh !important;
+  }
+}
+// MovieCard.vue
+.movieItem {
+  height: 70vh;
+  background: rgb(100, 97, 97);
+  display: flex;
+  justify-content: space-between;
+  margin: {
+    top: 10px;
+  }
+  button {
+    border:none;
+    outline:none;
+    height: 10vh;
+    width: 10vh;
+    background: none;
+  }
+}
+.movieInfo {
+  height: 70vh;
+  width: 35vw;
+  background: linear-gradient(to left, rgba(70, 70, 70, 0), rgba(0, 0, 0, 0.8));
+  h1 {
+    text-align: left;
+    overflow: hidden;
+    color: #ffffff;
+    margin: {
+      top: 0px;
+      left: 30px;
+    }
+  }
+}
+.movieBtnGroups {
+  position: relative;
+  top: 59.7vh;
+  right: 25vh;
+  height: 10vh;
+  button {
+    width: 10vw;
+    color: #ffffff;
+  }
+  .activate {
+    font-weight: 900;
+    border: {
+      bottom: 5px solid red;
+    }
+  }
+}

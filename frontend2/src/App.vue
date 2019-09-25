@@ -47,14 +47,13 @@ export default {
       this.whereScroll = window.pageYOffset
     }
   },
-  
-
 }
 </script>
 
 <style lang="scss">
 #app {
   text-align: center;
+  height: 1500px;
 }
 
 // CSS transition
