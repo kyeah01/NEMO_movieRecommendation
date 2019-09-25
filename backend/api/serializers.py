@@ -38,14 +38,14 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class RatingSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField('get_profileInfo')
+    # user = serializers.SerializerMethodField('get_profileInfo')
     
     class Meta:
         model = Rating
-        fields = ['movie', 'user', 'rating', 'rating_date',]
+        fields = [ 'rating', 'rating_date',]
 
-    def get_profileInfo(self, obj):
-        return { 'id':obj.user.id, 'name': obj.user.username, 'Gender': obj.user.profile.gender, 'age': obj.user.profile.age, 'Occupation': obj.user.profile.occupation }
+    # def get_profileInfo(self, obj):
+    #     return { 'id':obj.user.id, 'name': obj.user.username, 'Gender': obj.user.profile.gender, 'age': obj.user.profile.age, 'Occupation': obj.user.profile.occupation }
 
 class MovieSerializer(serializers.ModelSerializer):
     genres_array = serializers.ReadOnlyField()
