@@ -18,6 +18,7 @@ module.exports = {
                       @import "@/styles/_movies.scss";
                       @import "@/styles/_spacing.scss";
                       @import "@/styles/_btn.scss";
+                      @import "@/styles/_fa-icon.scss";
                       @import "@/styles/_shared-styles.scss";`
       }
     }
