@@ -2,49 +2,52 @@
       <div class="filler">
         <div class="LoginForm">
           <header class="LoginForm__Header">회원가입</header>
-          
-          <input type="text" class="LoginForm__Input" :class="{LoginForm__Err : checkNickName()}" id="NICKNAME" v-model="nickName" placeholder="아이디" >
+          <form>
+            <input type="text" class="LoginForm__Input" :class="{LoginForm__Err : checkNickName()}" id="NICKNAME" v-model="nickName" placeholder="아이디" autocomplete="username">
             <p class="checkText" v-if="checkNickName()" >아이디는 최소 8글자 이상이어야 합니다.</p>
-          <input type="password" class="LoginForm__Input" :class="{LoginForm__Err : checkPassword()}" id="PASSWORD" v-model="password" placeholder="비밀번호" autocomplete="new-password">
-          <p class="checkText" v-if="checkPassword()" >비밀번호는 최소 8글자 이상이어야 합니다.</p>
-          <input type="password" class="LoginForm__Input" :class="{LoginForm__Err : checkPasswordConfirm()}" id="PASSWORDCONFIRM" v-model="passwordconfirm" placeholder="비밀번호 확인" autocomplete="new-password">
-          <p class="checkText" v-if="checkPasswordConfirm()" >비밀번호가 일치하지 않습니다.</p>
+            <input type="password" class="LoginForm__Input" :class="{LoginForm__Err : checkPassword()}" id="PASSWORD" v-model="password" placeholder="비밀번호" autocomplete="new-password">
+            <p class="checkText" v-if="checkPassword()" >비밀번호는 최소 8글자 이상이어야 합니다.</p>
+            <input type="password" class="LoginForm__Input" :class="{LoginForm__Err : checkPasswordConfirm()}" id="PASSWORDCONFIRM" v-model="passwordconfirm" placeholder="비밀번호 확인" autocomplete="new-password">
+            <p class="checkText" v-if="checkPasswordConfirm()" >비밀번호가 일치하지 않습니다.</p>
+          </form>
 
           <div class="separater"></div>
-          
+
           <div v-for="items in SignupList" :key="items.label">
             <p class="label" :id="items.label">{{items.label}}</p>
             <select :name="items.name" class="LoginForm__Drop" v-model="items.name">
                 <option :value="item.value" v-for="item in items.option" :key="item.value">{{item.text}}</option>
             </select>
           </div>
-          
+
           <div class="separater"></div>
 
-          <div class="btn btn--primary btn--lg LoginForm__btn" :class="{'btn--disabled' : checkAll() }">회원가입</div>
+          <div class="btn btn--primary btn--lg LoginForm__btn" :class="{'btn--disabled' : checkAll() }" @click="signUpSend">회원가입</div>
           <p style="display:inline; font-size: 0.8em; color:grey;">이미 회원이신가요? </p> <p class="LoginForm__SignUp" @click="Go">돌아가기</p>
         </div>
       </div>
 </template>
 
 <script>
+import api from '@/api'
+
 export default {
   data() {
     return {
       nickName : '',
       password : '',
       passwordconfirm : '',
-      
+
       SignupList : [
         { label : 'gender',
           name : '',
-          option: [  
+          option: [
               {text:  "Male", value : "M"},
               {text:  "Female", value : "F"},
           ]},
         { label : 'age',
           name : '',
-          option: [  
+          option: [
             {text:  "Under 18", value : 1},
             {text:  "18-24", value : 18},
             {text:  "25-34", value : 25},
@@ -55,7 +58,7 @@ export default {
         ]},
         { label : 'occupation',
           name : '',
-          option: [  
+          option: [
             {text:  "other", value : 0},
             {text:  "academic/educator", value : 1},
             {text:  "artist", value : 2},
@@ -66,7 +69,7 @@ export default {
             {text:  "executive/managerial", value : 7},
             {text:  "farmer", value : 8},
             {text:  "homemaker", value : 9},
-            {text:  "K-12 studen", value : 10},
+            {text:  "K-12 student", value : 10},
             {text:  "lawyer", value : 11},
             {text:  "programmer", value : 12},
             {text:  "retired", value : 13},
@@ -87,32 +90,48 @@ export default {
       window.scrollTo(0, 0);
     },
     checkAll() {
-      if (this.nickName == ''|| this.password == '' || this.passwordconfirm == '' || this.SignupList[0].name == '' || this.SignupList[1].name == '' || this.SignupList[2].name == '' || this.checkNickName() || this.checkPassword() || this.checkPasswordConfirm()) {
+      if (this.nickName === ''|| this.password === '' || this.passwordconfirm === '' || this.SignupList[0].name === '' || this.SignupList[1].name === '' || this.SignupList[2].name === '' || this.checkNickName() || this.checkPassword() || this.checkPasswordConfirm()) {
         return true
       }
     },
     checkNickName() {
-      if (this.nickName != '' && this.nickName.length <= 8) {
+      if (this.nickName != '' && this.nickName.length <= 7) {
         return true
       }
     },
     checkPassword() {
-        if (this.password != '' && this.password.length <= 8) {
-          return true
-        }    
+      if (this.password != '' && this.password.length <= 7) {
+        return true
+      }
     },
     checkPasswordConfirm() {
-        if (this.passwordconfirm != '' && this.passwordconfirm != this.password) {
-          return true
-        }    
+      if (this.passwordconfirm != '' && this.passwordconfirm != this.password) {
+        return true
+      }
+    },
+    async signUpSend() {
+      const data = {
+        profiles: {
+          'username': this.nickName,
+          'password': this.password,
+          'gender': this.SignupList[0].name,
+          'age': this.SignupList[1].name,
+          'occupation' : this.SignupList[2].option[this.SignupList[2].name].text
+        }
+      }
+      const resp = await api.signUp(data)
+      if (resp) {
+        alert('던')
+      } else {
+        alert('error')
+      }
     }
   }
-
 }
 </script>
 
 <style lang="scss" scoped>
-  
+
 .filler {
   position: absolute;
   width: 500px;
@@ -157,7 +176,7 @@ export default {
       color: white;
       font-size: 25px ;
     }
-  
+
     &__Header {
       text-align: start;
       font-size: 2em;
@@ -172,7 +191,7 @@ export default {
     &__SignUp {
       display: inline;
       margin-top: var(--space-sm);
-      
+
       font-size: 0.8em;
       color: white;
     }
