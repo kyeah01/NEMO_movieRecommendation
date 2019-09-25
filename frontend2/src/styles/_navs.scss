@@ -1,7 +1,7 @@
 .navBar {
   position: fixed;
   z-index: 999;
-  height: 55px;
+  height: 100px;
   display: flex;
   justify-content: space-between;
   padding-left: 30px;
@@ -10,6 +10,7 @@
   left: 0;
   right: 0;
   transition: all 0.3s ease ;
+  
   &__down {
     background-color: rgba(black, 0.5);
     transition: all 0.3s ease ;
@@ -18,15 +19,19 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    font-size: 2.5rem;
+    font-weight: 700;
     align-items: center;
     box-sizing: border-box;
 
     &__body {
         display: flex;
         justify-content: flex-end;
+        font-size: 1.5rem;
 
         width: 20%;
-        margin-left: var(--space-md); 
+        margin-left: var(--space-sm); 
+        margin-right: var(--space-sm); 
     }
   }
 }
@@ -34,8 +39,7 @@
 .navItems a{
     text-decoration: none;
     color: white;
-    font-size: 2rem;
-    font-weight: 700;
+    
     margin-right: 20px;
 
     &:hover {
