@@ -12,7 +12,6 @@ class Profile(models.Model):
 
 #  wrapper for create user Profile
 def create_profile(**kwargs):
-
     user = User.objects.create_user(
         username=kwargs['username'],
         password=kwargs['password'],

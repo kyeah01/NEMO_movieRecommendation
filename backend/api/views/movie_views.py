@@ -34,7 +34,7 @@ def movies(request):
         if occupation:
             movies = sorted(list(set([rate.movie for rate in ratings if (rate.user.profile.occupation == occupation)])), key=lambda x:x.id)
 
-        serializer = MovieSerializer(movies[:100], many=True)
+        serializer = MovieSerializer(movies, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'DELETE':
