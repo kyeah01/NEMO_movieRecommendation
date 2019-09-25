@@ -49,10 +49,10 @@ def movies(request):
             title = movie.get('title', None)
             genres = movie.get('genres', None)
 
-            if not (id and title and genres):
-                continue
-            if Movie.objects.filter(id=id).count() > 0 or Movie.objects.filter(title=title).count() > 0:
-                continue
+            # if not (id and title and genres):
+            #     continue
+            # if Movie.objects.filter(id=id).count() > 0 or Movie.objects.filter(title=title).count() > 0:
+            #     continue
 
             Movie(id=id, title=title, genres='|'.join(genres)).save()
 
