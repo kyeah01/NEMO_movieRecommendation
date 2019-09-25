@@ -69,7 +69,7 @@ def rating_create():
                 'timestamp': Timestamp[:-1]
             })
 
-    response = requests.post(API_URL + 'ratings/', data=json.dumps(request_data), headers=headers)
+    response = requests.post(API_URL + 'rating_many/', data=json.dumps(request_data), headers=headers)
     # print(response.text)
 
 def setupCluster():
