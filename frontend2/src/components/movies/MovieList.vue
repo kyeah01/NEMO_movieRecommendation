@@ -10,8 +10,8 @@
       </div>
     </transition>
     <div v-show="showBtn" style="display: inline;">
-      <button class="pageBtn pagePrev" :disabled="pageNum === 0" @click="pagination(false)"><fa-icon icon="angle-left"/></button>
-      <button class="pageBtn pageNext" :disabled="pageNum >= pageCount - 1" @click="pagination(true)"><fa-icon icon="angle-right"/></button>
+      <button class="pageBtn pageBtn__prev" :disabled="pageNum === 0" @click="pagination(false)"><fa-icon icon="angle-left"/></button>
+      <button class="pageBtn pageBtn__next" :disabled="pageNum >= pageCount - 1" @click="pagination(true)"><fa-icon icon="angle-right"/></button>
     </div>
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
     pageSize: {
       type: Number,
       required: false,
-      default: 5
+      default: 6
     }
   },
   data: () => ({
