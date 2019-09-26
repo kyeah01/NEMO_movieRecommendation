@@ -76,8 +76,7 @@ def setupCluster():
     requests.post(API_URL + 'cluster/', headers=headers)
 
 if __name__ == '__main__':
-    # genres = genre_make()
-    # movie_make(genres, poster_url())
-    # create_user()
-    # rating_create()
+    movie_make(genre_make(), poster_url())
+    create_user()
+    rating_create()
     setupCluster()
