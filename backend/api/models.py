@@ -9,6 +9,8 @@ class Profile(models.Model):
     age = models.IntegerField(default=25)
     occupation = models.CharField(max_length=200)
     group = models.IntegerField(default=0)
+    description = models.CharField(max_length=200, default='')
+    recommend_user = models.CharField(max_length=500)
 
 #  wrapper for create user Profile
 def create_profile(**kwargs):
@@ -36,6 +38,7 @@ class Movie(models.Model):
     backdrop_url = models.TextField(default='')
     overview = models.TextField(default='')
     adult = models.BooleanField(default=False)
+    recommend_movie = models.CharField(max_length=500)
 
     @property
     def genres_array(self):
@@ -51,6 +54,7 @@ class Rating(models.Model):
     rating_date = models.CharField(max_length=200)
 
 class ClusterModel(models.Model):
+    cluster_choice = models.BooleanField(default=True)
     based = models.CharField(max_length=30)
     method = models.IntegerField(
         default=1,
