@@ -33,7 +33,7 @@ export default {
 <style lang="scss">
 .flexCenter {
   height: 100vh;
-  padding: 55px;
+  padding: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
