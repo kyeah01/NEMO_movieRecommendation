@@ -6,6 +6,7 @@ from api.models import Movie, Rating, ClusterModel, Profile
 from api.serializers import ClusterSerializer
 
 from api.views.cluster_method.make_kmeans import kmeans_user, kmeans_movie
+from api.views.cluster_method.make_knn import knn_movie
 from api.views.cluster_method.gmm import GaussianMix
 from api.views.cluster_method.Hierarchical import Hierarchical
 
@@ -66,9 +67,10 @@ def cluster_user_method(request):
         return Response(status=status.HTTP_200_OK)
 
     if request.method == 'GET':
-        now = ClusterModel.objects.get(id=1)
-        serializer = ClusterSerializer(now)
-        return Response(data=serializer.data)
+        # now = ClusterModel.objects.get(id=1)
+        # serializer = ClusterSerializer(now)
+        print('hi')
+        return Response(status=status.HTTP_200_OK)
 
 @api_view(['GET', 'POST'])
 def cluster_movie_method(request):
@@ -104,6 +106,10 @@ def cluster_movie_method(request):
 
 
     if request.method == 'GET':
-        now = ClusterModel.objects.get(id=2)
-        serializer = ClusterSerializer(now)
-        return Response(data=serializer.data)
+        # now = ClusterModel.objects.get(id=1)
+        # serializer = ClusterSerializer(now)
+        a =  knn_movie(Movie.objects.all().values(), Rating.objects.all().values())
+        # print('hi')
+        print(a)
+        return Response(status=status.HTTP_200_OK)
+
