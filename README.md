@@ -20,9 +20,10 @@
 
 ## Data setup
 
-- Backend 서버가 켜진 상태에서 `data` > `movie-lens100K` > `movie.py`파일을 실행시킵니다.
+- `backend` > `db.json` 파일을 실행시킵니다.
 
     ```bash
-    $ python movie.py
+    $ ./manage.py loaddata db.json
     ```
-
+    
+    (5분여정도 걸립니다.)
