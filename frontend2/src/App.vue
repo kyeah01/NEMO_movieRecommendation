@@ -24,6 +24,7 @@
             </transition>
           </div>
           <router-link :to="{ name: 'Movie' }" v-if="isNotInConfig()">Movie</router-link>
+          <router-link :to="{ name: 'Search' }" v-if="isNotInConfig()">Search</router-link>
           <router-link :to="{ name: 'Profile' }" v-if="isNotInConfig()">Profile</router-link>
           <router-link :to="{ name: 'Sign' }" v-if="!isNotInConfig()">Login</router-link>
         </div>

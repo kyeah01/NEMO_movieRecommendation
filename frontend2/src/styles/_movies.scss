@@ -22,42 +22,42 @@
   }
 }
 .pageBtn {
-  background:rgba(255, 255, 255, 0);
   color: $white;
-  border:none;
-  position: relative;
+  background: $trans;
   height: 43vh;
-  font-size: 1em;
-  cursor:pointer;
-  transition: .5s ease all;
+  position: relative;
+  border:none;
   outline:none;
+  transition: .5s ease all;
+  cursor:pointer;
   &:disabled {
     opacity: 0;
     cursor: default;
   }
-}
-.pagePrev {
-  top: 1.5em;
-  right: 75vh;
-  &:hover{
-    background: linear-gradient(to left, rgba(70, 70, 70, 0), rgba(0, 0, 0, 0.8));
-    color:$white;
+  &__prev {
+    top: 3vh;
+    right: 46.838vw;
+      &:hover{
+        background: linear-gradient(to left, rgba(70, 70, 70, 0), rgba(0, 0, 0, 0.8));
+        color: $white;
+      }
+  }
+  &__next {
+    top: 3vh;
+    left: 46.838vw;
+      &:hover{
+        background: linear-gradient(to right, rgba(70, 70, 70, 0), rgba(0, 0, 0, 0.8));
+        color:$white;
+      }
   }
 }
-.pageNext {
-  top: 1.5em;
-  left: 75vh;
-  &:hover{
-    background: linear-gradient(to right, rgba(70, 70, 70, 0), rgba(0, 0, 0, 0.8));
-    color:$white;
-  }
-}
+
 // MovieImg.vue
 .movieImg {
   display: inline;
   img {
     height: 43vh;
-    width: 30vh;
+    width: auto;
     margin: {
       left: 5px;
     }

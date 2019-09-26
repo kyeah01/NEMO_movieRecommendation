@@ -10,7 +10,7 @@
   left: 0;
   right: 0;
   transition: all 0.3s ease ;
-  
+
   &__down {
     background: linear-gradient(to top, rgba(70, 70, 70, 0), rgba(0, 0, 0, 0.8));;
     transition: all 0.3s ease ;
@@ -39,13 +39,13 @@
           height: 1vh;
           font-size: 16px;
           font-weight: 500;
-          border-bottom: 2px solid #C8CCD4;
+          border-bottom: 2px solid $primary;
           background: none;
           border-radius: 0;
           color: $white;
           position: absolute;
-          top: 1.5vh;
-          right: 35vh;
+          top: 4vh;
+          right: 27vw;
           transition: all .15s ease;
           &:focus {
             outline: none;
