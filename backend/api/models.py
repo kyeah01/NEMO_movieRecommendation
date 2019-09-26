@@ -32,6 +32,10 @@ class Movie(models.Model):
     title = models.CharField(max_length=200)
     genres = models.CharField(max_length=500)
     group = models.IntegerField(default=0)
+    poster_url = models.TextField(default='')
+    backdrop_url = models.TextField(default='')
+    overview = models.TextField(default='')
+    adult = models.BooleanField(default=False)
 
     @property
     def genres_array(self):
