@@ -20,8 +20,8 @@ module.exports = {
                       @import "@/styles/_btn.scss";
                       @import "@/styles/_profile.scss";
                       @import "@/styles/_sign.scss";
+                      @import "@/styles/_fa-icon.scss";
                       @import "@/styles/_shared-styles.scss";`
-                      
       }
     }
   }

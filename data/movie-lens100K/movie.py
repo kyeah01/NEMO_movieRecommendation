@@ -60,7 +60,7 @@ def create_user():
 def rating_create():
     request_data = {'ratings': []}
     with open('u.data', 'r', encoding="UTF-8") as p:
-        for line in p.readlines()[:1]:
+        for line in p.readlines():
             [UserID, MovieID, Rating, Timestamp] = line.split('\t')
             request_data['ratings'].append({
                 'userid': int(UserID),
@@ -69,15 +69,14 @@ def rating_create():
                 'timestamp': Timestamp[:-1]
             })
 
-    response = requests.post(API_URL + 'ratings/', data=json.dumps(request_data), headers=headers)
+    response = requests.post(API_URL + 'rating_many/', data=json.dumps(request_data), headers=headers)
     # print(response.text)
 
 def setupCluster():
     requests.post(API_URL + 'cluster/', headers=headers)
 
 if __name__ == '__main__':
-    # genres = genre_make()
-    # movie_make(genres, poster_url())
-    # create_user()
-    # rating_create()
+    movie_make(genre_make(), poster_url())
+    create_user()
+    rating_create()
     setupCluster()

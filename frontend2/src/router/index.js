@@ -5,6 +5,7 @@ import SignPage from '@/views/SignPage'
 import MainPage from '@/views/MainPage'
 import MoviePage from '@/views/MoviePage'
 import ProfilePage from '@/views/ProfilePage'
+import TestPage from '@/views/testPage'
 
 Vue.use(VueRouter)
 
@@ -14,6 +15,7 @@ const router = new VueRouter({
     { path: '/', component: MainPage, name: 'Home' },
     { path: '/sign', component: SignPage, name: 'Sign' },
     { path: '/movie', component: MoviePage, name: 'Movie' },
+    { path: '/search', component: TestPage, name: 'Search'},
     { path: '/profile', component: ProfilePage, name: 'Profile' },
   ],
   scrollBehavior() {

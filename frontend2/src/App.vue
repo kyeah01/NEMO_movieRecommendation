@@ -6,11 +6,27 @@
           <router-link :to="{ name: 'Home' }">NEMO</router-link>
         </div>
         <div class="navItems__body">
-          <div class="btn btn--primary btn--sm" v-if="isNotInConfig() && searchToggle === true" @click="searchToggle = !searchToggle">검색</div>
-          <input type="text" v-if="isNotInConfig() && searchToggle === false ">
+          <div>
+            <!-- <div v-if="isNotInConfig() && searchToggle === true" @click="searchToggle = !searchToggle">검색</div> -->
+            <fa-icon
+              icon="search"
+              v-if="isNotInConfig() && searchToggle === true"
+              @click="searchToggle = !searchToggle; setFocus();"
+              />
+            <transition name="fade" mode="out-in">
+              <input type="text"
+                v-if="isNotInConfig() && searchToggle === false"
+                ref="search"
+                placeholder="Search"
+                @blur="searchToggle = !searchToggle"
+                alt="Search"
+                >
+            </transition>
+          </div>
           <router-link :to="{ name: 'Movie' }" v-if="isNotInConfig()">Movie</router-link>
+          <router-link :to="{ name: 'Search' }" v-if="isNotInConfig()">Search</router-link>
           <router-link :to="{ name: 'Profile' }" v-if="isNotInConfig()">Profile</router-link>
-          <router-link :to="{ name: 'Sign' }">Login</router-link>
+          <router-link :to="{ name: 'Sign' }" v-if="!isNotInConfig()">Login</router-link>
         </div>
       </nav>
     </header>
@@ -45,6 +61,11 @@ export default {
     },
     checkScroll() {
       this.whereScroll = window.pageYOffset
+    },
+    setFocus() {
+      let _this = this
+      _this.$nextTick()
+        .then(() => { _this.$refs.search.focus() })
     }
   },
 }

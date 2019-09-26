@@ -5,13 +5,13 @@
     @mouseleave="mouseLeave">
     <transition name="slide" mode="out-in">
       <div style="height: 2em;">
-        <p>Netflix 오리지널</p>
-        <MovieImg v-for="i in paginatedData" :key="i" :imgData="{imgSrc, id:i, varified: item.genre}" style="z-index:100;"/>
+        <p>{{ item.genre }}</p>
+        <MovieImg v-for="i in paginatedData" :key="i" :imgData="{imgSrc, id:i, varified: item.genre}"/>
       </div>
     </transition>
-    <div v-show="showBtn" style="display: inline; z-index: 2;">
-      <button class="pageBtn pagePrev" :disabled="pageNum === 0" @click="pagination(false)">이전</button>
-      <button class="pageBtn pageNext" :disabled="pageNum >= pageCount - 1" @click="pagination(true)">다음</button>
+    <div v-show="showBtn" style="display: inline;">
+      <button class="pageBtn pageBtn__prev" :disabled="pageNum === 0" @click="pagination(false)"><fa-icon icon="angle-left"/></button>
+      <button class="pageBtn pageBtn__next" :disabled="pageNum >= pageCount - 1" @click="pagination(true)"><fa-icon icon="angle-right"/></button>
     </div>
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
     pageSize: {
       type: Number,
       required: false,
-      default: 5
+      default: 6
     }
   },
   data: () => ({

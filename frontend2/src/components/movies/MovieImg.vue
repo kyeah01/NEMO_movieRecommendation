@@ -1,7 +1,6 @@
 <template>
   <div class="movieImg">
     <img :src="imgData.imgSrc" alt="moviePoster" @click="infoActive" :class="{ selectedMovie: isSelectedMovie }">
-    <!-- <button :class="{ activate: infoBtnToggle === 1 }" @click="infoBtnSwitch(1)">콘텐츠 정보</button> -->
   </div>
 </template>
 

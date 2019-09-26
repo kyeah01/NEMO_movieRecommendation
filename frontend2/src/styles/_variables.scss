@@ -1,8 +1,10 @@
 $primary: orangered;
 $secondary: aqua;
 $mono : #2E2E2E;
+$white: #ffffff;
+$trans: #ffffff00;
 
-:root{ 
-    --color-primary: #{$primary}; 
-    --data-color-secondary: #{$secondary}; 
+:root{
+    --color-primary: #{$primary};
+    --data-color-secondary: #{$secondary};
   }
