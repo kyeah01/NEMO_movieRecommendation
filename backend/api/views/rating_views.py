@@ -1,3 +1,4 @@
+from datetime import datetime
 from rest_framework import status
 from rest_framework.decorators import api_view
 from api.models import Rating
@@ -5,7 +6,7 @@ from api.serializers import RatingSerializer
 from rest_framework.response import Response
 
 @api_view(['POST'])
-def ratings(request):
+def rating_many(request):
     if request.method == 'POST':
         ratings = request.data.get('ratings', None)
 
@@ -18,3 +19,15 @@ def ratings(request):
             Rating(movie_id=movieid, user_id=userid, rating=rating, rating_date=timestamp).save()
 
         return Response(status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def rating(request):
+    if request.method == "POST":
+        rating = request.data.get('rating')
+        userid = rating.get('userid')
+        movieid = rating.get('movieid')
+        rate_value = rating.get('rate')
+        timestamp = round(datetime.now().timestamp())
+        Rating(movie_id=movieid, user_id=userid, rating=rate_value, rating_date=timestamp).save()
+
+    return Response(status=status.HTTP_200_OK)

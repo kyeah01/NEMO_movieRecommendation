@@ -19,11 +19,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     
     def get_ratingmovie(self, obj):
         data = User.objects.get(id=obj.id)
-        datas = data.rating_set.all()
-        rr = []
-        for i in datas :
-            rr.append(i.movie.title)
-        return rr
+        return [data.movie.title for data in data.rating_set.all()]
 
     def get_is_staff(self, obj):
         return obj.user.is_staff
