@@ -25,10 +25,9 @@ def signup_many(request):
                             occupation=occupation, gender=gender, group=group)
 
         return Response(status=status.HTTP_201_CREATED)
-        
+
 @api_view(['POST'])
 def signup(request):
-
     if request.method == 'POST':
         profiles = request.data.get('profiles', None)
         username = profiles.get('username', None)
@@ -65,7 +64,7 @@ def userLogin(request):
         serialData['status'] = statCode
         serialData['data'] = serializer.data
         return Response(data=serialData , status=status.HTTP_200_OK)
-    # 실패시 빈값 return 
+    # 실패시 빈값 return
     return Response(data=serialData, status=status.HTTP_200_OK)
 
 # 0829 / logout

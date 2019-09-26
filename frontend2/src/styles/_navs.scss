@@ -1,7 +1,7 @@
 .navBar {
   position: fixed;
   z-index: 999;
-  height: 55px;
+  height: 100px;
   display: flex;
   justify-content: space-between;
   padding-left: 30px;
@@ -10,30 +10,54 @@
   left: 0;
   right: 0;
   transition: all 0.3s ease ;
+  
   &__down {
-    background-color: rgba(black, 0.5);
+    background: linear-gradient(to top, rgba(70, 70, 70, 0), rgba(0, 0, 0, 0.8));;
     transition: all 0.3s ease ;
   }
   .navItems {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    font-size: 2.5rem;
+    font-weight: 700;
     align-items: center;
     box-sizing: border-box;
 
     &__body {
         display: flex;
         justify-content: flex-end;
+        font-size: 1.5rem;
 
         width: 20%;
-        margin-left: var(--space-md); 
+        margin-left: var(--space-md);
+        input {
+          border: 0;
+          font-family: inherit;
+          padding: 12px 0;
+          width: 20vw;
+          height: 1vh;
+          font-size: 16px;
+          font-weight: 500;
+          border-bottom: 2px solid #C8CCD4;
+          background: none;
+          border-radius: 0;
+          color: $white;
+          position: absolute;
+          top: 1.5vh;
+          right: 35vh;
+          transition: all .15s ease;
+          &:focus {
+            outline: none;
+          }
+        }
     }
   }
 }
 
 .navItems a{
     text-decoration: none;
-    color: white;
+    color: $white;
     font-size: 2rem;
     font-weight: 700;
     margin-right: 20px;

@@ -43,17 +43,26 @@ def movies(request):
         return Response(status=status.HTTP_200_OK)
 
     if request.method == 'POST':
-        movies = request.data.get('movies', None)
-        for movie in movies:
-            id = movie.get('id', None)
-            title = movie.get('title', None)
-            genres = movie.get('genres', None)
+        # ID로 접근하면 UPDATE
+        id = request.data.get('id')
+        if id:
+            movie = Movie.objects.get(id=id)
+            movie.backdrop_url = request.data.get('backdrop_path')
+            movie.adult = request.data.get('adult')
+            movie.overview = request.data.get('overview')
+            movie.save()
+        else:
+            movies = request.data.get('movies', None)
+            for movie in movies:
+                id = movie.get('id', None)
+                title = movie.get('title', None)
+                genres = movie.get('genres', None)
+                poster_url = movie.get('poster_url')
 
-            # if not (id and title and genres):
-            #     continue
-            # if Movie.objects.filter(id=id).count() > 0 or Movie.objects.filter(title=title).count() > 0:
-            #     continue
+                # if not (id and title and genres):
+                #     continue
+                # if Movie.objects.filter(id=id).count() > 0 or Movie.objects.filter(title=title).count() > 0:
+                #     continue
 
-            Movie(id=id, title=title, genres='|'.join(genres)).save()
-
+                Movie(id=id, title=title, genres='|'.join(genres), poster_url=poster_url).save()
         return Response(status=status.HTTP_200_OK)
