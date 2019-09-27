@@ -73,9 +73,15 @@ def userLogout(request):
     logout(request)
     return Response(status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def profile(request, user_id):
     if request.method == 'GET':
+        profile = Profile.objects.get(id=user_id)
+        serializer = ProfileSerializer(profile)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    # profile 수정, 추후 patch method 활용할 필요 있을듯.
+    if request.method == 'POST':
         profile = Profile.objects.get(id=user_id)
         serializer = ProfileSerializer(profile)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
