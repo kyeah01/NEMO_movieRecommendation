@@ -25,12 +25,12 @@ class ProfileSerializer(serializers.ModelSerializer):
         return obj.user.is_staff
         
     def get_group(self, obj):
-        users = Profile.objects.filter(group=obj.user.profile.group)
-        datas = []
-        for i in users :
-            data = User.objects.get(id=i.id) 
-            datas.append(data.username)
-        return datas
+        if ClusterModel.objects.get(id=1).cluster_choice:
+            users = Profile.objects.filter(group=obj.user.profile.group)
+            data = [i.id for i in users]
+        else:
+            data = obj.recommend_user.split('|')
+            return data
 
 
 class RatingSerializer(serializers.ModelSerializer):
@@ -52,7 +52,7 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ['id', 'title', 'genres_array', 'view_cnt', 'rating', 'average_rating', 'group', 'similarmovie']
+        fields = ['id', 'title', 'genres_array', 'view_cnt', 'rating', 'average_rating', 'group', 'similarmovie', 'poster_url', 'backdrop_url', 'overview', 'adult']
 
     def get_average_rating(self, obj):
         average = obj.rating_set.all().aggregate(Avg('rating')).get('rating__avg')
@@ -62,11 +62,14 @@ class MovieSerializer(serializers.ModelSerializer):
             return round(average, 1)
 
     def get_group(self, obj):
-        movies = Movie.objects.filter(group=obj.group)
-        datas = []
-        for i in movies :
-            datas.append(i.title)
-        return datas
+        # 2번이 영화니까
+        if ClusterModel.objects.get(id=2).cluster_choice:
+            movies = Movie.objects.filter(group=obj.group)
+            recommendation_movies = [i.pk for i in movies]
+        else:
+            # 3주차 recommendation 저장된 리스트 보내주기
+            recommendation_movies = obj.recommend_movie.split('|')
+        return recommendation_movies
 
 class UserSerializer(serializers.ModelSerializer):
     profile = serializers.SerializerMethodField('get_profileInfo')
@@ -80,4 +83,4 @@ class UserSerializer(serializers.ModelSerializer):
 class ClusterSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClusterModel
-        fields = ('based', 'method', 'params')
+        fields = ('id', 'cluster_choice', 'based', 'method', 'params')

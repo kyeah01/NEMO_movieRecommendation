@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404, render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -73,9 +74,23 @@ def userLogout(request):
     logout(request)
     return Response(status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+@api_view(['GET', 'PATCH'])
 def profile(request, user_id):
     if request.method == 'GET':
         profile = Profile.objects.get(id=user_id)
         serializer = ProfileSerializer(profile)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    # profile 수정, 추후 patch method 활용할 필요 있을듯.
+    if request.method == 'PATCH':
+        # profile = Profile.objects.get(id=user_id)
+        profile = get_object_or_404(Profile, pk=user_id)
+
+        # serializer = ProfileSerializer(profile)
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            profile = serializer.save()
+            return Response(ProfileSerializer(profile).data)
+            # return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
