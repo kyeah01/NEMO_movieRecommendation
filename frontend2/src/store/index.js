@@ -9,6 +9,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    movieSearchList: [],
+    userData: [],
     selectedMovie: {
       'Activated': null,
       'ActivatedMovie': null,

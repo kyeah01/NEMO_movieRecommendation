@@ -6,7 +6,9 @@
     <transition name="slide" mode="out-in">
       <div style="height: 2em;">
         <p>{{ item.genre }}</p>
-        <MovieImg v-for="i in paginatedData" :key="i" :imgData="{imgSrc, id:i, varified: item.genre}"/>
+        <MovieImg
+          v-for="i in paginatedData" :key="i.id"
+          :imgData="i"/>
       </div>
     </transition>
     <div v-show="showBtn" style="display: inline;">

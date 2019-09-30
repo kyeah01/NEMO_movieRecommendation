@@ -1,7 +1,7 @@
 <template>
   <div class="movieImg">
     <!-- movie -->
-    <img v-if="isHoverChk()" :src="imgData.imgSrc" alt="moviePoster" @click="infoActive" :class="{ selectedMovie: isSelectedMovie }">
+    <img v-if="isHoverChk()" :src="imgData.poster_url" alt="moviePoster" @click="infoActive" :class="{ selectedMovie: isSelectedMovie }">
     <!-- category -->
     <div class="movieImg__score" v-if="!isHoverChk()">
       <img style="cursor:default" :src="imgData.imgSrc" alt="moviePoster" @mouseover="scoreActive">
@@ -44,9 +44,9 @@ export default {
   methods: {
     infoActive() {
       // store selected
-      this.$store.commit('selectedMovie', this.imgData)
+      this.$store.commit('selectedMovie', this.imgData.id)
       // MoviePage.vue -> 스크롤 이동
-      this.$EventBus.$emit('movieInfoActive', this.imgData)
+      this.$EventBus.$emit('movieInfoActive', this.imgData.id)
     },
     scoreActive() {
       console.log('hover');
