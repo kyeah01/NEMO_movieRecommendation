@@ -1,26 +1,30 @@
 <template>
   <div class="moviePage">
     <div>
-      <MovieList :movieItems="movieItems"/>
+      <MovieCateForm/>
+      <MovieCategory :movieItems="movieItems"/>
       <!-- <transition name="fade" mode="out-in">
         <MovieCard/>
       </transition> -->
+      <div v-if="loadScroll" class="lds-dual-ring"><div class="lds-bg"></div></div>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import MovieList from '@/components/movies/MovieSearchList'
+import MovieCateForm from '@/components/movies/MovieCategoryForm'
+import MovieCategory from '@/components/movies/MovieCategoryList'
 import MovieCard from '@/components/movies/MovieCard'
 
 export default {
   components: {
-    MovieList,
-    MovieCard
+    MovieCateForm,
+    MovieCategory
   },
   data: () => ({
     movieItems: [{genre:'action', items: [1,2,3,4,5,6,7,8,9,10,11,12]}],
+    loadScroll: false,
     persons: []
   }),
   mounted() {
@@ -53,17 +57,48 @@ export default {
       window.onscroll = () => {
         let bOfW = Math.round(document.documentElement.scrollTop + window.innerHeight) === document.documentElement.offsetHeight
         if (bOfW) {
+          this.loadScroll = true
           axios.get(`https://randomuser.me/api/`)
             .then(response => {
               let i = this.movieItems[0].items.length+1
               let a = i
-              for (a; a < i+10; a++) {
+              for (a; a < i+12; a++) {
                 this.movieItems[0].items.push(a)
               }
+              this.loadScroll = false
             })
+
         }
       }
     }
   }
 }
 </script>
+<style lang="scss">
+.lds-dual-ring {
+  display: inline-block;
+  position: fixed;
+  bottom: 10vh;
+  width: 64px;
+  height: 64px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 0.5s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>
