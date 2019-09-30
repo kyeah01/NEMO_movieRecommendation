@@ -6,6 +6,7 @@
         <MovieCard :varified="item.genre"/>
       </transition>
     </div>
+    <div class="lds-bg"/>
   </div>
 </template>
 

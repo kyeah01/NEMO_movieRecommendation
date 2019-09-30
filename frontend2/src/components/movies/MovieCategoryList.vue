@@ -1,8 +1,8 @@
 <template>
   <div>
     <transition name="slide" mode="out-in">
-      <div style="height: 2em;">
-        <p>{{ movieItems[0].genre }}</p>
+      <div>
+        <div class="separater separater__trans"></div>
         <MovieImg v-for="item in movieItems[0].items" :key="item" :imgData="{ imgSrc, id:item, varified: movieItems[0].genre }"/>
       </div>
     </transition>
@@ -38,16 +38,6 @@ export default {
       // 리스트 양옆으로 넘길때 MovieCard.vue 닫기
       this.$EventBus.$emit('closeMovieCard')
     },
-    testH() {
-      this.testW()
-      this.testB()
-    },
-    testW() {
-      console.log('wheel :')
-    },
-    testB() {
-      console.log('btn :')
-    }
   },
 }
 </script>
