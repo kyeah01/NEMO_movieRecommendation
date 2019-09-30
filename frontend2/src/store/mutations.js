@@ -7,4 +7,7 @@ export default {
     }
     state.selectedMovie.ActivatedMovie = payload
   },
+  setProfileSearch(state, payload) {
+    state.userData = payload
+  }
 }

@@ -15,7 +15,7 @@
           <!-- 유저 명 / 성별 / 수정 버튼 시작-->
           <div class="profile-banner-right__head">
             <div class="username">
-              올리비아 빵수 (성별)
+               {{ userData.username }} (<span v-if="userData.gender == 'M'">Man</span> <span v-else>Women</span>)
             </div>
             <div class="btn btn--primary btn--md" @click="Go">
               Edit
@@ -28,12 +28,14 @@
           <div class="profile-banner-right__body">
             <!-- 유저 상세 정보 상단  -->
             <div class="profile-banner-right__body-top">
-              <p>나이</p>
-              <p>직업</p>
+              <p v-if="userData.age === 1"><b>나이 : </b>Under 18</p>
+              <p v-else><b>나이 : </b>{{ userData.age }}</p>
+              <p><b>직업 : </b>{{ userData.occupation }}</p>
             </div>
             <!-- 유저 상세 정보 하단  -->
             <div class="profile-banner-right__body-bottom">
-              <p>한줄 코멘트</p>
+              <p><b>한줄 코멘트</b></p>
+              
             </div>
           </div>
         </div>
@@ -72,6 +74,7 @@
 <script>
 import MovieList from '@/components/movies/MovieList'
 import MovieCard from '@/components/movies/MovieCard'
+import { mapState, mapActions } from "vuex";
 
 export default {
 components: {
@@ -80,6 +83,8 @@ components: {
   },
  data() {
    return{
+     user: this.$route.params.user_id,
+
      checkToggle : 1,
 
      userInfo: [
@@ -90,12 +95,27 @@ components: {
    }
  },
   mounted() {
+    this.loadUser(this.user)
     // MovieImg.vue => 영화 정보 오픈 시 스크롤
     this.$EventBus.$on('movieInfoActive', (payload) => {
       this.scrollCard(payload.varified)
     })
   },
+  computed: {
+    ...mapState({
+      userData: state => state.userData,
+      userList: state => state.userData.similaruser,
+      movieList: state => state.userData.ratingmovie,
+    }),
+    
+  },
   methods: {
+    ...mapActions({
+      loadUser: 'searchProfile'
+    }),
+    goTo() {
+      this.$router.push('/')
+    },
     scrollCard(locationId) {
       const element = document.getElementById(locationId)
       const elemRect = element.getBoundingClientRect()
@@ -108,6 +128,7 @@ components: {
     },
   }
 }
+
 </script>
 
 <style scoped lang="scss">
