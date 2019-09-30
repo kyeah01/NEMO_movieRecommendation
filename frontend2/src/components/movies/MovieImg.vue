@@ -1,6 +1,11 @@
 <template>
   <div class="movieImg">
-    <img :src="imgData.imgSrc" alt="moviePoster" @click="infoActive" :class="{ selectedMovie: isSelectedMovie }">
+    <!-- movie -->
+    <img v-if="isHoverChk()" :src="imgData.imgSrc" alt="moviePoster" @click="infoActive" :class="{ selectedMovie: isSelectedMovie }">
+    <!-- category -->
+    <div class="movieImg__score" v-if="!isHoverChk()">
+      <img style="cursor:default" :src="imgData.imgSrc" alt="moviePoster" @mouseover="scoreActive">
+    </div>
   </div>
 </template>
 
@@ -13,7 +18,8 @@ export default {
     },
   },
   data: () => ({
-    isSelectedMovie: false
+    isSelectedMovie: false,
+    hoverChk: false,
   }),
   computed: {
     setToggle () {
@@ -41,7 +47,20 @@ export default {
       this.$store.commit('selectedMovie', this.imgData)
       // MoviePage.vue -> 스크롤 이동
       this.$EventBus.$emit('movieInfoActive', this.imgData)
+    },
+    scoreActive() {
+      console.log('hover');
+    },
+    isHoverChk() {
+      if (this.$router.history.current["name"] === "Movie") {
+        return true
+      } else {
+        return false
+      }
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+</style>

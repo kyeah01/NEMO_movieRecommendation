@@ -38,6 +38,10 @@
     <transition name="fade" mode="out-in">
       <router-view/>
     </transition>
+
+    <footer>
+      Copyright 2019. CyberGhost. All rights reserved.
+    </footer>
   </div>
 </template>
 
@@ -121,7 +125,6 @@ export default {
 <style lang="scss">
 #app {
   text-align: center;
-  height: 1500px;
 }
 
 // CSS transition
@@ -134,8 +137,14 @@ export default {
 </style>
 
 <style scoped lang="scss">
-// a {
-//   color: $primary;
-//   text-decoration: none;
-// }
+footer {
+  position: absolute;
+
+  width:100%;
+
+  line-height: 25vh;
+  height: 25vh;
+  color: rgba(255, 255, 255, 0.7);
+  background-color: rgb(18, 18, 18);
+}
 </style>
