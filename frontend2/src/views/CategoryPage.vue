@@ -3,10 +3,9 @@
     <div>
       <MovieCateForm/>
       <MovieCategory :movieItems="movieItems"/>
-      <!-- <transition name="fade" mode="out-in">
-        <MovieCard/>
-      </transition> -->
-      <div v-if="loadScroll" class="lds-dual-ring"><div class="lds-bg"></div></div>
+      <div class="lds-bg">
+        <div v-if="loadScroll" class="lds-dual-ring"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -15,7 +14,6 @@
 import axios from 'axios'
 import MovieCateForm from '@/components/movies/MovieCategoryForm'
 import MovieCategory from '@/components/movies/MovieCategoryList'
-import MovieCard from '@/components/movies/MovieCard'
 
 export default {
   components: {
@@ -24,6 +22,7 @@ export default {
   },
   data: () => ({
     movieItems: [{genre:'action', items: [1,2,3,4,5,6,7,8,9,10,11,12]}],
+    loadCall: false,
     loadScroll: false,
     persons: []
   }),
@@ -52,11 +51,11 @@ export default {
           })
       }
     },
-    // 1. 화면길이를 지속적으로 체크 못함 2. 함수가 여러번 실행되는것 방지해야함
     scroll(person) {
       window.onscroll = () => {
-        let bOfW = Math.round(document.documentElement.scrollTop + window.innerHeight) === document.documentElement.offsetHeight
-        if (bOfW) {
+        let bOfW = Math.round(document.documentElement.scrollTop + window.innerHeight) >= document.documentElement.offsetHeight
+        if (bOfW && this.loadCall === false) {
+          this.loadCall = true
           this.loadScroll = true
           axios.get(`https://randomuser.me/api/`)
             .then(response => {
@@ -66,6 +65,7 @@ export default {
                 this.movieItems[0].items.push(a)
               }
               this.loadScroll = false
+              this.loadCall = false
             })
 
         }
@@ -75,10 +75,16 @@ export default {
 }
 </script>
 <style lang="scss">
+.lds-bg {
+  position: relative;
+  height: 20vh;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(70, 70, 70, 0), rgb(18, 18, 18));
+}
 .lds-dual-ring {
   display: inline-block;
-  position: fixed;
-  bottom: 10vh;
+  position: absolute;
+  bottom: 5vh;
   width: 64px;
   height: 64px;
 }

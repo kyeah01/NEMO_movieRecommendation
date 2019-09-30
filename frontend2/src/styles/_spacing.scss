@@ -1,6 +1,6 @@
 :root {
     --space-unit:  1em;
-    --space-xxxxs: calc(0.125 * var(--space-unit)); 
+    --space-xxxxs: calc(0.125 * var(--space-unit));
     --space-xxxs:  calc(0.25 * var(--space-unit));
     --space-xxs:   calc(0.375 * var(--space-unit));
     --space-xs:    calc(0.5 * var(--space-unit));
@@ -20,4 +20,7 @@
   height: 2px;
   width: 100%;
   background-color: white;
+  &__trans {
+    background-color: $trans;
+  }
 }

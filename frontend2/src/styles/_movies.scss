@@ -55,6 +55,10 @@
 // MovieImg.vue
 .movieImg {
   display: inline;
+  &__score {
+    display: inline;
+    position: relative;
+  }
   img {
     height: 43vh;
     width: auto;
