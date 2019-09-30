@@ -1,7 +1,8 @@
 <template>
   <div class="moviePage">
     <div>
-      <MovieList :movieItems="movieItems"/>
+      <MovieCateForm/>
+      <MovieCategory :movieItems="movieItems"/>
       <!-- <transition name="fade" mode="out-in">
         <MovieCard/>
       </transition> -->
@@ -12,13 +13,14 @@
 
 <script>
 import axios from 'axios'
-import MovieList from '@/components/movies/MovieSearchList'
+import MovieCateForm from '@/components/movies/MovieCategoryForm'
+import MovieCategory from '@/components/movies/MovieCategoryList'
 import MovieCard from '@/components/movies/MovieCard'
 
 export default {
   components: {
-    MovieList,
-    MovieCard
+    MovieCateForm,
+    MovieCategory
   },
   data: () => ({
     movieItems: [{genre:'action', items: [1,2,3,4,5,6,7,8,9,10,11,12]}],
@@ -60,7 +62,7 @@ export default {
             .then(response => {
               let i = this.movieItems[0].items.length+1
               let a = i
-              for (a; a < i+10; a++) {
+              for (a; a < i+12; a++) {
                 this.movieItems[0].items.push(a)
               }
               this.loadScroll = false
