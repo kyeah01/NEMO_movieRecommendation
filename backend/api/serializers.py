@@ -48,6 +48,7 @@ class MovieSerializer(serializers.ModelSerializer):
     rating = RatingSerializer(many=True, read_only=True, source='rating_set')
     view_cnt = serializers.ReadOnlyField(source='rating_set.count')
     average_rating = serializers.SerializerMethodField()
+    similarmovie = serializers.SerializerMethodField('get_group')
 
     class Meta:
         model = Movie
