@@ -12,13 +12,16 @@ class Profile(models.Model):
     occupation = models.CharField(max_length=200)
     group = models.IntegerField(default=0)
     description = models.CharField(max_length=200, default='')
-    recommend_user = models.CharField(max_length=500)
     image = ProcessedImageField(
 		processors = [Thumbnail(200, 200)], # 처리할 작업 목룍
 		format = 'JPEG',					# 최종 저장 포맷
 		options = {'quality': 80},
         blank=True
     )
+    recommend_user = models.CharField(max_length=500)
+    # 구독
+    subscription = models.BooleanField(default=False)
+    subscription_date = models.CharField(default='', max_length=200)
 
 #  wrapper for create user Profile
 def create_profile(**kwargs):
