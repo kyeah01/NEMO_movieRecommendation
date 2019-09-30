@@ -87,7 +87,7 @@ def profile(request, user_id):
         profile = get_object_or_404(Profile, pk=user_id)
 
         # serializer = ProfileSerializer(profile)
-        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+        serializer = ProfileSerializer(profile, data=request.data, files=request.FILES, partial=True)
         if serializer.is_valid():
             profile = serializer.save()
             return Response(ProfileSerializer(profile).data)

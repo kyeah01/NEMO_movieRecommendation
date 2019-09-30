@@ -11,6 +11,7 @@ class Profile(models.Model):
     group = models.IntegerField(default=0)
     description = models.CharField(max_length=200, default='')
     recommend_user = models.CharField(max_length=500)
+    image = models.ImageField(blank=True)
 
 #  wrapper for create user Profile
 def create_profile(**kwargs):
