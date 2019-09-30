@@ -6,6 +6,7 @@ import MainPage from '@/views/MainPage'
 import MoviePage from '@/views/MoviePage'
 import ProfilePage from '@/views/ProfilePage'
 import TestPage from '@/views/testPage'
+import NewTestPage from '@/views/NewTestPage'
 
 Vue.use(VueRouter)
 
@@ -13,6 +14,7 @@ const router = new VueRouter({
   mode: 'history',
   routes: [
     { path: '/', component: MainPage, name: 'Home' },
+    { path: '/newtest', component: NewTestPage, name: 'NewTest' },
     { path: '/sign', component: SignPage, name: 'Sign' },
     { path: '/movie', component: MoviePage, name: 'Movie' },
     { path: '/search', component: TestPage, name: 'Search'},

@@ -48,8 +48,8 @@ def userLogin(request):
     serialData = { 'status': statCode, 'data': ''}
     # request payload에서 id, pw를 추출
     form = request.data
-    id = form.get('username', None)
-    pw = form.get('password', None)
+    pw = form.get('username', None)
+    id = form.get('password', None)
     # DB에 있는 유저인지 확인, 존재하면 id를 user에 저장
     user = authenticate(username=id, password=pw)
     # user가 존재하고 is_active한지 check

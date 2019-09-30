@@ -3,7 +3,7 @@
         <div class="LoginForm">
           <header class="LoginForm__Header">회원가입</header>
           <form>
-            <input type="text" class="LoginForm__Input" :class="{LoginForm__Err : checkNickName()}" id="NICKNAME" v-model="nickName" placeholder="아이디" autocomplete="username">
+            <input type="text" class="LoginForm__Input" :class="{LoginForm__Err : checkNickName()}" id="NICKNAME" v-model="nickName" placeholder="아이디" autocomplete="username" autofocus>
             <p class="checkText" v-if="checkNickName()" >아이디는 최소 8글자 이상이어야 합니다.</p>
             <input type="password" class="LoginForm__Input" :class="{LoginForm__Err : checkPassword()}" id="PASSWORD" v-model="password" placeholder="비밀번호" autocomplete="new-password">
             <p class="checkText" v-if="checkPassword()" >비밀번호는 최소 8글자 이상이어야 합니다.</p>
@@ -121,7 +121,14 @@ export default {
       }
       const resp = await api.signUp(data)
       if (resp) {
-        alert('던')
+        const form = { id: this.nickName, pw: this.password }
+        const result = await api.logIn(form)
+        if (result === false) {
+          this.nickName = ''
+          this.password = ''
+        } else {
+          this.$router.push('/profile')
+        }
       } else {
         alert('error')
       }

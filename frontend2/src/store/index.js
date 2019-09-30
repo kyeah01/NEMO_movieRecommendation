@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 // import actions from './actions'
 import mutations from './mutations'
 import getters from './getters'
+import actions from './actions'
 
 Vue.use(Vuex)
 
@@ -12,8 +13,10 @@ export default new Vuex.Store({
       'Activated': null,
       'ActivatedMovie': null,
       'selectedInfo': 1,
-    }
+    },
+    userData: [],
   },
   mutations,
-  getters
+  getters,
+  actions
 })

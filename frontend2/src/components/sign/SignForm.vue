@@ -3,8 +3,8 @@
     <div class="LoginForm">
       <header class="LoginForm__Header">로그인</header>
       <form>
-        <input type="text" class="LoginForm__Input" id="NICKNAME" v-model="nickName" placeholder="아이디" autocomplete="username">
-        <input type="password" class="LoginForm__Input" id="PASSWORD" v-model="password" placeholder="비밀번호" autocomplete="new-password">
+        <input type="text" class="LoginForm__Input" id="NICKNAME" v-model="nickName" placeholder="아이디" autocomplete="username" autofocus>
+        <input type="password" class="LoginForm__Input" id="PASSWORD" v-model="password" placeholder="비밀번호" autocomplete="new-password" @keydown.enter="logIn()">
       </form>
       <div class="separater"></div>
       <div class="btn btn--primary btn--lg LoginForm__btn" @click="logIn()">로그인</div>
@@ -31,7 +31,7 @@ export default {
         this.nickName = ''
         this.password = ''
       } else {
-        this.$router.push('/')
+        this.$router.push('/movie')
       }
     },
     Go() {
