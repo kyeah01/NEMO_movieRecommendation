@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 # 평점 range 제한
 from django.core.validators import MaxValueValidator, MinValueValidator
+from imagekit.models import ProcessedImageField
+from imagekit.processors import Thumbnail
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -11,7 +13,12 @@ class Profile(models.Model):
     group = models.IntegerField(default=0)
     description = models.CharField(max_length=200, default='')
     recommend_user = models.CharField(max_length=500)
-    image = models.ImageField(blank=True)
+    image = ProcessedImageField(
+		processors = [Thumbnail(200, 200)], # 처리할 작업 목룍
+		format = 'JPEG',					# 최종 저장 포맷
+		options = {'quality': 80},
+        blank=True
+    )
 
 #  wrapper for create user Profile
 def create_profile(**kwargs):
