@@ -46,7 +46,12 @@ class RatingSerializer(serializers.ModelSerializer):
     # def get_profileInfo(self, obj):
     #     return { 'id':obj.user.id, 'name': obj.user.username, 'Gender': obj.user.profile.gender, 'age': obj.user.profile.age, 'Occupation': obj.user.profile.occupation }
 
-class MovieSerializer(serializers.ModelSerializer):
+class MovieListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = '__all__'
+    
+class MovieDetailSerializer(serializers.ModelSerializer):
     genres_array = serializers.ReadOnlyField()
     rating = RatingSerializer(many=True, read_only=True, source='rating_set')
     view_cnt = serializers.ReadOnlyField(source='rating_set.count')
