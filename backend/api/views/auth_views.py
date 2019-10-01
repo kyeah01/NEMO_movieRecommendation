@@ -1,4 +1,5 @@
-from django.shortcuts import get_object_or_404
+from datetime import datetime
+from django.shortcuts import get_object_or_404, render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -84,9 +85,24 @@ def profile(request, user_id):
 
     if request.method == 'PATCH':
         profile = get_object_or_404(Profile, pk=user_id)
+<<<<<<< HEAD
         serializer = ProfileSerializer(profile, data=request.data, partial=True)
+=======
+
+        # serializer = ProfileSerializer(profile)
+        serializer = ProfileSerializer(profile, data=request.data, files=request.FILES, partial=True)
+>>>>>>> 3280ce369b898f67cdb3d4835dfb393e639ffad9
         if serializer.is_valid():
             profile = serializer.save()
             return Response(ProfileSerializer(profile).data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def subscription(request, user_id):
+    if request.method == "POST":
+        profile = get_object_or_404(Profile, id=user_id)
+        profile.subscription = not profile.subscription
+        if profile.subscription:
+            profile.subscription_date = round(datetime.now().timestamp())
+        profile = profile.save()
+        return Response(data=ProfileSerializer(profile).data, status=status.HTTP_200_OK)

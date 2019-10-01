@@ -23,7 +23,7 @@
                 >
             </transition>
           </div>
-          <router-link :to="{ name: 'NewTest' }" v-if="isNotInConfig()">NewTest</router-link>
+          <router-link :to="{ name: 'NewRating' }" v-if="isNotInConfig()">NewRating</router-link>
           <router-link :to="{ name: 'Movie' }" v-if="isNotInConfig()">Movie</router-link>
           <router-link :to="{ name: 'Search' }" v-if="isNotInConfig()">Search</router-link>
           <div class="navItems__option" @click="userDropdown = !userDropdown; setFocus();" v-if="userInfo">{{userInfo}}</div>

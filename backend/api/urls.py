@@ -19,4 +19,6 @@ urlpatterns = [
 
     url('cluster/user', clustering_views.cluster_user_method, name="cluster_user_method"),
     url('cluster/movie', clustering_views.cluster_movie_method, name="cluster_movie_method"),
+
+    path('subscription/<int:user_id>', auth_views.subscription, name="subscription"),
 ]
