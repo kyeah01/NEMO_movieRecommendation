@@ -9,10 +9,13 @@ class ProfileSerializer(serializers.ModelSerializer):
     is_staff = serializers.SerializerMethodField('get_is_staff')
     similaruser = serializers.SerializerMethodField('get_group')
     ratingmovie = serializers.SerializerMethodField('get_ratingmovie')
+    image = serializers.ImageField(use_url=True)
 
     class Meta:
         model = Profile
-        fields = ('id', 'username', 'is_staff', 'gender', 'age', 'occupation', 'group', 'similaruser', 'ratingmovie')
+        fields = '__all__'
+        extra_fields = ('id', 'username', 'is_staff', 'similaruser', 'ratingmovie', 'image')
+        # fields = ('id', 'username', 'is_staff', 'gender', 'age', 'occupation', 'group', 'similaruser', 'ratingmovie', 'image', 'subscription', 'subscription_date')
 
     def get_username(self, obj):
         return obj.user.username

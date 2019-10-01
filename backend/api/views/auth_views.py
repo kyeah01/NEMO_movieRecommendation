@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import get_object_or_404, render
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -87,10 +88,19 @@ def profile(request, user_id):
         profile = get_object_or_404(Profile, pk=user_id)
 
         # serializer = ProfileSerializer(profile)
-        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+        serializer = ProfileSerializer(profile, data=request.data, files=request.FILES, partial=True)
         if serializer.is_valid():
             profile = serializer.save()
             return Response(ProfileSerializer(profile).data)
             # return Response(data=serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def subscription(request, user_id):
+    if request.method == "POST":
+        profile = get_object_or_404(Profile, id=user_id)
+        profile.subscription = not profile.subscription
+        if profile.subscription:
+            profile.subscription_date = round(datetime.now().timestamp())
+        profile = profile.save()
+        return Response(data=ProfileSerializer(profile).data, status=status.HTTP_200_OK)
