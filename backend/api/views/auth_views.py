@@ -85,13 +85,8 @@ def profile(request, user_id):
 
     if request.method == 'PATCH':
         profile = get_object_or_404(Profile, pk=user_id)
-<<<<<<< HEAD
-        serializer = ProfileSerializer(profile, data=request.data, partial=True)
-=======
-
         # serializer = ProfileSerializer(profile)
         serializer = ProfileSerializer(profile, data=request.data, files=request.FILES, partial=True)
->>>>>>> 3280ce369b898f67cdb3d4835dfb393e639ffad9
         if serializer.is_valid():
             profile = serializer.save()
             return Response(ProfileSerializer(profile).data)
