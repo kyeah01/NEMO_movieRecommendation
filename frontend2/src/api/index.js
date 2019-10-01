@@ -25,8 +25,8 @@ export default {
   },
   logIn(form) {
     const data = JSON.stringify({
-      password: form.id,
-      username: form.pw
+      username: form.id,
+      password: form.pw
     })
     return axios.post(`${ apiUrl }/auth/login`, data, {
       // request headers에 데이터를 json type으로 보냄
@@ -105,7 +105,7 @@ export default {
       params: data.params
     })
     return axios.post(`${apiUrl}/cluster/movie/`,
-      data,{
+      datas,{
         // request headers에 데이터를 json type으로 보냄
         headers: {
           'Content-Type': 'application/json',
@@ -121,4 +121,21 @@ export default {
         }
       )
   },
+  getProfileData(data) {
+    return axios.get(`${apiUrl}/profile/${data.id}`)
+    .then(res => {
+      console.log(res)
+    })
+  },
+  patchProfileData(data) {
+    return axios.patch(`${apiUrl}/profile/${data.id}`,
+      data,{
+        // request headers에 데이터를 json type으로 보냄
+        headers: {
+          'Content-Type': 'application/json',
+        }
+    }).then(res => {
+      console.log(res)
+    })
+  }
 }

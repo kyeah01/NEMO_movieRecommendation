@@ -7,6 +7,7 @@
                     <div class="btn btn--sm" @click="editToggle = 1" v-if="editToggle != 1">Expand</div>
                     <div class="btn btn--sm" @click="editToggle = 0" v-if="editToggle === 1">Close</div>
                 </div>
+                
                 <div v-if="editToggle === 1" class="expand">
                     <ul>
                         <label>
@@ -60,6 +61,7 @@
                     <ul>
                         <div v-for="items in SignupList" :key="items.label">
                             <p class="label" :id="items.label">{{items.label}}</p>
+                            
                             <select :name="items.name" class="LoginForm__Drop" v-model="items.name">
                                 <option :value="item.value" v-for="item in items.option" :key="item.value">{{item.text}}</option>
                             </select>
@@ -72,12 +74,16 @@
                         <br>
                     </ul>
                 </div>
-                <div v-if="editToggle === 3" class="btn btn--primary btn--sm" :class="{'btn--disabled' : checkDetailChangeClear() }">저장</div> 
+                <div v-if="editToggle === 3" class="btn btn--primary btn--sm" :class="{'btn--disabled' : checkDetailChangeClear() }" @click="patchData()">저장</div> 
+                <div v-if="editToggle === 3" class="btn btn--primary btn--sm" :class="{'btn--disabled' : checkDetailChangeClear() }" @click="getData()">데이터 받아오기</div> 
             </ul>
         </div>
+        <div class="btn btn--primary btn--lg" @click="Go()">back</div>
     </div>
 </template>
 <script>
+import api from '@/api'
+
 export default {
     data() {
         return{
@@ -110,27 +116,27 @@ export default {
                 { label : 'occupation',
                 name : '',
                 option: [
-                    {text:  "other", value : 0},
-                    {text:  "academic/educator", value : 1},
-                    {text:  "artist", value : 2},
-                    {text:  "clerical/admin", value : 3},
-                    {text:  "college/grad student", value : 4},
-                    {text:  "customer service", value : 5},
-                    {text:  "doctor/health care", value : 6},
-                    {text:  "executive/managerial", value : 7},
-                    {text:  "farmer", value : 8},
-                    {text:  "homemaker", value : 9},
-                    {text:  "K-12 student", value : 10},
-                    {text:  "lawyer", value : 11},
-                    {text:  "programmer", value : 12},
-                    {text:  "retired", value : 13},
-                    {text:  "sales/marketing", value : 14},
-                    {text:  "scientist", value : 15},
-                    {text:  "self-employed", value : 16},
-                    {text:  "technician/engineer", value : 17},
-                    {text:  "tradesman/craftsman", value : 18},
-                    {text:  "unemployed", value : 19},
-                    {text:  "writer", value : 20},
+                    {text:  "other", value : "other"},
+                    {text:  "academic/educator", value : "academic/educator"},
+                    {text:  "artist", value : "artist"},
+                    {text:  "clerical/admin", value : "clerical/admin"},
+                    {text:  "college/grad student", value : "college/grad student"},
+                    {text:  "customer service", value : "customer service"},
+                    {text:  "doctor/health care", value : "doctor/health care"},
+                    {text:  "executive/managerial", value : "executive/managerial"},
+                    {text:  "farmer", value : "farmer"},
+                    {text:  "homemaker", value : "homemaker"},
+                    {text:  "K-12 student", value : "K-12 student"},
+                    {text:  "lawyer", value : "lawyer"},
+                    {text:  "programmer", value : "programmer"},
+                    {text:  "retired", value : "retired"},
+                    {text:  "sales/marketing", value : "sales/marketing"},
+                    {text:  "scientist", value : "scientist"},
+                    {text:  "self-employed", value : "self-employed"},
+                    {text:  "technician/engineer", value : "technician/engineer"},
+                    {text:  "tradesman/craftsman", value : "tradesman/craftsman"},
+                    {text:  "unemployed", value : "unemployed"},
+                    {text:  "writer", value : "writer"},
                 ]},
             ]
         }
@@ -168,6 +174,20 @@ export default {
         changeImg(e) {
             console.log(e)
             this.userChangeImg = e.target.files[0].name
+        },
+        async getData() {
+            const form = {id:3}
+            const result = await api.getProfileData(form)
+        },
+        async patchData() {
+            const data = JSON.parse(sessionStorage.getItem("drf"))
+            const form = { 
+                "id" : data.id,
+                "age" : this.SignupList[0].name,
+                "occupation" : this.SignupList[1].name,
+                "description" : this.userDescription
+                }
+            const result = await api.patchProfileData(form)
         }
     }
 }
