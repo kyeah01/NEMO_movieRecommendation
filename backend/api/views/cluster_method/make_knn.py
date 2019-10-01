@@ -99,3 +99,4 @@ def knn_movie(movies, ratings):
     # clustered_movie = len(movie_user_matrix)
    
     return clustered_movie
+    
