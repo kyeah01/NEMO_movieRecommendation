@@ -121,21 +121,18 @@ export default {
         }
       )
   },
-  getProfileData(data) {
-    return axios.get(`${apiUrl}/profile/${data.id}`)
-    .then(res => {
-      console.log(res)
-    })
-  },
   patchProfileData(data) {
+    const datas = JSON.stringify({
+      occupation: data.occupation,
+      age: data.age,
+      description : data.description
+    })
     return axios.patch(`${apiUrl}/profile/${data.id}`,
-      data,{
+      datas,{
         // request headers에 데이터를 json type으로 보냄
         headers: {
           'Content-Type': 'application/json',
         }
-    }).then(res => {
-      console.log(res)
     })
   }
 }
