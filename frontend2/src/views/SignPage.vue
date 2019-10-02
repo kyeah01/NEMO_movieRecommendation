@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 로그인 / 회원가입 분리 -->
-    <div class="flexCenter">
+    <div class="flexCenter flexCenter__sign">
       <!-- login form -->
       <SignForm v-if="signToggle" @transForm="signToggle = !signToggle"/>
       <SignUpForm v-if="!signToggle" @transForm="signToggle = !signToggle"/>
@@ -31,11 +31,5 @@ export default {
 </script>
 
 <style lang="scss">
-.flexCenter {
-  height: 100vh;
-  padding: 55px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 </style>

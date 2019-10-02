@@ -1,15 +1,31 @@
 <template>
-  <div>
-    this is `Profile` Page
-  </div>
+      <div>
+        <transition name="fade" mode="out-in">
+          <ProfileView v-if="isProfile === true" @transForm="isProfile = !isProfile"/>
+        </transition>
+        <transition name="fade" mode="out-in" >
+          <ProfileEdit v-if="isProfile === false" @transForm="isProfile = !isProfile"/>
+        </transition>
+      </div>
 </template>
 
 <script>
-export default {
+import ProfileView from '@/components/profile/ProfileView'
+import ProfileEdit from '@/components/profile/ProfileEdit'
 
+export default {
+components: {
+    ProfileView,
+    ProfileEdit
+  },
+  data() {
+    return{
+      isProfile : true
+    }
+  }
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 
 </style>
