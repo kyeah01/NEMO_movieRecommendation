@@ -47,7 +47,7 @@ def signup(request):
 @api_view(['POST'])
 def userLogin(request):
     statCode = False
-    serialData = { 'status': statCode, 'data': ''}
+    serialData = { 'status': statCode, 'data': {}}
     # request payload에서 id, pw를 추출
     form = request.data
     id = form.get('username', None)
@@ -65,6 +65,9 @@ def userLogin(request):
         serializer = UserSerializer(user)
         serialData['status'] = statCode
         serialData['data'] = serializer.data
+        profile = get_object_or_404(Profile, id=serializer.data['id'])
+        serializer = ProfileSerializer(profile)
+        serialData['data'].update({'subscription':serializer.data['subscription']})
         return Response(data=serialData , status=status.HTTP_200_OK)
     # 실패시 빈값 return
     return Response(data=serialData, status=status.HTTP_200_OK)
@@ -94,10 +97,20 @@ def profile(request, user_id):
 
 @api_view(['POST'])
 def subscription(request, user_id):
+    serialData = {'data': {}}
     if request.method == "POST":
         profile = get_object_or_404(Profile, id=user_id)
         profile.subscription = not profile.subscription
         if profile.subscription:
             profile.subscription_date = round(datetime.now().timestamp())
         profile = profile.save()
-        return Response(data=ProfileSerializer(profile).data, status=status.HTTP_200_OK)
+        user = User.objects.get(id=user_id)
+        # serializer를 통해서 user, userprofile 정보를 함께 가져옴
+        serializer = UserSerializer(user)
+        
+        serialData['data'] = serializer.data
+        profile = get_object_or_404(Profile, id=serializer.data['id'])
+        serializer = ProfileSerializer(profile)
+        serialData['data'].update({'subscription':serializer.data['subscription']})
+        print(serialData)
+        return Response(data=serialData, status=status.HTTP_200_OK)

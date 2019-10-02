@@ -134,5 +134,21 @@ export default {
           'Content-Type': 'application/json',
         }
     })
-  }
+  },
+  playSubscription(data) {
+    return axios.post(`${apiUrl}/subscription/${data.id}`,{
+        // request headers에 데이터를 json type으로 보냄
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(res => {
+          if (res.data.data && res.status === 200) {
+            session.set('drf', res.data.data)
+            return true
+          }
+          if (res.data.status === false) {
+            return false
+          }
+        })
+    }
 }
