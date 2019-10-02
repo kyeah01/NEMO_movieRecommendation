@@ -23,15 +23,18 @@
                 >
             </transition>
           </div>
+          <router-link :to="{ name: 'Admin' }" v-if="isStaff && isNotInConfig()">Admin</router-link>
           <router-link :to="{ name: 'NewRating' }" v-if="isNotInConfig()">NewRating</router-link>
           <router-link :to="{ name: 'Movie' }" v-if="isNotInConfig()">Movie</router-link>
           <router-link :to="{ name: 'Search' }" v-if="isNotInConfig()">Search</router-link>
-          <div class="navItems__option" @click="userDropdown = !userDropdown; setFocus();" v-if="userInfo">{{userInfo}}</div>
+          <div class="navItems__option" @click="userDropdown = !userDropdown; setFocus();" v-if="isNotInConfig()">MyInfo</div>
           <router-link :to="{ name: 'Sign' }" v-if="!isNotInConfig()">Login</router-link>
         </div>
       </nav>
     </header>
         <ul class="divFocus" v-if="userDropdown === true" ref="search" @blur="userDropdown = !userDropdown" tabindex="1"> 
+          <p style="cursor: default; color:white;">{{userInfo}}</p>
+          <div class="separater"></div>
           <p @click="goProfile()">Profile</p>
           <p @click="logOut()">Logout</p>
         </ul>
@@ -56,8 +59,8 @@ export default {
   },
   data() {
     return{
-      isLogin : '',
       userInfo : false,
+      isStaff: false,
       userDropdown : false,
 
       whereScroll : 0,
@@ -68,14 +71,16 @@ export default {
     if (session.check()) {
       const data = JSON.parse(sessionStorage.getItem("drf"))
       this.userInfo = data.username
+      this.isStaff = session.checkStaff()
     }
     else {
       this.userInfo = false
+      this.isStaff = false
     }
     
   },
   methods: {
-    isNotInConfig() {
+     isNotInConfig() {
       if (session.check()) {
         return true
       }
