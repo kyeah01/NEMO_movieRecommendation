@@ -107,6 +107,25 @@
     }
   }
 }
+.movieContent {
+  position:absolute;
+  width: 35%;
+  height: 45%;
+  &__score {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    z-index: 999;
+  }
+  &__card {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    z-index: 999;
+  }
+
+}
+
 .movieBackImg {
   width: 100%;
 }
