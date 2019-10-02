@@ -19,14 +19,14 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def get_username(self, obj):
         return obj.user.username
-    
+
     def get_ratingmovie(self, obj):
         data = User.objects.get(id=obj.id)
         return [data.movie.title for data in data.rating_set.all()]
 
     def get_is_staff(self, obj):
         return obj.user.is_staff
-        
+
     def get_group(self, obj):
         if ClusterModel.objects.get(id=1).cluster_choice:
             users = Profile.objects.filter(group=obj.user.profile.group)
@@ -38,7 +38,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class RatingSerializer(serializers.ModelSerializer):
     # user = serializers.SerializerMethodField('get_profileInfo')
-    
+
     class Meta:
         model = Rating
         fields = [ 'rating', 'rating_date',]
@@ -53,14 +53,14 @@ class MovieListSerializer(serializers.ModelSerializer):
     
 class MovieDetailSerializer(serializers.ModelSerializer):
     genres_array = serializers.ReadOnlyField()
-    rating = RatingSerializer(many=True, read_only=True, source='rating_set')
+    # rating = RatingSerializer(many=True, read_only=True, source='rating_set')
     view_cnt = serializers.ReadOnlyField(source='rating_set.count')
     average_rating = serializers.SerializerMethodField()
-    similarmovie = serializers.SerializerMethodField('get_group')
+    # similarmovie = serializers.SerializerMethodField('get_group')
 
     class Meta:
         model = Movie
-        fields = ['id', 'title', 'genres_array', 'view_cnt', 'rating', 'average_rating', 'group', 'similarmovie', 'poster_url', 'backdrop_url', 'overview', 'adult']
+        fields = ['id', 'title', 'genres_array', 'view_cnt', 'average_rating', 'group', 'poster_url', 'backdrop_url', 'overview', 'adult']
 
     def get_average_rating(self, obj):
         average = obj.rating_set.all().aggregate(Avg('rating')).get('rating__avg')
@@ -84,7 +84,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'is_staff', 'profile')
-        
+
     def get_profileInfo(self, obj):
         return { 'gender': obj.profile.gender, 'age': obj.profile.age, 'Occupation': obj.profile.occupation }
 

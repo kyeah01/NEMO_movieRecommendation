@@ -1,10 +1,10 @@
 <template>
   <div class="movieImg">
     <!-- movie -->
-    <img v-if="isHoverChk()" :src="imgData.imgSrc" alt="moviePoster" @click="infoActive" :class="{ selectedMovie: isSelectedMovie }">
+    <img v-if="isHoverChk()" :src="imgData.info.poster_url" alt="moviePoster" @click="infoActive" :class="{ selectedMovie: isSelectedMovie }">
     <!-- category -->
     <div class="movieImg__score" v-if="!isHoverChk()">
-      <img style="cursor:default" :src="imgData.imgSrc" alt="moviePoster" @mouseover="scoreActive">
+      <img style="cursor:default" :src="imgData.info.imgSrc" alt="moviePoster" @mouseover="scoreActive">
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
       if (!val) { this.isSelectedMovie = false }
     },
     setMovieInfo (val) {
-      if (val && val.varified === this.imgData.varified && val.id === this.imgData.id ) {
+      if (val && val.varified === this.imgData.varified && val.info.id === this.imgData.info.id ) {
         this.isSelectedMovie = true
       } else {
         this.isSelectedMovie = false

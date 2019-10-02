@@ -1,9 +1,20 @@
 <template>
   <div class="movieItem" v-if="infoToggle">
+    <!--  -->
     <div class="movieInfo">
       <transition-group name="test">
         <div v-if="infoBtnToggle === 1" key="contentInfo" style="position:absolute; width: 35vw;">
-          <h1>{{ infoDetail }}</h1>
+          <!-- movie info -->
+          <div>
+            <div>
+              <h1>{{ infoDetail.info.title }}</h1>
+              <p>{{ infoDetail.info.rating }} {{ infoDetail.info.adult }}</p>
+            </div>
+            <div>
+              <h2 v-for="genre in infoDetail.info.genres" :key="genre">{{ genre }}</h2>
+              <p>{{ infoDetail.info.overview }}</p>
+            </div>
+          </div>
         </div>
         <div v-if="infoBtnToggle === 2" key="contentSimilar" style="position:absolute;">
           <h1>2page</h1>
@@ -13,17 +24,22 @@
         </div>
       </transition-group>
     </div>
+    <div class="movieBackImg" :style="bgStyle">
+    </div>
     <div class="movieBtnGroups">
       <button :class="{ activate: infoBtnToggle === 1 }" @click="infoBtnSwitch(1)">콘텐츠 정보</button>
       <button :class="{ activate: infoBtnToggle === 2 }" @click="infoBtnSwitch(2)">비슷한 콘텐츠</button>
       <button :class="{ activate: infoBtnToggle === 3 }" @click="infoBtnSwitch(3)">상세 정보</button>
     </div>
-
-    <button @click="closeInfoBtn">close</button>
+    <div class="movieClose" @click="closeInfoBtn">
+      <fa-icon icon="times"/>
+    </div>
   </div>
 </template>
 
 <script>
+const BACKDROP_BASE = "https://image.tmdb.org/t/p/original/"
+
 export default {
   props: {
     varified: {
@@ -48,6 +64,14 @@ export default {
     },
     setMovieInfo() {
       return this.$store.getters.getMovieInfo
+    },
+    bgStyle() {
+      return {
+        'background-image': `url(${ BACKDROP_BASE }/${ this.infoDetail.info.backdrop_url })`,
+        'background-repeat': 'no-repeat',
+        'background-size': 'cover',
+        'mask-image': 'linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0))'
+      }
     }
   },
   watch: {
