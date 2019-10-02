@@ -1,5 +1,11 @@
 <template>
   <div id="app" @wheel="checkScroll()">
+    <div class="subscription" v-if="!subscription && isNotInConfig()">
+      <ul>
+        <h1>영화가 보고 싶으시면 구독을 누르십시요</h1>
+        <div class="btn btn--primary btn--lg" @click="goSubscription()">구독</div>
+      </ul>
+    </div>
     <header class="navBar"  :class="{navBar__down : (whereScroll !== 0) && (userDropdown === false), navBar__notHome : isNotInConfig()}" >
       <nav class="navItems">
         <div class="navItems__title">
@@ -41,7 +47,6 @@
     <transition name="fade" mode="out-in">
       <router-view/>
     </transition>
-
     <footer>
       Copyright 2019. CyberGhost. All rights reserved.
     </footer>
@@ -59,6 +64,7 @@ export default {
   },
   data() {
     return{
+      subscription : false,
       userInfo : false,
       isStaff: false,
       userDropdown : false,
@@ -66,6 +72,9 @@ export default {
       whereScroll : 0,
       searchToggle : true,
     }
+  },
+  mounted() {
+    this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
   },
   updated() {
     if (session.check()) {
@@ -80,6 +89,16 @@ export default {
     
   },
   methods: {
+      async goSubscription() {
+        const form = { id : JSON.parse(sessionStorage.getItem("drf")).id}
+        const result = await api.playSubscription(form)
+        if (result) {
+          this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
+          console.log("success")
+        } else {
+          console.log("error")
+        }
+      },
      isNotInConfig() {
       if (session.check()) {
         return true

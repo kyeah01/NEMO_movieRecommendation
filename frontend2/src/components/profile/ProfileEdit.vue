@@ -75,7 +75,6 @@
                     </ul>
                 </div>
                 <div v-if="editToggle === 3" class="btn btn--primary btn--sm" :class="{'btn--disabled' : checkDetailChangeClear() }" @click="patchData()">저장</div> 
-                <div v-if="editToggle === 3" class="btn btn--primary btn--sm" :class="{'btn--disabled' : checkDetailChangeClear() }" @click="getData()">데이터 받아오기</div> 
             </ul>
         </div>
         <div class="btn btn--primary btn--lg" @click="Go()">back</div>
@@ -83,6 +82,7 @@
 </template>
 <script>
 import api from '@/api'
+import swal from 'sweetalert';
 
 export default {
     data() {
@@ -152,7 +152,7 @@ export default {
             }
         },
         checkDetailChangeClear() {
-        if (this.SignupList[0].name === '' || this.SignupList[1].name === '' || this.checkUserDescription()) {
+        if (this.SignupList[0].name === '' || this.SignupList[1].name === '' || this.checkUserDescription() || this.userDescription === "") {
             return true
             }
         },
@@ -175,10 +175,6 @@ export default {
             console.log(e)
             this.userChangeImg = e.target.files[0].name
         },
-        async getData() {
-            const form = {id:3}
-            const result = await api.getProfileData(form)
-        },
         async patchData() {
             const data = JSON.parse(sessionStorage.getItem("drf"))
             const form = { 
@@ -188,6 +184,24 @@ export default {
                 "description" : this.userDescription
                 }
             const result = await api.patchProfileData(form)
+            if (result.status === 200) {
+                swal({
+                    title : "개인 정보 수정을 완료 하였습니다.",
+                    text : "이 창은 잠시 후 종료 됩니다.",
+                    icon: "success",
+                    button: false,
+                    timer: 2000,
+                    });
+                this.editToggle = 0
+            } else {
+                swal({
+                    title : "개인 정보 수정에 실패 했습니다.",
+                    text : "잠시 후 다시 시도해 주세요.",
+                    icon: "error",
+                    button: false,
+                    timer: 2000,
+                    });
+            }
         }
     }
 }

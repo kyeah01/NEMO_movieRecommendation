@@ -121,21 +121,34 @@ export default {
         }
       )
   },
-  getProfileData(data) {
-    return axios.get(`${apiUrl}/profile/${data.id}`)
-    .then(res => {
-      console.log(res)
-    })
-  },
   patchProfileData(data) {
+    const datas = JSON.stringify({
+      occupation: data.occupation,
+      age: data.age,
+      description : data.description
+    })
     return axios.patch(`${apiUrl}/profile/${data.id}`,
-      data,{
+      datas,{
         // request headers에 데이터를 json type으로 보냄
         headers: {
           'Content-Type': 'application/json',
         }
-    }).then(res => {
-      console.log(res)
     })
-  }
+  },
+  playSubscription(data) {
+    return axios.post(`${apiUrl}/subscription/${data.id}`,{
+        // request headers에 데이터를 json type으로 보냄
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(res => {
+          if (res.data.data && res.status === 200) {
+            session.set('drf', res.data.data)
+            return true
+          }
+          if (res.data.status === false) {
+            return false
+          }
+        })
+    }
 }

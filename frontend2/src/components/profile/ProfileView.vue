@@ -53,12 +53,13 @@
       <!-- 프로필 하단 컴포넌트 시작 -->
         <!-- 유저가 본 영화 목록 시작 -->
         <div class="profile-myMovie" v-if="checkToggle === 1">
-            <div v-for="item in movieItems" :key="item.genre">
-              <MovieList :id="item.genre" :item="item"/>
+            <div v-for="movieItem in movieItems" :key="movieItem.varified">
+              <MovieList :id="movieItem.varified" :movieItem="movieItem"/>
               <transition name="fade" mode="out-in">
-                <MovieCard :varified="item.genre"/>
+                <MovieCard :varified="movieItem.varified"/>
               </transition>
             </div>
+            <div class="lds-bg"/>
         </div>
         <!-- 유저가 본 영화 목록 끝 -->
 
@@ -91,7 +92,7 @@ components: {
        {imgurl:require("@/assets/image/defaultUserImage.jpg")},
      ],
 
-     movieItems: [{genre:'action', items: [1,2,3,4,5,6,7,8,9,10]}]
+     movieItems: []
    }
  },
   mounted() {
