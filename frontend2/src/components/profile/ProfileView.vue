@@ -64,6 +64,7 @@
 
         <!-- 유저와 유사한 유저 목록 시작 -->
         <div class="profile-similarUser" v-if="checkToggle === 2">
+        <UserCard />
         </div>
         <!-- 유저와 유사한 유저 목록 끝 -->
       <!-- 프로필 하단 컴포넌트 시작 -->
@@ -74,12 +75,14 @@
 <script>
 import MovieList from '@/components/movies/MovieList'
 import MovieCard from '@/components/movies/MovieCard'
+import UserCard from '@/components/profile/UserCard'
 import { mapState, mapActions } from "vuex";
 
 export default {
 components: {
     MovieList,
-    MovieCard
+    MovieCard,
+    UserCard
   },
  data() {
    return{

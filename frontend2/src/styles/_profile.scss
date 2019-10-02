@@ -84,7 +84,7 @@
       width: 84vw;
       height: 400px;
       padding: 20px;
-      background-color: darkcyan;
+      background-color: yellowgreen;
     }
 
     &-edit {
@@ -166,3 +166,41 @@
       color: red;
     }
   }
+  // UserCard
+  .SimilarUserInfo {
+    height: 40vh;
+    width: 30vw;
+    background: white;
+    color: $white;
+  h1 {
+    text-align: left;
+    overflow: hidden;
+    color: black;
+    margin: {
+      top: 0px;
+      left: 30px;
+    }
+   }
+    h5 {
+      text-align: left;
+      overflow: hidden;
+      color: navy;
+      margin: {
+        top: 0px;
+        left:5px;
+        right:5px;
+      }
+    }
+  
+      &_img{
+        display: flex;
+        width: 10vw;
+        height: 10vw;
+        border-radius: 50%;
+        border : 3px green;
+        overflow: hidden;
+      }
+
+
+  }
+  
