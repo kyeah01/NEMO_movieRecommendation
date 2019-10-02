@@ -37,30 +37,30 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class RatingSerializer(serializers.ModelSerializer):
-    # user = serializers.SerializerMethodField('get_profileInfo')
+    user = serializers.SerializerMethodField('get_profileInfo')
 
     class Meta:
         model = Rating
-        fields = [ 'rating', 'rating_date',]
+        fields = ['user', 'rating']
 
-    # def get_profileInfo(self, obj):
-    #     return { 'id':obj.user.id, 'name': obj.user.username, 'Gender': obj.user.profile.gender, 'age': obj.user.profile.age, 'Occupation': obj.user.profile.occupation }
+    def get_profileInfo(self, obj):
+        return obj.user.username
 
 class MovieListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = '__all__'
-    
+
 class MovieDetailSerializer(serializers.ModelSerializer):
     genres_array = serializers.ReadOnlyField()
-    # rating = RatingSerializer(many=True, read_only=True, source='rating_set')
+    rating = RatingSerializer(many=True, read_only=True, source='rating_set')
     view_cnt = serializers.ReadOnlyField(source='rating_set.count')
     average_rating = serializers.SerializerMethodField()
-    # similarmovie = serializers.SerializerMethodField('get_group')
+    similarmovie = serializers.SerializerMethodField('get_group')
 
     class Meta:
         model = Movie
-        fields = ['id', 'title', 'genres_array', 'view_cnt', 'average_rating', 'group', 'poster_url', 'backdrop_url', 'overview', 'adult']
+        fields = ['id', 'title', 'genres_array', 'view_cnt', 'average_rating', 'rating', 'group', 'poster_url', 'backdrop_url', 'overview', 'adult', 'similarmovie']
 
     def get_average_rating(self, obj):
         average = obj.rating_set.all().aggregate(Avg('rating')).get('rating__avg')
