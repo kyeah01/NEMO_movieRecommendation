@@ -78,7 +78,7 @@
 // MovieCard.vue
 .movieItem {
   height: 70vh;
-  background: rgb(100, 97, 97);
+  // background: rgb(100, 97, 97);
   display: flex;
   justify-content: space-between;
   margin: {
@@ -95,7 +95,8 @@
 .movieInfo {
   height: 70vh;
   width: 35vw;
-  background: linear-gradient(to left, rgba(70, 70, 70, 0), rgba(0, 0, 0, 0.8));
+  background: linear-gradient(to right, rgb(0, 0, 0), rgba(70, 70, 70, 0));
+  color: $white;
   h1 {
     text-align: left;
     overflow: hidden;
@@ -106,11 +107,14 @@
     }
   }
 }
+.movieBackImg {
+  width: 100%;
+}
 .movieBtnGroups {
-  position: relative;
-  top: 59.7vh;
-  right: 25vh;
-  height: 10vh;
+  position: absolute;
+  left: 35%;
+  bottom: -35.25%;
+  // height: 10vh;
   button {
     width: 10vw;
     color: $white;
@@ -121,4 +125,12 @@
       bottom: 5px solid red;
     }
   }
+}
+.movieClose {
+  position: absolute;
+  right: 0;
+  width: 4vw;
+  height: 4vw;
+  z-index: 101;
+  line-height: 4vw;
 }

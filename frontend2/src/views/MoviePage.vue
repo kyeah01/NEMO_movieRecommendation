@@ -1,9 +1,9 @@
 <template>
   <div class="moviePage">
-    <div v-for="item in movieItems" :key="item.genre">
-      <MovieList :id="item.genre" :item="item"/>
+    <div v-for="movieItem in movieItems" :key="movieItem.varified">
+      <MovieList :id="movieItem.varified" :movieItem="movieItem"/>
       <transition name="fade" mode="out-in">
-        <MovieCard :varified="item.genre"/>
+        <MovieCard :varified="movieItem.varified"/>
       </transition>
     </div>
     <div class="lds-bg"/>
@@ -43,15 +43,15 @@ export default {
   methods: {
     ...mapActions(["searchMovies"]),
     scrollCard(locationId) {
-      console.log(locationId)
       const element = document.getElementById(locationId)
       const elemRect = element.getBoundingClientRect()
       const offset = elemRect.bottom + window.pageYOffset - 100
       window.scrollTo({top: offset, behavior: 'smooth'})
     },
     setMovieItems() {
-      this.movieItems.push({ genre: 'action', items: this.movieList.slice(0, 10) })
-      this.movieItems.push({ genre: 'drama', items: this.movieList.slice(11, 20) })
+      this.movieItems.push({ varified: 'action', items: this.movieList.slice(0, 10)})
+      this.movieItems.push({ varified: 'drama', items: this.movieList.slice(11, 20)})
+      console.log('setMovieItems() :', 'done')
     }
   }
 }
