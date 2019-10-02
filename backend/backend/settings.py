@@ -43,11 +43,13 @@ INSTALLED_APPS = [
 
     # apps
     'api',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -126,7 +128,10 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
+# profile의 thumnail설정을 위한 media 설정
 MEDIA_URL = '/api/media/' 
-# 업로드된 파일을 저장할 디렉토리 경로
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# cors headers를 위한 설정
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
