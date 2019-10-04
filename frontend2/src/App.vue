@@ -86,7 +86,7 @@ export default {
       this.userInfo = false
       this.isStaff = false
     }
-
+    this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
   },
   methods: {
       async goSubscription() {
