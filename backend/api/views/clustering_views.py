@@ -12,6 +12,7 @@ from api.views.cluster_method.Hierarchical import Hierarchical
 from api.views.recommend_method.matrix import MatrixFact
 import pandas as pd
 import numpy as np
+from api.views.cluster_method.KNN import knn_user, knn_movie
 
 @api_view(['POST'])
 def setup(request):
@@ -40,6 +41,11 @@ def cluster_user_method(request):
     if request.method == 'POST':
         method = request.data.get('method')
         params = request.data.get('params')
+
+        if method and not params:
+            if method == "knn":
+                result = knn_user(Movie.objects.all().values(), Rating.objects.all().values())[0]
+                # return 되는건 똑같으니까 똑같이 돌리면 됨
         if method and params:
             if method == 'K':
                 # kmeans algorithm 적용
@@ -79,6 +85,10 @@ def cluster_movie_method(request):
         method = request.data.get('method')
         params = request.data.get('params')
 
+        if method and not params:
+            if method == "knn":
+                result = knn_movie(Movie.objects.all().values(), Rating.objects.all().values())
+                # return 되는건 똑같으니까 똑같이 돌리면 됨
         if method and params:
 
             if method == "K":
@@ -147,7 +157,13 @@ def user_customized_recommendation(request):
             profile.your_taste_movie = '|'.join(list(map(str, top)))
             profile.save()
             return Response(status=status.HTTP_200_OK)
+    
     if method == "knn":
         # knn 알고리즘 구현이 필요
+        result = knn_user(Movie.objects.all().values(), Rating.objects.all().values())[1]
+        for key, value in result.items():
+            user = Profile.objects.get(id=key)
+            user.your_taste_movie = '|'.join(list(map(str, value)))
+            user.save()
         return Response(status=status.HTTP_200_OK)
 
