@@ -5,7 +5,7 @@
       <div style="color:white;">
       </div>
       <transition name="fade" mode="out-in">
-        <MovieCard :varified="movieItem.varified"/>
+        <MovieCard :varified="movieItem.varified" :movieInfo="selectInfo"/>
       </transition>
     </div>
     <div class="lds-bg"/>
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import api from '@/api'
 import { mapState, mapActions } from "vuex"
 import MovieList from '@/components/movies/MovieList'
 import MovieCard from '@/components/movies/MovieCard'
@@ -23,7 +24,8 @@ export default {
     MovieCard
   },
   data: () => ({
-    movieItems: []
+    movieItems: [],
+    selectInfo: {}
   }),
   computed: {
     ...mapState({
@@ -34,6 +36,7 @@ export default {
     // MovieImg.vue => 영화 정보 오픈 시 스크롤
     this.$EventBus.$on('movieInfoActive', (payload) => {
       this.scrollCard(payload.varified)
+      this.selectMovie(payload.info.id)
     }),
     this.searchMovies()
   },
@@ -54,6 +57,10 @@ export default {
       this.movieItems.push({ varified: 'action', items: this.movieList.slice(0, 10)})
       this.movieItems.push({ varified: 'drama', items: this.movieList.slice(11, 20)})
       console.log('setMovieItems() :', 'done')
+    },
+    async selectMovie(id) {
+      const resp = await api.searchMovies({'id': id})
+      this.selectInfo = resp.data
     }
   }
 }

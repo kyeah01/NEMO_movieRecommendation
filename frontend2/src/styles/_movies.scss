@@ -50,6 +50,22 @@
         color:$white;
       }
   }
+  &__mprev {
+    right: 51vw;
+    top: 16vh;
+  }
+  &__mnext {
+    left: 15vw;
+    top: 16vh;
+  }
+  &__rprev {
+    right: 21.8vw;
+    top: 16vh;
+  }
+  &__rnext {
+    left: 44.3vw;
+    top: 16vh;
+  }
 }
 
 // MovieImg.vue
@@ -77,6 +93,7 @@
 }
 // MovieCard.vue
 .movieItem {
+  position: relative;
   height: 70vh;
   // background: rgb(100, 97, 97);
   display: flex;
@@ -107,13 +124,33 @@
     }
   }
 }
+.movieContent {
+  position:absolute;
+  width: 35%;
+  height: 45%;
+  &__score {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    z-index: 999;
+  }
+  &__card {
+    width: 99.1%;
+    margin: 0;
+    padding: 0;
+    z-index: 999;
+  }
+
+}
+
 .movieBackImg {
   width: 100%;
 }
 .movieBtnGroups {
   position: absolute;
   left: 35%;
-  bottom: -35.25%;
+  // bottom: -35.25%;
+  bottom: 0%;
   // height: 10vh;
   button {
     width: 10vw;
