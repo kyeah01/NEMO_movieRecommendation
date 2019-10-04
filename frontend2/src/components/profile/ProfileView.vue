@@ -17,8 +17,10 @@
             <div class="username">
                {{ userData.username }} (<span v-if="userData.gender == 'M'">Man</span> <span v-else>Women</span>)
             </div>
-            <div class="btn btn--primary btn--md" @click="Go">
-              Edit
+            <div>
+              <div class="btn btn--primary btn--md" v-if="!subscription" @click="goSubscription()">구독해</div>
+              <div class="btn btn--primary btn--md" v-if="subscription" @click="goSubscription()">구독끊어</div>
+              <div class="btn btn--primary btn--md" style = "ml-10px" @click="Go">Edit</div>
             </div>
           </div>
           <!-- 유저 명 / 성별 / 수정 버튼 끝 -->
@@ -31,7 +33,7 @@
               <p v-if="userData.age === 1"><b>나이 : </b>Under 18</p>
               <p v-else><b>나이 : </b>{{ userData.age }}</p>
               <p><b>직업 : </b>{{ userData.occupation }}</p>
-            </div>
+            </div\
             <!-- 유저 상세 정보 하단  -->
             <div class="profile-banner-right__body-bottom">
               <p><b>한줄 코멘트</b></p>
@@ -76,6 +78,9 @@
 import MovieList from '@/components/movies/MovieList'
 import MovieCard from '@/components/movies/MovieCard'
 import { mapState, mapActions } from "vuex";
+import session from "@/api/modules/session";
+import router from "@/router";
+import api from "@/api";
 
 export default {
 components: {
@@ -85,7 +90,7 @@ components: {
  data() {
    return{
      user: this.$route.params.user_id,
-
+     subscription : false,
      checkToggle : 1,
 
      userInfo: [
@@ -127,6 +132,16 @@ components: {
       this.$emit('transForm');
       window.scrollTo(0, 0);
     },
+    async goSubscription() {
+      const form = { id : JSON.parse(sessionStorage.getItem("drf")).id}
+      const result = await api.playSubscription(form)
+      if (result) {
+        this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
+        console.log("success")
+      } else {
+        console.log("error")
+      }
+      },
   }
 }
 
