@@ -160,6 +160,7 @@ export default {
   },
   watch: {
     setToggle (val) {
+      this.infoToggle = false
       if (val && this.varified === this.$store.getters.getMovieInfo.varified) {
         this.infoToggle = true
       }
