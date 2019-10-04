@@ -3,8 +3,7 @@
     <transition name="slide" mode="out-in">
       <div>
         <div class="separater separater__trans"></div>
-        <!-- <div v-for="i in movieItems">{{ i }}</div> -->
-        <MovieImg v-for="movie in movieItems" :key="movie.id" :imgData="{ imgSrc: movie.poster_url, id: movie.id, varified: 'aa' }"/>
+        <MovieImg v-for="movie in movieItems" :key="movie.id" :imgData="{ imgSrc: movie.poster_url, title: movie.title, id: movie.id, genres: movie.genres, varified: 'none' }"/>
       </div>
     </transition>
   </div>

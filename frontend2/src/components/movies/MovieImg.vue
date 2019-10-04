@@ -6,7 +6,8 @@
     <div class="movieImg newImg" v-if="!isRouterChk()">
       <img style="cursor:default" :src="imgData.imgSrc" alt="moviePoster">
       <div class="testMovie__detail">
-        <div>{{ imgData}}</div>
+        <h2 style="color: white;"> {{ imgData.title }} </h2>
+        <p style="color: white;">{{ imgData.genres }}</p>
       </div>
     </div>
   </div>
