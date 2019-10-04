@@ -47,11 +47,11 @@ def signup(request):
 @api_view(['POST'])
 def userLogin(request):
     statCode = False
-    serialData = { 'status': statCode, 'data': ''}
+    serialData = { 'status': statCode, 'data': {}}
     # request payload에서 id, pw를 추출
     form = request.data
-    pw = form.get('username', None)
-    id = form.get('password', None)
+    id = form.get('username', None)
+    pw = form.get('password', None)
     # DB에 있는 유저인지 확인, 존재하면 id를 user에 저장
     user = authenticate(username=id, password=pw)
     # user가 존재하고 is_active한지 check
@@ -65,6 +65,9 @@ def userLogin(request):
         serializer = UserSerializer(user)
         serialData['status'] = statCode
         serialData['data'] = serializer.data
+        profile = get_object_or_404(Profile, id=serializer.data['id'])
+        serializer = ProfileSerializer(profile)
+        serialData['data'].update({'subscription':serializer.data['subscription']})
         return Response(data=serialData , status=status.HTTP_200_OK)
     # 실패시 빈값 return
     return Response(data=serialData, status=status.HTTP_200_OK)
@@ -86,7 +89,7 @@ def profile(request, user_id):
     if request.method == 'PATCH':
         profile = get_object_or_404(Profile, pk=user_id)
         # serializer = ProfileSerializer(profile)
-        serializer = ProfileSerializer(profile, data=request.data, files=request.FILES, partial=True)
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
         if serializer.is_valid():
             profile = serializer.save()
             return Response(ProfileSerializer(profile).data)
@@ -94,10 +97,20 @@ def profile(request, user_id):
 
 @api_view(['POST'])
 def subscription(request, user_id):
+    serialData = {'data': {}}
     if request.method == "POST":
         profile = get_object_or_404(Profile, id=user_id)
         profile.subscription = not profile.subscription
         if profile.subscription:
             profile.subscription_date = round(datetime.now().timestamp())
         profile = profile.save()
-        return Response(data=ProfileSerializer(profile).data, status=status.HTTP_200_OK)
+        user = User.objects.get(id=user_id)
+        # serializer를 통해서 user, userprofile 정보를 함께 가져옴
+        serializer = UserSerializer(user)
+        
+        serialData['data'] = serializer.data
+        profile = get_object_or_404(Profile, id=serializer.data['id'])
+        serializer = ProfileSerializer(profile)
+        serialData['data'].update({'subscription':serializer.data['subscription']})
+        print(serialData)
+        return Response(data=serialData, status=status.HTTP_200_OK)

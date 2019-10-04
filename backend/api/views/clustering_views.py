@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -8,7 +9,9 @@ from api.serializers import ClusterSerializer
 from api.views.cluster_method.make_kmeans import kmeans_user, kmeans_movie
 from api.views.cluster_method.gmm import GaussianMix
 from api.views.cluster_method.Hierarchical import Hierarchical
-
+from api.views.recommend_method.matrix import MatrixFact
+import pandas as pd
+import numpy as np
 
 @api_view(['POST'])
 def setup(request):
@@ -76,7 +79,6 @@ def cluster_movie_method(request):
         method = request.data.get('method')
         params = request.data.get('params')
 
-
         if method and params:
 
             if method == "K":
@@ -101,7 +103,6 @@ def cluster_movie_method(request):
             now.params = params
             now.save()
             return Response(status=status.HTTP_200_OK)
-
 
     if request.method == 'GET':
         now = ClusterModel.objects.get(id=2)
@@ -133,6 +134,7 @@ def user_customized_recommendation(request):
         for i in range(len(result)):
             # 추천 영화의 id리스트
             top = []
+
             user_id = users[i].id
             profile = Profile.objects.get(id=user_id)
             rated_movie = [r.id for r in users.get(id=user_id).rating_set.all()]
@@ -148,3 +150,4 @@ def user_customized_recommendation(request):
     if method == "knn":
         # knn 알고리즘 구현이 필요
         return Response(status=status.HTTP_200_OK)
+

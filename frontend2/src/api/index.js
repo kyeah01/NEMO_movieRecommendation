@@ -25,8 +25,8 @@ export default {
   },
   logIn(form) {
     const data = JSON.stringify({
-      password: form.id,
-      username: form.pw
+      username: form.id,
+      password: form.pw
     })
     return axios.post(`${ apiUrl }/auth/login`, data, {
       // request headers에 데이터를 json type으로 보냄
@@ -105,7 +105,7 @@ export default {
       params: data.params
     })
     return axios.post(`${apiUrl}/cluster/movie/`,
-      data,{
+      datas,{
         // request headers에 데이터를 json type으로 보냄
         headers: {
           'Content-Type': 'application/json',
@@ -121,4 +121,34 @@ export default {
         }
       )
   },
+  patchProfileData(data) {
+    const datas = JSON.stringify({
+      occupation: data.occupation,
+      age: data.age,
+      description : data.description
+    })
+    return axios.patch(`${apiUrl}/profile/${data.id}`,
+      datas,{
+        // request headers에 데이터를 json type으로 보냄
+        headers: {
+          'Content-Type': 'application/json',
+        }
+    })
+  },
+  playSubscription(data) {
+    return axios.post(`${apiUrl}/subscription/${data.id}`,{
+        // request headers에 데이터를 json type으로 보냄
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(res => {
+          if (res.data.data && res.status === 200) {
+            session.set('drf', res.data.data)
+            return true
+          }
+          if (res.data.status === false) {
+            return false
+          }
+        })
+    }
 }

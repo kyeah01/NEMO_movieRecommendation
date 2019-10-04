@@ -1,8 +1,12 @@
 <template>
-  <div>
-    <ProfileView v-if="isProfile === true" @transForm="isProfile = !isProfile"/>
-    <ProfileEdit v-if="isProfile === false" @transForm="isProfile = !isProfile"/>
-  </div>
+      <div>
+        <transition name="fade" mode="out-in">
+          <ProfileView v-if="isProfile === true" @transForm="isProfile = !isProfile"/>
+        </transition>
+        <transition name="fade" mode="out-in" >
+          <ProfileEdit v-if="isProfile === false" @transForm="isProfile = !isProfile"/>
+        </transition>
+      </div>
 </template>
 
 <script>
