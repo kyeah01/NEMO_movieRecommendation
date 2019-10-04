@@ -107,3 +107,44 @@ def cluster_movie_method(request):
         now = ClusterModel.objects.get(id=2)
         serializer = ClusterSerializer(now)
         return Response(data=serializer.data)
+
+@api_view(['POST'])
+def user_customized_recommendation(request):
+    method = request.data.get('method')
+    # matrix를 쓰는 경우
+    if method == "matrix":
+        # movies = Movie.objects.all().values()
+        # ratings = Rating.objects.all().values()
+        users = User.objects.all()
+        # factorizer = MatrixFact(movies, ratings, k=3, learning_rate=0.01, reg_param=0.01, epochs=300, verbose=True)
+        # result = factorizer.get_complete_matrix()
+        # result = [list(map(lambda x: round(float(x),2), res)) for res in result]
+        # 결과 파일화
+        # with open('result.txt', 'w') as file:
+        #     for res in result:
+        #         for r in res:
+        #             file.write(str(r)+' ')
+        #         file.write('\n')
+        # 파일 있을 시 불러오기
+        result = []
+        with open('result.txt', 'r') as file:
+            for line in file.readlines():
+                result += [list(map(lambda x: round(float(x),4), line[:-2].split(' ')))]
+        for i in range(len(result)):
+            # 추천 영화의 id리스트
+            top = []
+            user_id = users[i].id
+            profile = Profile.objects.get(id=user_id)
+            rated_movie = [r.id for r in users.get(id=user_id).rating_set.all()]
+            for val in sorted(result[i]):
+                top += [j for j in range(len(result[i])) if val == result[i][j] and j not in rated_movie]
+                if len(top) > 30:
+                    break
+            print(top)
+            # 유저 번호 뽑기
+            profile.your_taste_movie = '|'.join(list(map(str, top)))
+            profile.save()
+            return Response(status=status.HTTP_200_OK)
+    if method == "knn":
+        # knn 알고리즘 구현이 필요
+        return Response(status=status.HTTP_200_OK)
