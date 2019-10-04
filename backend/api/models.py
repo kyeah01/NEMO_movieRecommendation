@@ -19,6 +19,7 @@ class Profile(models.Model):
         blank=True
     )
     recommend_user = models.CharField(max_length=500)
+    your_taste_movie = models.TextField()
     # 구독
     subscription = models.BooleanField(default=False)
     subscription_date = models.CharField(default='', max_length=200)
