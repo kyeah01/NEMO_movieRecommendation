@@ -9,17 +9,21 @@
                 </div>
               <!-- 유저 신상정보 -->
               <div>
-                <h3>Harry Potter</h3>
-                <h5>user.gender</h5>
+                <span style ="display:inline-block;color:black; font-weight: bold; margin-right:1px;">user.name</span>
+                <span style ="display:inline-block;color:black;margin-left:1px;">(m)</span> 
               </div>
-              <div class="separater" style="background-color: gainsboro ;">.</div> 
+              <div class="separater separater__1" style="background-color: gainsboro ;">.</div> 
               <div style="color:black;" >
-                 <span>user.age</span> /
+                 <!-- <span>user.age</span>
                 <span>user.occupation</span>
-                <span>한줄평</span>
-        
-               
+                <span>한줄평</span> -->
+                 <p>나이:user.age</p>
+                <p>직업:user.occupation</p>
+                <p>한줄평:</p>
               </div>
+             
+          
+          
               
          
 
@@ -41,8 +45,10 @@ export default {
 }
 </script>
 <style lang="scss" scope>
-  .separater{
-    background-color: grey;
-  }
+  //   background-color: grey;
+  //   margin-top:var(--space-xxxxs);
+  //   margin-bottom:var(--space-xxxxs);
+  // }
+ 
 </style>
 
