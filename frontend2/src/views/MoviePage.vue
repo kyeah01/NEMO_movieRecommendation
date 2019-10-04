@@ -2,6 +2,8 @@
   <div class="moviePage">
     <div v-for="movieItem in movieItems" :key="movieItem.varified">
       <MovieList :id="movieItem.varified" :movieItem="movieItem"/>
+      <div style="color:white;">
+      </div>
       <transition name="fade" mode="out-in">
         <MovieCard :varified="movieItem.varified"/>
       </transition>
