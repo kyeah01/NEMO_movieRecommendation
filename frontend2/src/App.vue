@@ -38,7 +38,7 @@
         </div>
       </nav>
     </header>
-        <ul class="divFocus" v-if="userDropdown === true" ref="search" @blur="userDropdown = !userDropdown" tabindex="1"> 
+        <ul class="divFocus" v-if="userDropdown === true" ref="search" @blur="userDropdown = !userDropdown" tabindex="1">
           <p style="cursor: default; color:white;">{{userInfo}}</p>
           <div class="separater"></div>
           <p @click="goProfile()">Profile</p>
@@ -86,7 +86,7 @@ export default {
       this.userInfo = false
       this.isStaff = false
     }
-    
+
   },
   methods: {
       async goSubscription() {
@@ -119,7 +119,7 @@ export default {
     goProfile(){
       const data = JSON.parse(sessionStorage.getItem("drf"))
       router.push({
-            name : 'Profile', 
+            name : 'Profile',
             params: {user_id:data.id}
           },this.blurFocus())
     },
