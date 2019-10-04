@@ -35,8 +35,10 @@ export default {
   mounted() {
     // MovieImg.vue => 영화 정보 오픈 시 스크롤
     this.$EventBus.$on('movieInfoActive', (payload) => {
-      this.scrollCard(payload.varified)
       this.selectMovie(payload.info.id)
+      setTimeout(() => {
+        this.scrollCard(payload.varified)
+      }, 10)
     }),
     this.searchMovies()
   },
@@ -54,8 +56,8 @@ export default {
       window.scrollTo({top: offset, behavior: 'smooth'})
     },
     setMovieItems() {
-      this.movieItems.push({ varified: 'action', items: this.movieList.slice(0, 10)})
-      this.movieItems.push({ varified: 'drama', items: this.movieList.slice(11, 20)})
+      this.movieItems.push({ varified: 'action', items: this.movieList.slice(0, 24)})
+      this.movieItems.push({ varified: 'drama', items: this.movieList.slice(23, 44)})
       console.log('setMovieItems() :', 'done')
     },
     async selectMovie(id) {
