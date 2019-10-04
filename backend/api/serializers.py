@@ -14,7 +14,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = '__all__'
-        extra_fields = ('id', 'username', 'is_staff', 'similaruser', 'ratingmovie', 'image')
+        extra_fields = ('id', 'username', 'is_staff', 'similaruser', 'ratingmovie', 'image',)
         # fields = ('id', 'username', 'is_staff', 'gender', 'age', 'occupation', 'group', 'similaruser', 'ratingmovie', 'image', 'subscription', 'subscription_date')
 
     def get_username(self, obj):
@@ -33,23 +33,26 @@ class ProfileSerializer(serializers.ModelSerializer):
             data = [i.id for i in users]
         else:
             data = obj.recommend_user.split('|')
-            return data
-
+        return data
+    
 
 class RatingSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField('get_profileInfo')
 
     class Meta:
         model = Rating
-        fields = ['user', 'rating']
+        fields = '__all__'
+        extra_fields = ['user',]
 
     def get_profileInfo(self, obj):
         return obj.user.username
 
 class MovieListSerializer(serializers.ModelSerializer):
+    genres_array = serializers.ReadOnlyField()
     class Meta:
         model = Movie
         fields = '__all__'
+        extra_fields = ['genres_array',]
 
 class MovieDetailSerializer(serializers.ModelSerializer):
     genres_array = serializers.ReadOnlyField()
