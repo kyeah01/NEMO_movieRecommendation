@@ -25,7 +25,7 @@ p {
 }
 .testImg {
   position: absolute;
-  top: 160%;
+  top: 81%;
   right: 18%;
   width: 10vw;
   height: 30vh;

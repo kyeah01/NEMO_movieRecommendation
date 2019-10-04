@@ -20,14 +20,31 @@
               별점
             </div>
             <div>
-              <div v-for="i in scorePaginatedData" :key="i.id">
-                {{ i.user }}
-                {{ i.rating }}
-                <star :score="i"/>
+              <div v-for="(i, index) in scorePaginatedData" :key="i.id">
+                <div class="rateBox rateBox__0" v-if="index === 0">
+                  {{ i.user }}
+                  {{ i.rating }}
+                  <star class="rateStar" :score="i"/>
+                </div>
+                <div class="rateBox rateBox__1" v-if="index === 1">
+                  {{ i.user }}
+                  {{ i.rating }}
+                  <star class="rateStar" :score="i"/>
+                </div>
+                <div class="rateBox rateBox__2" v-if="index === 2">
+                  {{ i.user }}
+                  {{ i.rating }}
+                  <star class="rateStar" :score="i"/>
+                </div>
+                <div class="rateBox rateBox__3" v-if="index === 3">
+                  {{ i.user }}
+                  {{ i.rating }}
+                  <star class="rateStar" :score="i"/>
+                </div>
               </div>
               <div>
-                <button :disabled="scorePageNum === 0" @click="pagination('s', false)"><fa-icon icon="angle-left"/></button>
-                <button :disabled="scorePageNum >= scorePageCount - 1" @click="pagination('s', true)"><fa-icon icon="angle-right"/></button>
+                <button class="pageBtn pageBtn__rprev" :disabled="scorePageNum === 0" @click="pagination('s', false)"><fa-icon icon="angle-left"/></button>
+                <button class="pageBtn pageBtn__rnext" :disabled="scorePageNum >= scorePageCount - 1" @click="pagination('s', true)"><fa-icon icon="angle-right"/></button>
               </div>
             </div>
           </div>
@@ -42,10 +59,10 @@
               <div v-for="i in moviePaginatedData" :key="i" style="width: 15%; position: relative; left: 25%;">
                 <MovieMiniCard :movieId="i"/>
               </div>
-              <!-- <div>
-                <button :disabled="moviePageNum === 0" @click="pagination('m', false)"><fa-icon icon="angle-left"/></button>
-                <button :disabled="moviePageNum >= moviePageCount - 1" @click="pagination('m', true)"><fa-icon icon="angle-right"/></button>
-              </div> -->
+              <div>
+                <button class="pageBtn pageBtn__mprev" :disabled="moviePageNum === 0" @click="pagination('m', false)"><fa-icon icon="angle-left"/></button>
+                <button class="pageBtn pageBtn__mnext" :disabled="moviePageNum >= moviePageCount - 1" @click="pagination('m', true)"><fa-icon icon="angle-right"/></button>
+              </div>
             </div>
           </div>
         </div>
@@ -163,6 +180,8 @@ export default {
       this.infoToggle = false
       this.$store.commit('selectedMovie')
       this.infoBtnToggle = 1
+      this.scorePageNum = 0
+      this.moviePageNum = 0
     },
     infoBtnSwitch(num) {
       this.infoBtnToggle = num
@@ -204,5 +223,37 @@ export default {
 .test-enter {
   opacity: 0;
   transform: translate(-2em, 0);
+}
+
+.rateBox {
+  display: flex;
+  position: relative;
+  width: 30%;
+  height: 8vh;
+  &__0 {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+  }
+  &__1 {
+    position: absolute;
+    top: 30%;
+    right: 4%;
+  }
+  &__2 {
+    position: absolute;
+    bottom: 2%;
+    left: 30%;
+  }
+  &__3 {
+    position: absolute;
+    bottom: 2%;
+    right: 4%;
+  }
+  .rateStar {
+    position: absolute;
+    top: 30%;
+    left: 10%;
+  }
 }
 </style>
