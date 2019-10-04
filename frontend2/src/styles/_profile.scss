@@ -84,7 +84,7 @@
       width: 84vw;
       height: 400px;
       padding: 20px;
-      background-color: yellowgreen;
+      // background-color: yellowgreen;
     }
 
     &-edit {
@@ -168,39 +168,77 @@
   }
   // UserCard
   .SimilarUserInfo {
-    height: 40vh;
-    width: 30vw;
+    display: flex;
+    flex-direction: column;//방향을 세로로 바꾸기
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--space-sm);
+    padding:10px;
+    
+    height: 220px;
+    width: 230px;
+    margin: {
+      right:5px;
+      left:5px;
+      top:5px;
+      bottom:5px;
+    }
     background: white;
     color: $white;
-  h1 {
+  h3 {
     text-align: left;
     overflow: hidden;
     color: black;
     margin: {
       top: 0px;
-      left: 30px;
+      left: 10px;
+      rignt: 10px;
     }
    }
-    h5 {
-      text-align: left;
-      overflow: hidden;
-      color: navy;
-      margin: {
-        top: 0px;
-        left:5px;
-        right:5px;
-      }
-    }
-  
+  h5 {
+    text-align: left;
+    overflow: hidden;
+    color: rgb(116, 116, 116);
+    margin: {
+      top: 0px;
+      left:5px;
+      right:5px;
+      bottom: 3px;
+     }
+  }
+  span {
+    text-align: left;
+    overflow: hidden;
+    color: rgb(116, 116, 116);
+    margin: {
+      top: 0px;
+      left:10px;
+      right:10px;
+     }
+  }
+
+
+
+
+    &-banner {
+      display: flex;
+      justify-content: center;
+      width: 500px;
+      height: 100px;
+      padding: 5px;
+       
+      
       &_img{
-        display: flex;
-        width: 10vw;
-        height: 10vw;
-        border-radius: 50%;
-        border : 3px green;
-        overflow: hidden;
-      }
+          width: 65px;
+          height: 65px;
+          border-radius: 50%;
+          border : 3px solid red;
+          overflow: hidden;
+          margin: {
+            top: 10px;
+          }
+        }
 
-
+    }
   }
   

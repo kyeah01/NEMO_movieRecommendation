@@ -64,7 +64,9 @@
 
         <!-- 유저와 유사한 유저 목록 시작 -->
         <div class="profile-similarUser" v-if="checkToggle === 2">
-        <UserCard />
+          <div v-for="i in 10" :key="i" style="display:inline-block;">
+            <UserCard />
+          </div>
         </div>
         <!-- 유저와 유사한 유저 목록 끝 -->
       <!-- 프로필 하단 컴포넌트 시작 -->

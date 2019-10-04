@@ -1,29 +1,32 @@
 <template>
-    <div class="SimilarUserInfo" style="position:absolute; width;30vw;">
-        <div v-if="infoBtnToggle==2">
+    <div class="SimilarUserInfo" >
         <!-- similar users info -->
             <!-- 유저 이미지 -->
-            <div class="SimilarUserInfo_img">
-            <img src="@/assets/image/defaultUserImage.jpg" alt="" style="width: 10vw; height: 10vw;">
-            </div>
-            <!-- 유저 신상정보 -->
-            <div>
-              <h1>Harry Potter</h1>
-              <h5>user.gender</h5>
-            </div>
-            <div class="separater"></div> 
-            <div>
-              <h5>user.age</h5>
-              <h5>user.occupation</h5>
-            </div>
-            <div>
-              <h5>한줄평</h5>
-            </div>
+              <div class="SimilarUserInfo-banner">
+                  <div class="SimilarUserInfo-banner_img">
+                  <img src="@/assets/image/defaultUserImage.jpg" alt="" style="width: 65px; height: 65px;">
+                  </div>
+                </div>
+              <!-- 유저 신상정보 -->
+              <div>
+                <h3>Harry Potter</h3>
+                <h5>user.gender</h5>
+              </div>
+              <div class="separater" style="background-color: gainsboro ;">.</div> 
+              <div style="color:black;" >
+                 <span>user.age</span> /
+                <span>user.occupation</span>
+                <span>한줄평</span>
+        
+               
+              </div>
+              
+         
 
 
 
 
-        </div>            
+    
     </div>
     
 </template>
@@ -37,3 +40,9 @@ export default {
 
 }
 </script>
+<style lang="scss" scope>
+  .separater{
+    background-color: grey;
+  }
+</style>
+
