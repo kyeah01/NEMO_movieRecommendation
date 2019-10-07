@@ -150,5 +150,26 @@ export default {
             return false
           }
         })
-    }
+    },
+  newUserRating(data) {
+    const datas = JSON.stringify({
+      movie: data.movie,
+      user: data.user,
+      rating : data.rating,
+      rating_date : data.rating_date
+    })
+    return axios.patch(`${apiUrl}/rating/`, datas, {
+        // request headers에 데이터를 json type으로 보냄
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(res => {
+          if (res.status === 200) {
+            return true
+          }
+          if (res.status !== 200) {
+            return false
+          }
+        })
+    },
 }
