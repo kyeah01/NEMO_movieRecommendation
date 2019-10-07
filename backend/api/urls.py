@@ -18,6 +18,7 @@ urlpatterns = [
     
     url('rating/$', rating_views.rating, name='rating'),
 
+    path('profile/<int:user_id>/newmovies', auth_views.profileUnRatedMovieSearch, name='profileUnRatedMovieSearch'),
     path('profile/<int:user_id>', auth_views.profile, name='profile'),
     path('profile/', auth_views.profileSearch, name='profileSearch'),
     url('auth/login', auth_views.userLogin, name='login'),

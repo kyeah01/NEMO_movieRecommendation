@@ -35,6 +35,18 @@ class ProfileSerializer(serializers.ModelSerializer):
             data = obj.recommend_user.split('|')
         return data
     
+class ProfileUnRatedMovieSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+    newMovies = serializers.SerializerMethodField('get_new_movie')
+
+    class Meta:
+        model = Profile
+        fields = ('id', 'newMovies',)
+
+    def get_new_movie(self, obj):
+        data = User.objects.get(id=obj.id)
+        movies = Movie.objects.exclude(id__in=[data.movie.id for data in data.rating_set.all()])
+        return [movie.id for movie in movies]
 
 class RatingSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField('get_profileInfo')
