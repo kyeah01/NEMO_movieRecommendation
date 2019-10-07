@@ -2,7 +2,7 @@
   <div class="moviePage">
     <div>
       <MovieCateForm/>
-      <MovieCategory :movieItems="movieItems"/>
+      <MovieCategory :movieItems="searchMovies"/>
       <div class="lds-bg">
         <div v-if="loadScroll" class="lds-dual-ring"></div>
       </div>
@@ -21,53 +21,52 @@ export default {
     MovieCategory
   },
   data: () => ({
-    movieItems: [{genre:'action', items: [1,2,3,4,5,6,7,8,9,10,11,12]}],
     loadCall: false,
     loadScroll: false,
-    persons: []
+    persons: [],
+    searchMovies: [],
   }),
   mounted() {
     // MovieImg.vue => 영화 정보 오픈 시 스크롤
-    this.$EventBus.$on('movieInfoActive', (payload) => {
-      this.scrollCard(payload.varified)
-    })
-    this.scroll(this.person)
+    // this.$EventBus.$on('movieInfoActive', (payload) => {
+    //   this.scrollCard(payload.varified)
+    // })
+    this.scroll(this.searchMovies)
   },
   beforeMount() {
-    this.getInitialUsers()
+    this.getInitialMovies()
   },
   methods: {
-    scrollCard(locationId) {
-      const element = document.getElementById(locationId)
-      const elemRect = element.getBoundingClientRect()
-      const offset = elemRect.bottom + window.pageYOffset - 100
-      window.scrollTo({top: offset, behavior: 'smooth'})
-    },
-    getInitialUsers () {
-      for (var i = 0; i < 5; i++) {
-        axios.get(`https://randomuser.me/api/`)
-          .then(response => {
-            this.persons.push(response.data.results[0])
-          })
+    getInitialMovies () {
+      for (var i = 0; i < 12; i++) {
+        this.searchMovies.push(this.$store.state.movieSearchList[i])
       }
     },
-    scroll(person) {
+    scroll(movieItem) {
       window.onscroll = () => {
         let bOfW = Math.round(document.documentElement.scrollTop + window.innerHeight) >= document.documentElement.offsetHeight
         if (bOfW && this.loadCall === false) {
           this.loadCall = true
           this.loadScroll = true
-          axios.get(`https://randomuser.me/api/`)
-            .then(response => {
-              let i = this.movieItems[0].items.length+1
-              let a = i
-              for (a; a < i+12; a++) {
-                this.movieItems[0].items.push(a)
-              }
-              this.loadScroll = false
-              this.loadCall = false
-            })
-
+          // axios.get(`https://randomuser.me/api/`)
+          //   .then(response => {
+          //     let i = this.movieItems[0].items.length+1
+          //     let a = i
+          //     for (a; a < i+12; a++) {
+          //       this.movieItems[0].items.push(a)
+          //     }
+          //     this.loadScroll = false
+          //     this.loadCall = false
+          //   })
+          let i = movieItem.length
+          let a = i
+          for ( a; a < i+12; a++ ) {
+            movieItem.push(this.$store.state.movieSearchList[a])
+          }
+          setTimeout(() => {
+            this.loadScroll = false
+            this.loadCall = false
+          }, 1000)
         }
       }
     }

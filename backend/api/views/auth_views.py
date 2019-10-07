@@ -7,7 +7,7 @@ from api.models import create_profile, Profile
 
 # login에 필요한 것들 import
 from django.contrib.auth import login, logout, authenticate
-from api.serializers import UserSerializer, ProfileSerializer
+from api.serializers import UserSerializer, ProfileSerializer, ProfileUnRatedMovieSerializer
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 
@@ -94,6 +94,23 @@ def profile(request, user_id):
             profile = serializer.save()
             return Response(ProfileSerializer(profile).data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def profileSearch(request):
+    if request.method == 'GET':
+        username = request.GET.get('username')
+        user = get_object_or_404(User, username=username)
+        profile = get_object_or_404(Profile, id=user.id)
+        serializer = ProfileSerializer(profile)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def profileUnRatedMovieSearch(request, user_id):
+    if request.method == 'GET':
+        profile = get_object_or_404(Profile, id=user_id)
+        serializer = ProfileUnRatedMovieSerializer(profile)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 def subscription(request, user_id):
