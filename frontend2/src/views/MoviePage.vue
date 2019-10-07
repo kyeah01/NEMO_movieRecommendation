@@ -32,7 +32,7 @@ export default {
       movieList: state => state.movieSearchList
     }),
     ...mapGetters({
-      myMovie: 'getUserTasteMovie'
+      myMovie: 'getUserMovieData'
     })
   },
   mounted() {
@@ -59,21 +59,13 @@ export default {
       window.scrollTo({top: offset, behavior: 'smooth'})
     },
     setMovieItems() {
-
-      // 레이팅 높은 영화 =>
-      // 새로 올라온 영화
-
       // # 1
       // 내 추천 영화 => profile your_taste_movie
-      // 문자열 split => sort
-      let reAry = this.myMovie.split('|').map(Number).sort((a, b) => { return a - b })
+      let reAry = this.myMovie.your_taste_movie.split('|').map(Number).sort((a, b) => { return a - b })
       let recommendAry = []
       reAry.forEach((el) => { recommendAry.push(this.movieList.find(movie => movie.id === el)) })
 
       // # 2
-      // 비슷한 연령대가 본 영화 => movie age
-
-      // # 3
       // 장르별 영화 => movie genre
       let reGenre = []
       let redict = {}
@@ -88,21 +80,36 @@ export default {
           }
         }
       }
-      let maxKey = Object.keys(redict).reduce((a, b) => redict[a] > redict[b] ? a : b);
-      let genreMovie = this.genreMovie(maxKey)
-      console.log(genreMovie)
+      let maxKey = Object.keys(redict).reduce((a, b) => redict[a] > redict[b] ? a : b)
+      // setting genreMovieItems
+      this.getMovieListItem('genre', maxKey)
 
-      // this.movieItems.push({ varified: '추천영화', items: recommendAry})
-      // this.movieItems.push({ varified: 'drama', items: this.movieList.slice(23, 44)})
+      // # 3
+      // 나름 높은거
+      let highAry = []
+      for (var i=0; i < this.movieList.length; i++) {
+        if (Number(this.movieList[i].title.slice(-5, -1)) > 1997) {
+          highAry.push(this.movieList[i])
+        }
+      }
+      this.movieItems.push({ varified: `${ this.myMovie.username }님을 위한 영화`, items: recommendAry })
+      this.movieItems.push({ varified: "since 98's", items: highAry })
       console.log('setMovieItems() :', 'done')
     },
     async selectMovie(id) {
       const resp = await api.searchMovies({'id': id})
       this.selectInfo = resp.data
     },
-    async genreMovie(val) {
-      const resp = await api.searchMovies({'genre': val})
-      return resp.data
+    async getMovieListItem(param, val) {
+      console.log(param, val)
+      if (param === 'genre') {
+        const resp = await api.searchMovies({ 'genre': val })
+        this.movieItems.push({ varified: val, items: resp.data })
+      }
+      if (param === 'occupation') {
+        const resp = await api.searchMovies({ 'occupation': val })
+        this.movieItems.push({ varified: val, items: resp.data })
+      }
     }
   }
 }
