@@ -7,15 +7,15 @@ const apiUrl = '/api'
 export default {
   searchMovies(params) {
     return axios.get(`${apiUrl}/movies/`, {
-      params,
+      params
     })
   },
-  searchProfile(param) {
-    return axios.get(`${ apiUrl }/profile/${ param }`)
+  searchProfile(params) {
+    return axios.get(`${ apiUrl }/profile/`, { params })
   },
   signUp(profiles) {
     return axios.post(`${ apiUrl }/auth/signup/`, profiles)
-      .then( res => {
+      .then(res => {
         if (res.status === 201) {
           return true
         } else {
@@ -43,7 +43,7 @@ export default {
           button: false,
           timer: 2000,
         });
-        return true
+        return res.data.data.username
       }
       if (res.data.status === false) {
         swal({
@@ -134,5 +134,21 @@ export default {
           'Content-Type': 'application/json',
         }
     })
-  }
+  },
+  playSubscription(data) {
+    return axios.post(`${apiUrl}/subscription/${data.id}`,{
+        // request headers에 데이터를 json type으로 보냄
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(res => {
+          if (res.data.data && res.status === 200) {
+            session.set('drf', res.data.data)
+            return true
+          }
+          if (res.data.status === false) {
+            return false
+          }
+        })
+    }
 }
