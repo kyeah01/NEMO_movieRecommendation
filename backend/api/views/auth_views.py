@@ -95,6 +95,16 @@ def profile(request, user_id):
             return Response(ProfileSerializer(profile).data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def profileSearch(request):
+    if request.method == 'GET':
+        username = request.GET.get('username')
+        user = get_object_or_404(User, username=username)
+        profile = get_object_or_404(Profile, id=user.id)
+        serializer = ProfileSerializer(profile)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
 @api_view(['POST'])
 def subscription(request, user_id):
     serialData = {'data': {}}
