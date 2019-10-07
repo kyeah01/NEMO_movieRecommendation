@@ -1,10 +1,11 @@
 .profile {
-    height: 100vh; 
+    // height: 100vh; 
     padding: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
     user-select: none;
+    position: relative;
   
     color: white;
   
@@ -78,13 +79,15 @@
       width: 84vw;
       height: 400px;
       padding: 20px;
+      position: relative;
     }
   
     &-similarUser {
       width: 84vw;
       height: 400px;
       padding: 20px;
-      background-color: darkcyan;
+      position: relative;
+      // background-color: yellowgreen;
     }
 
     &-edit {
@@ -166,3 +169,106 @@
       color: red;
     }
   }
+  // UserCard
+  .SimilarUserInfo {
+    display: flex;
+    flex-direction: column;//방향을 세로로 바꾸기
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--space-sm);
+    padding:10px;
+    
+    height: 220px;
+    width: 180px;
+    margin: {
+      right:5px;
+      left:5px;
+      top:5px;
+      bottom:5px;
+    }
+    background: white;
+    color: $white;
+  h3 {
+    text-align: left;
+    overflow: hidden;
+    color: black;
+    margin: {
+      top: 0px;
+      left: 10px;
+      rignt: 10px;
+    }
+   }
+  h5 {
+    text-align: left;
+    overflow: hidden;
+    color: rgb(116, 116, 116);
+    margin: {
+      top: 0px;
+      left:5px;
+      right:5px;
+      bottom: 3px;
+     }
+  }
+  span {
+    text-align: left;
+    overflow: hidden;
+    color: rgb(116, 116, 116);
+    margin: {
+      top: 0px;
+      left:10px;
+      right:10px;
+     }
+  }
+  p {
+    text-align: left;
+    overflow: hidden;
+    color: rgb(116, 116, 116);
+    margin: {
+      top: 0px;
+      left:1px;
+      right:1px;
+      bottom: 1px;
+     }
+  }
+
+
+
+
+
+    &-banner {
+      display: flex;
+      justify-content: center;
+      width: 200px;
+      height: 80px;
+      margin: {
+        top: 10px;
+        bottom: 10px;
+
+      }
+       
+      
+      &_img{
+          width: 65px;
+          height: 65px;
+          border-radius: 50%;
+          border : 3px solid red;
+          overflow: hidden;
+          margin: {
+            top: 10px;
+          }
+        }
+
+    }
+  }
+// // DETAILS
+// .Details {
+//   width: 130px;
+//   height: 100px;
+//   margin: {
+//     right:5px;
+//     left: 5px;
+//     top: 2px;
+//   }
+
+// }
+  

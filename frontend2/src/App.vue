@@ -162,7 +162,7 @@ export default {
 <style scoped lang="scss">
 footer {
   position: absolute;
-
+  
   width:100%;
 
   line-height: 25vh;
