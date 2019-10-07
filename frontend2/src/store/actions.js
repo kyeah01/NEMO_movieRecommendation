@@ -5,7 +5,7 @@ export default {
     const movies = resp.data.map(d => ({
       id: d.id,
       title: d.title,
-      genres: d.genres,
+      genres: d.genres_array,
       viewCnt: d.view_cnt,
       rating: d.average_rating,
       comments: d.rating,
