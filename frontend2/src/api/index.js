@@ -7,15 +7,15 @@ const apiUrl = '/api'
 export default {
   searchMovies(params) {
     return axios.get(`${apiUrl}/movies/`, {
-      params,
+      params
     })
   },
-  searchProfile(param) {
-    return axios.get(`${ apiUrl }/profile/${ param }`)
+  searchProfile(params) {
+    return axios.get(`${ apiUrl }/profile/`, { params })
   },
   signUp(profiles) {
     return axios.post(`${ apiUrl }/auth/signup/`, profiles)
-      .then( res => {
+      .then(res => {
         if (res.status === 201) {
           return true
         } else {
@@ -43,7 +43,7 @@ export default {
           button: false,
           timer: 2000,
         });
-        return true
+        return res.data.data.username
       }
       if (res.data.status === false) {
         swal({
