@@ -38,8 +38,12 @@ export default {
   mounted() {
     // MovieImg.vue => 영화 정보 오픈 시 스크롤
     this.$EventBus.$on('movieInfoActive', (payload) => {
-      this.selectMovie(payload.info.id)
+      let waitPlease = true
+      if (waitPlease) {
+        this.selectMovie(payload.info.id)
+      }
       setTimeout(() => {
+        waitPlease = false
         this.scrollCard(payload.varified)
       }, 10)
     }),
