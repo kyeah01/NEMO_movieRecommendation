@@ -9,7 +9,7 @@
                 </div>
               <!-- 유저 신상정보 -->
               <div>
-                <span style ="display:inline-block;color:black; font-weight: bold; margin-right:1px;">user.name</span>
+                <span style ="display:inline-block;color:black; font-weight: bold; margin-right:1px;">{{ simUserInfo.username }}</span>
                 <span style ="display:inline-block;color:black;margin-left:1px;">(m)</span> 
               </div>
               <div class="separater separater__1" style="background-color: gainsboro ;">.</div> 
@@ -24,23 +24,53 @@
              
           
           
-              
-         
-
-
-
-
     
     </div>
     
 </template>
 
 <script>
+
+
+import { mapState, mapActions } from "vuex";
+
 export default {
     name : 'UserCard',
     data: () => ({
+      //  similar user 모든 정보 담기
+    simUserInfo : [],
     infoBtnToggle: 2
   }),
+
+    computed: {
+    ...mapState({
+      userData: state => state.userData,
+      userList: state => state.userData.similaruser,
+      movieList: state => state.userData.ratingmovie,
+    }),
+    //axios 요청값을 받는거
+    methods: {
+      async selectProfile(i) {
+      const resp = await api.searchProfile({'i': i})
+      this.simUserInfo = resp.data
+    },
+
+    }
+// api 요청하고 retrun 된 res 값을 -- this.userInfo
+// const res = aixos.get("~~~")
+// console.log(res)
+
+// aixos.get("~~~").then(res=>{
+//   console.log(res)
+// })
+  }
+
+  
+    
+
+
+
+
 
 }
 </script>
