@@ -52,12 +52,12 @@ export default {
             "rating_date" : currentDateWithFormat
             }
         let result = await api.newUserRating(form)
-        console.log(this.imgData.chkRated)
-        this.imgData.chkRated = true
-        // if (!(this.imgData.chkRated)) {
-        //   this.imgData.chkRated = true
-        //   this.$emit('increment')
-        // }
+        
+        if (this.imgData.chkRated === false) {
+          console.log(this.imgData.chkRated)
+          this.imgData.chkRated = true
+           this.$EventBus.$emit('increment', "??");
+        }
     }
   }
 }

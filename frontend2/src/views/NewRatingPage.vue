@@ -1,7 +1,7 @@
 <template>
   <div class="moviePage">
       <span class="newRatingTitle">영화 평점 주세요</span>
-      <newRatingCategory :movieItems="searchMovies" v-on:increment="incrementTotal"/>
+      <newRatingCategory :movieItems="searchMovies"/>
       <div class="lds-bg">
         <div v-if="loadScroll" class="lds-dual-ring"></div>
       </div>
@@ -34,13 +34,15 @@ export default {
     // })
     this.scroll(this.searchMovies)
   },
+  created() {
+    this.$EventBus.$on('message', (text) => {
+    console.log(text);
+});
+  },
   beforeMount() {
     this.getInitialMovies()
   },
   methods: {
-    incrementTotal: function () {
-      this.cntRated += 1
-    },
     getInitialMovies () {
       for (var i = 0; i < 12; i++) {
         this.searchMovies.push(this.$store.state.movieSearchList[i])

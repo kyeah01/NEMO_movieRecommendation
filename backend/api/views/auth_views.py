@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.shortcuts import get_object_or_404, render
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -46,6 +46,7 @@ def signup(request):
 # 0828 / user login
 @api_view(['POST'])
 def userLogin(request):
+    
     statCode = False
     serialData = { 'status': statCode, 'data': {}}
     # request payload에서 id, pw를 추출
@@ -67,7 +68,12 @@ def userLogin(request):
         serialData['data'] = serializer.data
         profile = get_object_or_404(Profile, id=serializer.data['id'])
         serializer = ProfileSerializer(profile)
-        serialData['data'].update({'subscription':serializer.data['subscription']})
+        print(serializer.data['subscription_date'])
+        now = round(datetime.now().timestamp()) - (int(serializer.data['subscription_date']))
+        test = datetime.fromtimestamp(int(now)).strftime('%d')
+        test2 = timedelta(days=30) - timedelta(days=int(test))
+        print(test2)
+        serialData['data'].update({'subscription':serializer.data['subscription'], 'remainingPeriod' : test2})
         return Response(data=serialData , status=status.HTTP_200_OK)
     # 실패시 빈값 return
     return Response(data=serialData, status=status.HTTP_200_OK)

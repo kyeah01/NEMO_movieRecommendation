@@ -34,7 +34,7 @@ export default {
         'Content-Type': 'application/json',
       }
     }).then(res => {
-      if (res.data.data && res.status === 200) {
+      if (res.data.data && res.data.status === true) {
         session.set('drf', res.data.data)
         swal({
           title : res.data.data.username + "님 반갑습니다!",
