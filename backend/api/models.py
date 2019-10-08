@@ -23,6 +23,7 @@ class Profile(models.Model):
     # 구독
     subscription = models.BooleanField(default=False)
     subscription_date = models.CharField(default='', max_length=200)
+    your_taste_movie = models.TextField(default='')
 
 #  wrapper for create user Profile
 def create_profile(**kwargs):
@@ -51,6 +52,7 @@ class Movie(models.Model):
     overview = models.TextField(default='')
     adult = models.BooleanField(default=False)
     recommend_movie = models.CharField(max_length=500)
+    
 
     @property
     def genres_array(self):
