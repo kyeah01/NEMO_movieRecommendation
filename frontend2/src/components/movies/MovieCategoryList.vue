@@ -3,7 +3,7 @@
     <transition name="slide" mode="out-in">
       <div>
         <div class="separater separater__trans"></div>
-        <MovieImg v-for="movie in movieItems" :key="movie.id" :imgData="{ imgSrc: movie.poster_url, title: movie.title, id: movie.id, genres: movie.genres, varified: 'none' }"/>
+        <MovieImg v-for="movie in movieItems" :key="movie.id" :imgData="{ imgSrc: movie.poster_url, title: movie.title, id: movie.id, genres: movie.genres, varified: 'none', overview: movie.overview }"/>
       </div>
     </transition>
   </div>
@@ -25,6 +25,7 @@ export default {
   data: () => ({
     showBtn: false,
   }),
+
   methods: {
     closeInfoBtn() {
       // $store 비우기
