@@ -96,6 +96,7 @@ components: {
    }
  },
   mounted() {
+    
     this.loadUser(this.user)
     // MovieImg.vue => 영화 정보 오픈 시 스크롤
     this.$EventBus.$on('movieInfoActive', (payload) => {

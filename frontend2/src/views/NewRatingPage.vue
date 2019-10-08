@@ -6,7 +6,10 @@
         <div v-if="loadScroll" class="lds-dual-ring"></div>
       </div>
       <footer class="nr--footer">
-        <div class="btn btn--primary">{{cntRated}}</div>
+        <span> 평점을 준 갯수 {{cntRated}}</span>
+        <p>평점을 준 영화가 많아 질수록 추천 영화의 정확도가 높아집니다.</p>
+        <div class="btn btn--primary" @click="goMain()">여기까지</div>
+        <div></div>
       </footer>
     </div>
 </template>
@@ -35,14 +38,19 @@ export default {
     this.scroll(this.searchMovies)
   },
   created() {
-    this.$EventBus.$on('message', (text) => {
-    console.log(text);
+    this.$EventBus.$on('increment', (text) => {
+    this.cntRated += text;
 });
   },
   beforeMount() {
     this.getInitialMovies()
   },
   methods: {
+    goMain() {
+        this.$router.push({
+            name : 'Movie'
+          })
+      },
     getInitialMovies () {
       for (var i = 0; i < 12; i++) {
         this.searchMovies.push(this.$store.state.movieSearchList[i])
@@ -76,7 +84,8 @@ export default {
         }
       }
     }
-  }
+  },
+  
 }
 </script>
 <style lang="scss">

@@ -56,7 +56,7 @@ export default {
         if (this.imgData.chkRated === false) {
           console.log(this.imgData.chkRated)
           this.imgData.chkRated = true
-           this.$EventBus.$emit('increment', "??");
+           this.$EventBus.$emit('increment', 1);
         }
     }
   }

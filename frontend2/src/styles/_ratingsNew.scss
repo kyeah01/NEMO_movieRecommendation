@@ -58,15 +58,17 @@
 
 .nr--footer {
   position: fixed;
+  padding-top: 50px;
   bottom: 0px;
   width: 100%;
   height: 100px;
-  background: linear-gradient(to bottom, rgba(70, 70, 70, 0), rgba(0, 0, 0, 0.8));;
-  opacity: 0.7;
+  background-color: $mono;
+  color: white;
   z-index: 1000;
 }
 
 .nr--footer:hover {
+  background: $mono;
   height: 200px;
   opacity: 1;
 

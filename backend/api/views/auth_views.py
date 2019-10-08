@@ -68,12 +68,8 @@ def userLogin(request):
         serialData['data'] = serializer.data
         profile = get_object_or_404(Profile, id=serializer.data['id'])
         serializer = ProfileSerializer(profile)
-        print(serializer.data['subscription_date'])
         now = round(datetime.now().timestamp()) - (int(serializer.data['subscription_date']))
-        test = datetime.fromtimestamp(int(now)).strftime('%d')
-        test2 = timedelta(days=30) - timedelta(days=int(test))
-        print(test2)
-        serialData['data'].update({'subscription':serializer.data['subscription'], 'remainingPeriod' : test2})
+        serialData['data'].update({'subscription':serializer.data['subscription'], 'remainingPeriod' : now})
         return Response(data=serialData , status=status.HTTP_200_OK)
     # 실패시 빈값 return
     return Response(data=serialData, status=status.HTTP_200_OK)
@@ -135,5 +131,4 @@ def subscription(request, user_id):
         profile = get_object_or_404(Profile, id=serializer.data['id'])
         serializer = ProfileSerializer(profile)
         serialData['data'].update({'subscription':serializer.data['subscription']})
-        print(serialData)
         return Response(data=serialData, status=status.HTTP_200_OK)
