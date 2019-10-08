@@ -18,9 +18,9 @@
                {{ userData.username }} (<span v-if="userData.gender == 'M'">Man</span> <span v-else>Women</span>)
             </div>
             <div>
-              <div class="btn btn--primary btn--md" v-if="!subscription" @click="goSubscription()">구독해</div>
-              <div class="btn btn--primary btn--md" v-if="subscription" @click="goSubscription()">구독끊어</div>
-              <div class="btn btn--primary btn--md" style = "ml-10px" @click="Go">Edit</div>
+            <!--<div class="btn btn--primary btn--md" v-if="!subscription" @click="goSubscription()">구독해</div> -->
+              <div class="btn btn--primary btn--md" v-if="subscription" @click="goSubscription()">구독 취소</div>
+              <div class="btn btn--primary btn--md"style = "margin-left:10px;"  @click="Go">Edit</div>
             </div>
           </div>
           <!-- 유저 명 / 성별 / 수정 버튼 끝 -->
@@ -101,6 +101,7 @@ components: {
    }
  },
   mounted() {
+    this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
     this.loadUser(this.user)
     // MovieImg.vue => 영화 정보 오픈 시 스크롤
     this.$EventBus.$on('movieInfoActive', (payload) => {
@@ -138,6 +139,7 @@ components: {
       if (result) {
         this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
         console.log("success")
+        this.$router.push('/')
       } else {
         console.log("error")
       }
