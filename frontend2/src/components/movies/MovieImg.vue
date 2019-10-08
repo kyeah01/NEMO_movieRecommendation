@@ -5,8 +5,11 @@
     <!-- category -->
     <div class="movieImg newImg" v-if="!isRouterChk()">
       <img style="cursor:default" :src="imgData.imgSrc" alt="moviePoster">
-      <div class="testMovie__detail">
-        <h2 style="color: white;"> {{ imgData.title }} </h2>
+      
+      <!-- Modal -->  
+    <MovieDetailModal @close="val => showModal = val" :showModal = "showModal" :imgData="{ imgSrc: imgData.imgSrc, title: imgData.title, id: imgData.id, genres: imgData.genres, overview: imgData.overview }"></MovieDetailModal>
+      <div class="testMovie__detail" @click="showModal = true">
+        <h2 style="color: white;">{{ imgData.title }}</h2>
         <p style="color: white;">{{ imgData.genres }}</p>
       </div>
     </div>
@@ -14,7 +17,11 @@
 </template>
 
 <script>
+import MovieDetailModal from '@/components/movies/MovieDetailModal'
 export default {
+  components: {
+      MovieDetailModal
+    },
   props: {
     imgData: {
       type: Object,
@@ -24,6 +31,8 @@ export default {
   data: () => ({
     isSelectedMovie: false,
     hoverChk: false,
+    showModal: false
+
   }),
   computed: {
     setToggle () {
@@ -84,4 +93,9 @@ export default {
   text-align: center;
   opacity: 0;
 }
+.testMovie__detail:hover {
+  cursor:pointer;
+}
+
+
 </style>
