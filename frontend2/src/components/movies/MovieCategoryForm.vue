@@ -7,18 +7,6 @@
         :key="item.text"
         v-for="item in genres">{{ item.text }}</option>
     </select>
-    <select class="categoryForm" :name="age" v-model="age"  @change="chk">
-      <option
-        :value="item.text"
-        :key="item.text"
-        v-for="item in ages">{{ item.text }}</option>
-    </select>
-    <select class="categoryForm" :name="occupation" v-model="occupation"  @change="chk">
-      <option
-        :value="item.text"
-        :key="item.text"
-        v-for="item in occupations">{{ item.text }}</option>
-    </select>
     <select class="categoryForm categoryForm__Sort" :name="sortOption" v-model="sortOption"  @change="chk">
       <option
         :value="item.text"
@@ -100,7 +88,7 @@ export default {
   },
   methods: {
     chk() {
-      console.log(this.genre, this.age, this.occupation)
+      console.log(this.genre)
     }
   }
 }

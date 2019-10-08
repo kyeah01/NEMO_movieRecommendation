@@ -23,14 +23,19 @@ export default {
   data: () => ({
     loadCall: false,
     loadScroll: false,
-    persons: [],
     searchMovies: [],
+
+    throwData: false,
   }),
   mounted() {
-    // MovieImg.vue => 영화 정보 오픈 시 스크롤
-    // this.$EventBus.$on('movieInfoActive', (payload) => {
-    //   this.scrollCard(payload.varified)
-    // })
+    // App.vue => 영화 정보 받음
+    this.$EventBus.$on('movieSearchList', (payload) => {
+      if (payload.str === null || payload.str === '') {
+        this.getInitialMovies()
+      } else {
+        this.setSearchMovies(payload.payload)
+      }
+    })
     this.scroll(this.searchMovies)
   },
   beforeMount() {
@@ -38,30 +43,26 @@ export default {
   },
   methods: {
     getInitialMovies () {
+      this.searchMovies = []
+      this.throwData = false
       for (var i = 0; i < 12; i++) {
         this.searchMovies.push(this.$store.state.movieSearchList[i])
       }
     },
+    setSearchMovies(movieList) {
+      this.searchMovies = movieList
+      this.throwData = true
+    },
     scroll(movieItem) {
       window.onscroll = () => {
         let bOfW = Math.round(document.documentElement.scrollTop + window.innerHeight) >= document.documentElement.offsetHeight
-        if (bOfW && this.loadCall === false) {
+        if ( bOfW && this.loadCall === false && this.throwData === false ) {
           this.loadCall = true
           this.loadScroll = true
-          // axios.get(`https://randomuser.me/api/`)
-          //   .then(response => {
-          //     let i = this.movieItems[0].items.length+1
-          //     let a = i
-          //     for (a; a < i+12; a++) {
-          //       this.movieItems[0].items.push(a)
-          //     }
-          //     this.loadScroll = false
-          //     this.loadCall = false
-          //   })
-          let i = movieItem.length
+          let i = this.searchMovies.length
           let a = i
           for ( a; a < i+12; a++ ) {
-            movieItem.push(this.$store.state.movieSearchList[a])
+            this.searchMovies.push(this.$store.state.movieSearchList[a])
           }
           setTimeout(() => {
             this.loadScroll = false
