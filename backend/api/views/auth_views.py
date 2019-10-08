@@ -126,7 +126,7 @@ def subscription(request, user_id):
         user = User.objects.get(id=user_id)
         # serializer를 통해서 user, userprofile 정보를 함께 가져옴
         serializer = UserSerializer(user)
-        
+
         serialData['data'] = serializer.data
         profile = get_object_or_404(Profile, id=serializer.data['id'])
         serializer = ProfileSerializer(profile)
