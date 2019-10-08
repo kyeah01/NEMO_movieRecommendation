@@ -10,7 +10,11 @@
   left: 0;
   right: 0;
   transition: all 0.3s ease ;
-  
+
+  &__notHome {
+    background-color: $mono;
+  }
+
   &__down {
     background: linear-gradient(to top, rgba(70, 70, 70, 0), rgba(0, 0, 0, 0.8));;
     transition: all 0.3s ease ;
@@ -23,7 +27,20 @@
     font-weight: 700;
     align-items: center;
     box-sizing: border-box;
+    text-transform: capitalize;
 
+    &__option {
+      text-decoration: none;
+      color: $white;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-right: 20px;
+
+    &:hover {
+        cursor: pointer;
+        color: red;
+      }
+    }
     &__body {
         display: flex;
         justify-content: flex-end;
@@ -39,13 +56,13 @@
           height: 1vh;
           font-size: 16px;
           font-weight: 500;
-          border-bottom: 2px solid #C8CCD4;
+          border-bottom: 2px solid $primary;
           background: none;
           border-radius: 0;
           color: $white;
           position: absolute;
-          top: 1.5vh;
-          right: 35vh;
+          top: 4vh;
+          left: 50vw;
           transition: all .15s ease;
           &:focus {
             outline: none;
@@ -63,6 +80,37 @@
     margin-right: 20px;
 
     &:hover {
+        cursor: pointer;
         color: red;
       }
 }
+
+.divFocus:focus {
+  z-index:100;
+  position: fixed;
+  top: 70px;
+  right: 0;
+  width: 150px;
+  margin-right: 55px;
+  padding: var(--space-md);
+  
+  background-color: $mono;
+
+  border-radius: var(--space-xxs);
+  text-align: start;
+  outline: none;
+  opacity: 1;
+
+  p {
+    margin: 0;
+    font-size: 2em;
+    font-weight: 700;
+    color: white;
+  }
+
+  p:hover {
+    cursor: pointer;
+    color: red;
+  }
+}
+

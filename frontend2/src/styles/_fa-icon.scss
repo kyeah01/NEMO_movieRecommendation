@@ -10,6 +10,7 @@
   }
   &:hover {
     cursor: pointer;
+    color: $primary;
   }
 }
 // angle-left
@@ -19,5 +20,13 @@
   }
   &-right {
     font-size: 7vh;
+  }
+}
+// fa-times
+.fa-times {
+  font-size: 2vw;
+  color: $white;
+  &:hover {
+    cursor: pointer;
   }
 }

@@ -1,3 +1,5 @@
+from datetime import datetime
+from django.shortcuts import get_object_or_404, render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -5,7 +7,7 @@ from api.models import create_profile, Profile
 
 # login에 필요한 것들 import
 from django.contrib.auth import login, logout, authenticate
-from api.serializers import UserSerializer, ProfileSerializer
+from api.serializers import UserSerializer, ProfileSerializer, ProfileUnRatedMovieSerializer
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 
@@ -45,7 +47,7 @@ def signup(request):
 @api_view(['POST'])
 def userLogin(request):
     statCode = False
-    serialData = { 'status': statCode, 'data': ''}
+    serialData = { 'status': statCode, 'data': {}}
     # request payload에서 id, pw를 추출
     form = request.data
     id = form.get('username', None)
@@ -63,6 +65,9 @@ def userLogin(request):
         serializer = UserSerializer(user)
         serialData['status'] = statCode
         serialData['data'] = serializer.data
+        profile = get_object_or_404(Profile, id=serializer.data['id'])
+        serializer = ProfileSerializer(profile)
+        serialData['data'].update({'subscription':serializer.data['subscription']})
         return Response(data=serialData , status=status.HTTP_200_OK)
     # 실패시 빈값 return
     return Response(data=serialData, status=status.HTTP_200_OK)
@@ -73,9 +78,56 @@ def userLogout(request):
     logout(request)
     return Response(status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+@api_view(['GET', 'PATCH'])
 def profile(request, user_id):
     if request.method == 'GET':
-        profile = Profile.objects.get(id=user_id)
+        profile = get_object_or_404(Profile, id=user_id)
+        # profile = Profile.objects.get(id=user_id)
         serializer = ProfileSerializer(profile)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    if request.method == 'PATCH':
+        profile = get_object_or_404(Profile, pk=user_id)
+        # serializer = ProfileSerializer(profile)
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            profile = serializer.save()
+            return Response(ProfileSerializer(profile).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def profileSearch(request):
+    if request.method == 'GET':
+        username = request.GET.get('username')
+        user = get_object_or_404(User, username=username)
+        profile = get_object_or_404(Profile, id=user.id)
+        serializer = ProfileSerializer(profile)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def profileUnRatedMovieSearch(request, user_id):
+    if request.method == 'GET':
+        profile = get_object_or_404(Profile, id=user_id)
+        serializer = ProfileUnRatedMovieSerializer(profile)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def subscription(request, user_id):
+    serialData = {'data': {}}
+    if request.method == "POST":
+        profile = get_object_or_404(Profile, id=user_id)
+        profile.subscription = not profile.subscription
+        if profile.subscription:
+            profile.subscription_date = round(datetime.now().timestamp())
+        profile = profile.save()
+        user = User.objects.get(id=user_id)
+        # serializer를 통해서 user, userprofile 정보를 함께 가져옴
+        serializer = UserSerializer(user)
+
+        serialData['data'] = serializer.data
+        profile = get_object_or_404(Profile, id=serializer.data['id'])
+        serializer = ProfileSerializer(profile)
+        serialData['data'].update({'subscription':serializer.data['subscription']})
+        print(serialData)
+        return Response(data=serialData, status=status.HTTP_200_OK)

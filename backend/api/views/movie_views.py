@@ -1,7 +1,8 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
 from api.models import Movie, Rating
-from api.serializers import MovieSerializer
+from api.serializers import MovieListSerializer, MovieDetailSerializer
 from rest_framework.response import Response
 
 
@@ -9,19 +10,23 @@ from rest_framework.response import Response
 def movies(request):
 
     if request.method == 'GET':
-        id = request.GET.get('id', request.GET.get('movie_id', None))
+        # movie detail로 respon함.
+        id = request.GET.get('id')
+        if id:
+            movie = get_object_or_404(Movie, pk=id)
+            serializer = MovieDetailSerializer(movie)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+
         title = request.GET.get('title', None)
         genre = request.GET.get('genre', None)
         movies = Movie.objects.all()
-        
+
         # profile에 있는 유저정보에서 나이, 성별, 직업을 가져오기
         age = request.GET.get('age', None)
         gender = request.GET.get('gender', None)
         occupation = request.GET.get('occupation', None)
         ratings = Rating.objects.all()
 
-        if id:
-            movies = movies.filter(pk=id)
         if title:
             movies = movies.filter(title__icontains=title)
         if genre:
@@ -34,7 +39,7 @@ def movies(request):
         if occupation:
             movies = sorted(list(set([rate.movie for rate in ratings if (rate.user.profile.occupation == occupation)])), key=lambda x:x.id)
 
-        serializer = MovieSerializer(movies, many=True)
+        serializer = MovieListSerializer(movies, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'DELETE':
@@ -45,24 +50,17 @@ def movies(request):
     if request.method == 'POST':
         # ID로 접근하면 UPDATE
         id = request.data.get('id')
-        if id:
-            movie = Movie.objects.get(id=id)
-            movie.backdrop_url = request.data.get('backdrop_path')
-            movie.adult = request.data.get('adult')
-            movie.overview = request.data.get('overview')
-            movie.save()
-        else:
-            movies = request.data.get('movies', None)
-            for movie in movies:
-                id = movie.get('id', None)
-                title = movie.get('title', None)
-                genres = movie.get('genres', None)
-                poster_url = movie.get('poster_url')
+        movies = request.data.get('movies', None)
+        for movie in movies:
+            id = movie.get('id', None)
+            title = movie.get('title', None)
+            genres = movie.get('genres', None)
+            poster_url = movie.get('poster_url')
 
-                # if not (id and title and genres):
-                #     continue
-                # if Movie.objects.filter(id=id).count() > 0 or Movie.objects.filter(title=title).count() > 0:
-                #     continue
+            # if not (id and title and genres):
+            #     continue
+            # if Movie.objects.filter(id=id).count() > 0 or Movie.objects.filter(title=title).count() > 0:
+            #     continue
 
-                Movie(id=id, title=title, genres='|'.join(genres), poster_url=poster_url).save()
+            Movie(id=id, title=title, genres='|'.join(genres), poster_url=poster_url).save()
         return Response(status=status.HTTP_200_OK)

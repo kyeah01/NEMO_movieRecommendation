@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -6,9 +7,13 @@ from api.models import Movie, Rating, ClusterModel, Profile
 from api.serializers import ClusterSerializer
 
 from api.views.cluster_method.make_kmeans import kmeans_user, kmeans_movie
+from api.views.cluster_method.knn import knn_movie
 from api.views.cluster_method.gmm import GaussianMix
 from api.views.cluster_method.Hierarchical import Hierarchical
-
+from api.views.recommend_method.matrix import MatrixFact
+import pandas as pd
+import numpy as np
+from api.views.cluster_method.KNN import knn_user, knn_movie
 
 @api_view(['POST'])
 def setup(request):
@@ -37,6 +42,11 @@ def cluster_user_method(request):
     if request.method == 'POST':
         method = request.data.get('method')
         params = request.data.get('params')
+
+        if method and not params:
+            if method == "knn":
+                result = knn_user(Movie.objects.all().values(), Rating.objects.all().values())[0]
+                # return 되는건 똑같으니까 똑같이 돌리면 됨
         if method and params:
             if method == 'K':
                 # kmeans algorithm 적용
@@ -66,9 +76,10 @@ def cluster_user_method(request):
         return Response(status=status.HTTP_200_OK)
 
     if request.method == 'GET':
-        now = ClusterModel.objects.get(id=1)
-        serializer = ClusterSerializer(now)
-        return Response(data=serializer.data)
+        # now = ClusterModel.objects.get(id=1)
+        # serializer = ClusterSerializer(now)
+        print('hi')
+        return Response(status=status.HTTP_200_OK)
 
 @api_view(['GET', 'POST'])
 def cluster_movie_method(request):
@@ -76,7 +87,10 @@ def cluster_movie_method(request):
         method = request.data.get('method')
         params = request.data.get('params')
 
-
+        if method and not params:
+            if method == "knn":
+                result = knn_movie(Movie.objects.all().values(), Rating.objects.all().values())
+                # return 되는건 똑같으니까 똑같이 돌리면 됨
         if method and params:
 
             if method == "K":
@@ -102,8 +116,54 @@ def cluster_movie_method(request):
             now.save()
             return Response(status=status.HTTP_200_OK)
 
-
     if request.method == 'GET':
         now = ClusterModel.objects.get(id=2)
         serializer = ClusterSerializer(now)
         return Response(data=serializer.data)
+
+@api_view(['POST'])
+def user_customized_recommendation(request):
+    method = request.data.get('method')
+    # matrix를 쓰는 경우
+    if method == "matrix":
+        movies = Movie.objects.all().values()
+        ratings = Rating.objects.all().values()
+        users = User.objects.all()
+        factorizer = MatrixFact(movies, ratings, k=3, learning_rate=0.01, reg_param=0.01, epochs=300, verbose=True)
+        result = factorizer.get_complete_matrix()
+        result = [list(map(lambda x: round(float(x),2), res)) for res in result]
+        # 결과 파일화
+        # with open('result.txt', 'w') as file:
+        #     for res in result:
+        #         for r in res:
+        #             file.write(str(r)+' ')
+        #         file.write('\n')
+        # 파일 있을 시 불러오기
+        # result = []
+        # with open('result.txt', 'r') as file:
+        #     for line in file.readlines():
+        #         result += [list(map(lambda x: round(float(x),4), line[:-2].split(' ')))]
+        for i in range(len(result)):
+            # 추천 영화의 id리스트
+            top = []
+            user_id = users[i].id
+            profile = Profile.objects.get(id=user_id)
+            rated_movie = [r.id for r in users.get(id=user_id).rating_set.all()]
+            for val in sorted(result[i]):
+                top += [j for j in range(len(result[i])) if val == result[i][j] and j not in rated_movie]
+                if len(top) > 30:
+                    break
+            # 유저 번호 뽑기
+            profile.your_taste_movie = '|'.join(list(map(str, top)))
+            profile.save()
+            return Response(status=status.HTTP_200_OK)
+    
+    if method == "knn":
+        # knn 알고리즘 구현이 필요
+        result = knn_user(Movie.objects.all().values(), Rating.objects.all().values())[1]
+        for key, value in result.items():
+            user = Profile.objects.get(id=key)
+            user.your_taste_movie = '|'.join(list(map(str, value)))
+            user.save()
+        return Response(status=status.HTTP_200_OK)
+
