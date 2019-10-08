@@ -30,7 +30,6 @@
             </transition>
           </div>
           <router-link :to="{ name: 'Admin' }" v-if="isStaff && isNotInConfig()">Admin</router-link>
-          <router-link :to="{ name: 'NewRating' }" v-if="isNotInConfig()">NewRating</router-link>
           <router-link :to="{ name: 'Movie' }" v-if="isNotInConfig()">Movie</router-link>
           <router-link :to="{ name: 'Search' }" v-if="isNotInConfig()">Search</router-link>
           <div class="navItems__option" @click="userDropdown = !userDropdown; setFocus();" v-if="isNotInConfig()">MyInfo</div>
@@ -163,7 +162,7 @@ export default {
 <style scoped lang="scss">
 footer {
   position: absolute;
-
+  
   width:100%;
 
   line-height: 25vh;

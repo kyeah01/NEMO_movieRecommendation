@@ -1,23 +1,25 @@
 <template>
   <div class="movieItem" v-if="infoToggle">
     <div class="movieInfo">
-      <h1>{{ movieInfo.title }}</h1>
-      <div>
-        <p>{{ movieInfo.average_rating }} {{ movieInfo.adult }}</p>
-        <!-- <h3 v-for="genre in movieInfo.genres_array" :key="genre">{{ genre }}</h3> -->
-        <p>{{ movieInfo.genres_array }}</p>
+      <div class="movieTcontent">
+        <h1>{{ movieInfo.title }}</h1>
+        <div class="movieRG">
+          <p class="movieR">평균 점수 {{ movieInfo.average_rating }}</p>
+          <p class="movieG" v-for="genre in movieInfo.genres_array" :key="genre"># {{ genre }}</p>
+        </div>
       </div>
       <transition-group name="test">
         <div class="movieContent" v-if="infoBtnToggle === 1" key="contentInfo">
-          <div>
+          <div class="movieOV">
             <p>{{ movieInfo.overview }}</p>
           </div>
         </div>
         <div class="movieContent movieContent__score" v-if="infoBtnToggle === 2" key="contentSimilar">
           <!-- <h1>2page</h1> -->
           <div>
-            <div>
-              별점
+            <div class="movieAvgR">
+              <h3>평균 점수 {{ movieInfo.average_rating }}</h3>
+              <span>{{ movieInfo.view_cnt }} 명</span>
             </div>
             <div>
               <div v-for="(i, index) in scorePaginatedData" :key="i.id">
@@ -52,9 +54,6 @@
         <div class="movieContent movieContent__card" v-if="infoBtnToggle === 3" key="contentDetail">
           <!-- <h1>3page</h1> -->
           <div>
-            <div>
-              옆으로가야해
-            </div>
             <div style="display: flex;">
               <div v-for="i in moviePaginatedData" :key="i" style="width: 15%; position: relative; left: 25%;">
                 <MovieMiniCard :movieId="i"/>
@@ -233,22 +232,22 @@ export default {
   height: 8vh;
   &__0 {
     position: absolute;
-    top: 30%;
+    top: 90%;
     left: 30%;
   }
   &__1 {
     position: absolute;
-    top: 30%;
+    top: 90%;
     right: 4%;
   }
   &__2 {
     position: absolute;
-    bottom: 2%;
+    bottom: -60%;
     left: 30%;
   }
   &__3 {
     position: absolute;
-    bottom: 2%;
+    bottom: -60%;
     right: 4%;
   }
   .rateStar {
