@@ -65,9 +65,11 @@
 
         <!-- 유저와 유사한 유저 목록 시작 -->
         <div class="profile-similarUser" v-if="checkToggle === 2">
-          <div v-for="i in 10" :key="i" style="display:inline-block;">
-            <UserCard />
-          </div>
+          <!-- i (similar user id 값)만 UserCard에 전달해주는 것임) -->
+          <!-- userData.similaruser.slice(0,5) -->
+          <UserCard v-for="i in userData.similaruser.slice(0,10)" :key="i" style="display:inline-block;" :simUserId="i"/>
+       
+            
         </div>
         <!-- 유저와 유사한 유저 목록 끝 -->
       <!-- 프로필 하단 컴포넌트 시작 -->

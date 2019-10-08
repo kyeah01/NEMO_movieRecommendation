@@ -11,7 +11,7 @@ export default {
     })
   },
   searchProfile(params) {
-    return axios.get(`${ apiUrl }/profile/`, { params })
+    return axios.get(`${ apiUrl }/profile/${params}`, { params })
   },
   signUp(profiles) {
     return axios.post(`${ apiUrl }/auth/signup/`, profiles)
