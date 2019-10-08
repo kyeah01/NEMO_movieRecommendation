@@ -46,7 +46,7 @@ def knn_user(movies, ratings):
     similarity_with_movie.columns=final_user.index
 
     # top 5 neighbours for each user
-    sim_user_5 = find_n_neighbours(similarity_with_user,5)
+    sim_user_5 = find_n_neighbours(similarity_with_user,30)
     # print('sim_user_5*********', sim_user_5)
     sim_user_5_dict = {}
     sim_user_5 = sim_user_5.T
@@ -54,7 +54,7 @@ def knn_user(movies, ratings):
         sim_user_5_dict[i] = sim_user_5[i].tolist()
 
     # top 5 movie recommend
-    sim_movie_5 = find_n_neighbours(similarity_with_movie,5)
+    sim_movie_5 = find_n_neighbours(similarity_with_movie,30)
 
     # print('sim_user_5!!!!!!!!', sim_movie_5)
     sim_movie_5_dict = {}
@@ -111,7 +111,7 @@ def knn_movie(movies, ratings):
     movie_user_mat_sparse = csr_matrix(movie_user_matrix.values)
     #KNN 적용하기
     # define model
-    model_knn = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=20, n_jobs=-1)
+    model_knn = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=30, n_jobs=-1)
     # fit
     # model_knn.fit(movie_user_mat_sparse)
     #KNN MOVIE RECOMMENDATIONS
@@ -131,10 +131,10 @@ def knn_movie(movies, ratings):
             # index로 영화를 찾아서
             mapper=movie_to_idx,
             # n 개의 개수만큼 정렬하기
-            n_recommendations=5)
+            n_recommendations=30)
 
         # movie idx => pk
-        for j in range(5):
+        for j in range(30):
             result[j] = movies['id'][result[j]]
 
         final_recommend[movies['id'][i]] = result
