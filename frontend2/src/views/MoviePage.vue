@@ -65,7 +65,7 @@ export default {
     setMovieItems() {
       // # 1
       // 내 추천 영화 => profile your_taste_movie
-      let reAry = this.myMovie.your_taste_movie.split('|').map(Number).sort((a, b) => { return a - b })
+      let reAry = this.myMovie.your_taste_movie.split('|').map(Number).sort((a, b) => { return a - b }).filter(function(item, pos, ary) { return !pos || item != ary[pos - 1];})
       let recommendAry = []
       reAry.forEach((el) => { recommendAry.push(this.movieList.find(movie => movie.id === el)) })
 
