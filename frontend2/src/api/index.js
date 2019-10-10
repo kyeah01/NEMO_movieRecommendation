@@ -11,7 +11,11 @@ export default {
     })
   },
   searchProfile(params) {
-    return axios.get(`${ apiUrl }/profile/${params}`, { params })
+    if (typeof(params) === "number") {
+      return axios.get(`${ apiUrl }/profile/${params}`)
+    } else {
+      return axios.get(`${ apiUrl }/profile/`, { params })  
+    }
   },
   signUp(profiles) {
     return axios.post(`${ apiUrl }/auth/signup/`, profiles)
