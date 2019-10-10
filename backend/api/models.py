@@ -61,7 +61,7 @@ class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField(
         default=1,
-        validators=[MaxValueValidator(5), MinValueValidator(0.5)]
+        validators=[MaxValueValidator(5), MinValueValidator(1)]
     )
     rating_date = models.CharField(max_length=200)
 
