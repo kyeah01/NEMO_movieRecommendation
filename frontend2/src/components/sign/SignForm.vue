@@ -34,7 +34,7 @@ export default {
         this.$store.dispatch('searchProfile', {
           'username': result
         })
-        this.$router.push('/movie')
+        this.$router.push('/newrating')
       }
     },
     Go() {

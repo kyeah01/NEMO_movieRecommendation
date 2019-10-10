@@ -99,7 +99,6 @@ export default {
     }
   },
   mounted() {
-    
     // console.log(date.getHours())
     this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
     this.searchMovies()
