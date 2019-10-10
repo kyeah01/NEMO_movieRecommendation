@@ -37,9 +37,10 @@ def signup(request):
         age = profiles.get('age', None)
         occupation = profiles.get('occupation', None)
         gender = profiles.get('gender', None)
+        your_taste_movie = "1617|1646|1511|1547|798|888|1627|1401|849|1560|1513|834|851|1501|532|1590|542|1326|1598|1355|1098|19|1584|1596|1125|1526|1265|905|1173|1493|1567"
 
         create_profile(username=username, password=password, age=age,
-                        occupation=occupation, gender=gender)
+                        occupation=occupation, gender=gender, your_taste_movie=your_taste_movie)
 
         return Response(status=status.HTTP_201_CREATED)
 

@@ -96,7 +96,7 @@ export default {
           highAry.push(this.movieList[i])
         }
       }
-      this.movieItems.push({ varified: `${ this.myMovie.username }님을 위한 영화`, items: recommendAry })
+      this.movieItems.push({ varified: `당신에게 딱 맞는 위한 영화`, items: recommendAry })
       this.movieItems.push({ varified: "since 98's", items: highAry })
     },
     async selectMovie(id) {
