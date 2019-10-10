@@ -2,7 +2,7 @@
   <div class="moviePage">
     <div>
       <MovieCateForm/>
-      <MovieCategory :movieItems="searchMovies"/>
+      <MovieCategory :movieItems="showSearchMovies"/>
       <div class="lds-bg">
         <div v-if="loadScroll" class="lds-dual-ring"></div>
       </div>
@@ -23,7 +23,9 @@ export default {
   data: () => ({
     loadCall: false,
     loadScroll: false,
+
     searchMovies: [],
+    showSearchMovies: [],
 
     throwData: false,
   }),
@@ -36,6 +38,10 @@ export default {
         this.setSearchMovies(payload.payload)
       }
     })
+    // MovieCategoryForm.vue => gere filter
+    this.$EventBus.$on('selectGenre', (payload) => {
+      this.genreFilter(payload)
+    })
     this.scroll(this.searchMovies)
   },
   beforeMount() {
@@ -43,15 +49,18 @@ export default {
   },
   methods: {
     getInitialMovies () {
-      this.searchMovies = []
+      this.searchMovies = this.$store.state.movieSearchList
+      this.showSearchMovies = this.$store.state.movieSearchList.slice(0, 12)
       this.throwData = false
-      for (var i = 0; i < 12; i++) {
-        this.searchMovies.push(this.$store.state.movieSearchList[i])
-      }
     },
     setSearchMovies(movieList) {
       this.searchMovies = movieList
-      this.throwData = true
+      if ( movieList.length > 11 ) {
+        this.showSearchMovies = this.searchMovies.slice(0, 12)
+      } else {
+        this.showSearchMovies = this.searchMovies
+        this.throwData = true
+      }
     },
     scroll(movieItem) {
       window.onscroll = () => {
@@ -59,16 +68,39 @@ export default {
         if ( bOfW && this.loadCall === false && this.throwData === false ) {
           this.loadCall = true
           this.loadScroll = true
-          let i = this.searchMovies.length
+          let i = this.showSearchMovies.length
           let a = i
-          for ( a; a < i+12; a++ ) {
-            this.searchMovies.push(this.$store.state.movieSearchList[a])
+          if ( a+12 > this.searchMovies.length ) {
+            for ( a; a < this.searchMovies.length; a++) {
+              this.showSearchMovies.push(this.searchMovies[a])
+            }
+            this.throwData = true
+          } else {
+            for ( a; a < i+12; a++ ) {
+              this.showSearchMovies.push(this.searchMovies[a])
+            }
           }
           setTimeout(() => {
             this.loadScroll = false
             this.loadCall = false
           }, 1000)
         }
+      }
+    },
+    genreFilter(genre) {
+      let filterGenre
+      if (genre != 'All genres') {
+        filterGenre = this.searchMovies.filter((item) => {
+          return item.genres.includes(genre)
+        })
+      } else {
+        filterGenre = this.searchMovies
+      }
+      if (filterGenre.length > 11) {
+        this.showSearchMovies = filterGenre.slice(0, 12)
+      } else {
+        this.showSearchMovies = filterGenre
+        this.throwData = true
       }
     }
   }

@@ -31,7 +31,7 @@
                   alt="Search"
                 >
                 <div v-if="isNotInConfig() && searchToggle === false" class="testdiv">
-                  <p v-for="i in resultQuery">
+                  <p v-for="i in resultQuery" :key="i.id">
                     {{ i.title }}
                   </p>
                 </div>
@@ -198,7 +198,7 @@ export default {
 <style scoped lang="scss">
 footer {
   position: absolute;
-  
+
   width:100%;
 
   line-height: 25vh;
