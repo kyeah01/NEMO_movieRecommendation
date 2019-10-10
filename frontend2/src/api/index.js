@@ -44,12 +44,10 @@ export default {
       .then(res => {
       if (res.status === 200) {
         session.set('token', { Authorization : "jwt " + res.data.token})
-        axios.get('api/profile/', {
-            params : { username : data.username },
-            headers : { Authorization : "jwt " + res.data.token}
+        const afterlogin = authAxios.get('/profile/', {
+            params : { username : data.username }
           })
           .then(res => {
-            console.log(res)
             const drf = {
                 "id": res.data.id,
                 "username": res.data.username,
@@ -71,6 +69,7 @@ export default {
               timer: 2000,
             });
           })
+        setTimeout(() => {afterlogin}, 1)
         return data.username
       }
       else {
