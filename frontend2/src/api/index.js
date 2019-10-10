@@ -7,14 +7,14 @@ const apiUrl = '/api'
 const authAxios = axios.create({
   baseURL: apiUrl,
   headers: {
-    ...session.getItem('token'),
+    ...session.get('token'),
     'Content-Type': 'application/json',
   },
 })
 
 export default {
   searchMovies(params) {
-    return authAxios.get(`${apiUrl}/movies/`, {
+    return axios.get(`${apiUrl}/movies/`, {
       params
     })
   },
@@ -26,7 +26,7 @@ export default {
     }
   },
   signUp(profiles) {
-    return authAxios.post('/auth/signup/', profiles)
+    return axios.post(`${ apiUrl }/auth/signup/`, profiles)
       .then(res => {
         if (res.status === 201) {
           return true
@@ -44,7 +44,7 @@ export default {
       .then(res => {
       if (res.status === 200) {
         session.set('token', { Authorization : "jwt " + res.data.token})
-        const afterlogin = authAxios.get('/profile/', {
+        authAxios.get('/profile/', {
             params : { username : data.username }
           })
           .then(res => {
@@ -61,15 +61,14 @@ export default {
                 "subscription": res.data.subscription
               }
             session.set('drf', drf)
-            swal({
-              title : data.username + "님 반갑습니다!",
-              text : "로그인에 성공 하였습니다.",
-              icon: "success",
-              button: false,
-              timer: 2000,
-            });
           })
-        setTimeout(() => {afterlogin}, 1)
+        swal({
+          title : data.username + "님 반갑습니다!",
+          text : "로그인에 성공 하였습니다.",
+          icon: "success",
+          button: false,
+          timer: 2000,
+        });
         return data.username
       }
       else {
@@ -88,7 +87,7 @@ export default {
     return authAxios.post('/auth/logout')
       .then(res => {
         if (res.status === 200) {
-          const data = session.getItem("drf")
+          const data = session.get("drf")
           swal({
             title : data.username + "님 안녕히 가십시오!",
             text : "로그아웃에 성공 하였습니다.",
