@@ -6,7 +6,7 @@ const apiUrl = '/api'
 
 const authAxios = axios.create({
   baseURL: apiUrl,
-  headers: { 
+  headers: {
     ...session.get('token'),
     'Content-Type': 'application/json',
   },
@@ -22,7 +22,7 @@ export default {
     if (typeof(params) === "number") {
       return authAxios.get(`/profile/${params}`)
     } else {
-      return authAxios.get('/profile/', { params })  
+      return authAxios.get('/profile/', { params })
     }
   },
   signUp(profiles) {
@@ -116,6 +116,7 @@ export default {
         button: false,
         timer: 2000,
       });
+      return res
     })
   },
   goClusterMovie(data) {
@@ -132,6 +133,7 @@ export default {
             button: false,
             timer: 2000,
           });
+          return res
         }
       )
   },
@@ -153,6 +155,7 @@ export default {
             button: false,
             timer: 2000,
           });
+          return res
         }
       )
   },

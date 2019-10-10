@@ -5,8 +5,8 @@
     <!-- category -->
     <div class="movieImg newImg" v-if="!isRouterChk()">
       <img style="cursor:default width:260px; height:373px; min-width:250px; max-width: 250px;" :src="imgData.imgSrc" alt="moviePoster" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'" @click="showModal = true">
-      
-      <!-- Modal -->  
+
+    <!-- Modal -->
     <MovieDetailModal @close="val => showModal = val" :showModal = "showModal" :imgData="{ imgSrc: imgData.imgSrc, title: imgData.title, id: imgData.id, genres: imgData.genres, overview: imgData.overview }" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'"></MovieDetailModal>
       <div class="testMovie__detail" @click="showModal = true">
         <h2 style="color: white;">{{ imgData.title }}</h2>

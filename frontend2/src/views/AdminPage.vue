@@ -1,7 +1,7 @@
 <template>
     <div class="flexCenter" style="color: white;">
         어드민 페이지입니다.
-        
+
         <div>
             <select class="categoryForm" :name="pickedCorA" v-model="pickedCorA" @change="changeDefalut()">
                 <option
@@ -56,12 +56,11 @@
 
         <div class="btn btn--primary btn--lg" @click="playRecommend()" :class="{'btn--disabled' : checkAll()}">저기용</div>
     </div>
-    
+
 </template>
 <script>
-import axios from 'axios'
 import api from '@/api'
-const apiUrl = '/api'
+
 export default {
     data() {
         return {
@@ -75,18 +74,18 @@ export default {
                 {text: "Cluster", value:""},
                 {text: "Algorithm", value:""},
                 ],
-            
+
             choiceMorU: [
                 {text: "Choice M or U", value:""},
                 {text: "Movie", value:""},
                 {text: "User", value:""},
-            ],  
-            
+            ],
+
             clusters : [
                 {text:'Choice Method', value:""},
                 {text:'케이민지', value:"K"},
                 {text:'가우스 엑스 마키나', value:"G"},
-                {text:'하이라이스', value:"H"},    
+                {text:'하이라이스', value:"H"},
             ],
 
             Algorithms : [
@@ -109,14 +108,14 @@ export default {
             if (this.pickedCorA==="Cluster") {
                 if (this.configData.method !== '' && this.configData.params !== 0) {
                     return false
-                } 
+                }
                 else {
                     return true
                 }
             } else {
                  if (this.configData.method !== '') {
                     return false
-                } 
+                }
                 else {
                     return true
                 }
@@ -127,7 +126,7 @@ export default {
             this.configData.params = 0
         },
         async playRecommend() {
-            
+
             if (this.pickedCorA==="Cluster") {
                 if (this.pickedMorU === "User") {
                     const data = { method: this.configData.method, params: this.configData.params }

@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import newRatingCategory from '@/components/newrating/newRatingCategory'
 import { mapActions } from "vuex"
 
@@ -87,7 +86,7 @@ export default {
       }
     }
   },
-  
+
 }
 </script>
 <style lang="scss">
