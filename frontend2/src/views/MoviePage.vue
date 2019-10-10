@@ -65,7 +65,7 @@ export default {
     setMovieItems() {
       // # 1
       // 내 추천 영화 => profile your_taste_movie
-      let reAry = this.myMovie.your_taste_movie.split('|').map(Number).sort((a, b) => { return a - b })
+      let reAry = this.myMovie.your_taste_movie.split('|').map(Number).sort((a, b) => { return a - b }).filter(function(item, pos, ary) { return !pos || item != ary[pos - 1];})
       let recommendAry = []
       reAry.forEach((el) => { recommendAry.push(this.movieList.find(movie => movie.id === el)) })
 
@@ -96,16 +96,14 @@ export default {
           highAry.push(this.movieList[i])
         }
       }
-      this.movieItems.push({ varified: `${ this.myMovie.username }님을 위한 영화`, items: recommendAry })
+      this.movieItems.push({ varified: `당신에게 딱 맞는 위한 영화`, items: recommendAry })
       this.movieItems.push({ varified: "since 98's", items: highAry })
-      console.log('setMovieItems() :', 'done')
     },
     async selectMovie(id) {
       const resp = await api.searchMovies({'id': id})
       this.selectInfo = resp.data
     },
     async getMovieListItem(param, val) {
-      console.log(param, val)
       if (param === 'genre') {
         const resp = await api.searchMovies({ 'genre': val })
         this.movieItems.push({ varified: val, items: resp.data })

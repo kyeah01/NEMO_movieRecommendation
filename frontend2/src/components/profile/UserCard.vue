@@ -1,5 +1,7 @@
 <template>
-    <div class="SimilarUserInfo" >
+  <div>
+    
+    <div class="SimilarUserInfo" v-if="simUserInfo.username">
         <!-- similar users info -->
             <!-- 유저 이미지 -->
               <div class="SimilarUserInfo-banner">
@@ -18,12 +20,10 @@
                 <p>직업: {{simUserInfo.occupation}}</p>
                 <p>한줄평: {{simUserInfo.description}} </p>
               </div>
-             
-          
-          
-    
     </div>
-    
+    <div v-else class="lds-dual-ring">
+    </div>
+  </div>
 </template>
 
 <script>
@@ -54,7 +54,7 @@ export default {
     mounted () {
       {
         // id에 해당하는 userData가 맞는지를 확인하는 함수를 불러오면서, 동시에 지금 받은 id 값을 가지고 오기
-      this.setUserProfile(this.simUserId)
+      this.setUserProfile(Number(this.simUserId))
       }
     },
     methods: {
@@ -62,7 +62,6 @@ export default {
         const resp = await api.searchProfile(userId)
         // console.log(resp.data)
         this.simUserInfo = resp.data
-        console.log(this.simUserInfo)
       }
     },
 // api 요청하고 retrun 된 res 값을 -- this.userInfo

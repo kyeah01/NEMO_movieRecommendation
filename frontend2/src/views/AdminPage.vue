@@ -91,8 +91,8 @@ export default {
 
             Algorithms : [
                 {text:'Choice Method', value:""},
-                {text:'부산경남대표방송 KNN', value:"KNN" ,},
-                {text:'빨간약 파란약', value:"MATRIX"},
+                {text:'부산경남대표방송 KNN', value:"knn" ,},
+                {text:'빨간약 파란약', value:"matrix"},
             ],
         }
     },
@@ -126,29 +126,31 @@ export default {
             this.configData.method = ''
             this.configData.params = 0
         },
-        playRecommend() {
+        async playRecommend() {
             
             if (this.pickedCorA==="Cluster") {
                 if (this.pickedMorU === "User") {
-                    // const data = { method: this.configData.method, params: this.configData.params }
-                    // await api.goClusterUser(data)
-                    return console.log(this.configData.method, this.configData.params  )
+                    const data = { method: this.configData.method, params: this.configData.params }
+                    await api.goClusterUser(data)
                 }
                 else {
-                    // const data = { method: this.configData.method, params: this.configData.params }
-                    // await api.goClusterMovie(data)
-                    return console.log(this.configData.method, this.configData.params)
+                    const data = { method: this.configData.method, params: this.configData.params }
+                    await api.goClusterMovie(data)
                 }
             } else {
-                if (this.pickedMorU === "User") {
-                    // const data = { method: this.configData.method, params: this.configData.params }
-                    // await api.goClusterUser(data)
-                    return console.log(this.configData.method)
+                if (this.configData.method === "knn") {
+                    if (this.pickedMorU === "User") {
+                        const data = { method: this.configData.method}
+                        await api.goClusterUser(data)
+                    }
+                    else {
+                        const data = { method: this.configData.method}
+                        await api.goClusterMovie(data)
+                    }
                 }
                 else {
-                    // const data = { method: this.configData.method, params: this.configData.params }
-                    // await api.goClusterMovie(data)
-                    return console.log(this.configData.method)
+                    const data = { method: this.configData.method}
+                    await api.goUserCustomizedRecommendation(data)
                 }
             }
         }

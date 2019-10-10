@@ -45,6 +45,7 @@ def cluster_user_method(request):
         if method:
             now = ClusterModel.objects.get(id=1)
             if params:
+                params = int(params)
                 algorithms = {'K':1, 'G':2, 'H':3}
                 if method == 'K':
                     # kmeans algorithm 적용
@@ -95,6 +96,7 @@ def cluster_movie_method(request):
         if method:
             now = ClusterModel.objects.get(id=2)
             if params:
+                params = int(params)
                 if method == "K":
                     result = kmeans_movie(params, Movie.objects.all().values(), Rating.objects.all().values())
 
@@ -115,6 +117,8 @@ def cluster_movie_method(request):
                 now.params = params
             else:
                 if method == "knn":
+                    print(2)
+                    pass
                     result = knn_movie(Movie.objects.all().values(), Rating.objects.all().values())
                     # return 되는건 똑같으니까 똑같이 돌리면 됨
                     for key, value in result.items():

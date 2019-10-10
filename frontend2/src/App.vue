@@ -20,13 +20,22 @@
               @click="searchToggle = !searchToggle; setFocus();"
               />
             <transition name="fade" mode="out-in">
-              <input type="text"
-                v-if="isNotInConfig() && searchToggle === false"
-                ref="search"
-                placeholder="Search"
-                @blur="searchToggle = !searchToggle"
-                alt="Search"
+              <div>
+                <input type="text"
+                  v-model="searchInput"
+                  v-if="isNotInConfig() && searchToggle === false"
+                  ref="search"
+                  placeholder="Search"
+                  @blur="escapeBlur"
+                  @keyup.enter="searchTitle()"
+                  alt="Search"
                 >
+                <div v-if="isNotInConfig() && searchToggle === false" class="testdiv">
+                  <p v-for="i in resultQuery">
+                    {{ i.title }}
+                  </p>
+                </div>
+              </div>
             </transition>
           </div>
           <router-link :to="{ name: 'Admin' }" v-if="isStaff && isNotInConfig()">Admin</router-link>
@@ -53,6 +62,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex"
 import session from "@/api/modules/session";
 import router from "@/router";
 import api from "./api";
@@ -67,15 +77,31 @@ export default {
       userInfo : false,
       isStaff: false,
       userDropdown : false,
-
       whereScroll : 0,
       searchToggle : true,
+      // search
+      searchInput: null,
+      searchItems: [],
+    }
+  },
+  computed: {
+    ...mapState({
+      movieList: state => state.movieSearchList
+    }),
+    resultQuery() {
+      if (this.searchInput) {
+        return this.movieList.filter((item) => {
+          return this.searchInput.toLowerCase().split(' ').every(v => item.title.toLowerCase().includes(v))
+        })
+      } else {
+        return this.movieList
+      }
     }
   },
   mounted() {
-    
     // console.log(date.getHours())
     this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
+    this.searchMovies()
   },
   updated() {
     if (session.check()) {
@@ -90,6 +116,7 @@ export default {
     this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
   },
   methods: {
+    ...mapActions(["searchMovies"]),
       async goSubscription() {
         const form = { id : JSON.parse(sessionStorage.getItem("drf")).id}
         const result = await api.playSubscription(form)
@@ -128,9 +155,14 @@ export default {
       this.whereScroll = window.pageYOffset
     },
     setFocus() {
+      this.$router.push({ name: 'Search' })
       let _this = this
       _this.$nextTick()
         .then(() => { _this.$refs.search.focus() })
+    },
+    escapeBlur() {
+      this.searchInput = null
+      this.searchToggle = !this.searchToggle
     },
     blurFocus() {
       let _this = this
@@ -142,6 +174,10 @@ export default {
       const result = await api.logOut()
       this.$router.push({ name: 'Home' },
       this.blurFocus())
+    },
+    searchTitle() {
+      const busInput = { payload: this.resultQuery, str: this.searchInput}
+      this.$EventBus.$emit('movieSearchList', busInput)
     }
   },
 }

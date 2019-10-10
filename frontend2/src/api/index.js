@@ -19,7 +19,11 @@ export default {
     })
   },
   searchProfile(params) {
-    return authAxios.get('/profile/', { params })
+    if (typeof(params) === "number") {
+      return authAxios.get(`/profile/${params}`)
+    } else {
+      return authAxios.get('/profile/', { params })  
+    }
   },
   signUp(profiles) {
     return axios.post(`${ apiUrl }/auth/signup/`, profiles)
@@ -123,6 +127,27 @@ export default {
       .then(res=> {
           swal({
             title : "클러스터 완료",
+            text : "아무튼 완료",
+            icon: "success",
+            button: false,
+            timer: 2000,
+          });
+        }
+      )
+  },
+  goUserCustomizedRecommendation(data) {
+    const datas =JSON.stringify({
+      method: data.method
+      })
+    return axios.post(`${apiUrl}/cluster/custom`,
+      datas,{
+        // request headers에 데이터를 json type으로 보냄
+        headers: {
+          'Content-Type': 'application/json',
+        }
+    }).then(res=> {
+          swal({
+            title : "유서 추천 영화 알고리즘",
             text : "아무튼 완료",
             icon: "success",
             button: false,
