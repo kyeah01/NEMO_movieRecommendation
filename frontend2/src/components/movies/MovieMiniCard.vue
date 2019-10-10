@@ -1,15 +1,17 @@
 <template>
   <div>
     <p>{{ setMovie.title }}</p>
-    <img class="testImg" :src="setMovie.poster_url" alt="movieposter">
+    <img class="testImg" :src="setMovie.poster_url" alt="movieposter" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'">
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    movieId: Number,
-    require: true
+    movieId: {
+      type: Number,
+      required: true
+    }
   },
   computed: {
     setMovie() {

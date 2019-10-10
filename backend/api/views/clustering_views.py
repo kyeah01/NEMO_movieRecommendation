@@ -45,6 +45,7 @@ def cluster_user_method(request):
         if method:
             now = ClusterModel.objects.get(id=1)
             if params:
+                params = int(params)
                 algorithms = {'K':1, 'G':2, 'H':3}
                 if method == 'K':
                     # kmeans algorithm 적용
@@ -95,6 +96,7 @@ def cluster_movie_method(request):
         if method:
             now = ClusterModel.objects.get(id=2)
             if params:
+                params = int(params)
                 if method == "K":
                     result = kmeans_movie(params, Movie.objects.all().values(), Rating.objects.all().values())
 
@@ -115,6 +117,8 @@ def cluster_movie_method(request):
                 now.params = params
             else:
                 if method == "knn":
+                    print(2)
+                    pass
                     result = knn_movie(Movie.objects.all().values(), Rating.objects.all().values())
                     # return 되는건 똑같으니까 똑같이 돌리면 됨
                     for key, value in result.items():
@@ -136,9 +140,9 @@ def cluster_movie_method(request):
 def user_customized_recommendation(request):
     method = request.data.get('method')
     # matrix를 쓰는 경우
+    movies = Movie.objects.all().values()
+    ratings = Rating.objects.all().values()
     if method == "matrix":
-        movies = Movie.objects.all().values()
-        ratings = Rating.objects.all().values()
         users = User.objects.all()
         factorizer = MatrixFact(movies, ratings, k=3, learning_rate=0.01, reg_param=0.01, epochs=300, verbose=True)
         result = [list(map(lambda x: round(float(x),2), res)) for res in factorizer.get_complete_matrix()]
@@ -159,7 +163,7 @@ def user_customized_recommendation(request):
     
     if method == "knn":
         # knn 알고리즘 구현이 필요
-        result = knn_user(Movie.objects.all().values(), Rating.objects.all().values())[1]
+        result = knn_user(movies, ratings)[1]
         for key, value in result.items():
             user = Profile.objects.get(id=key)
             user.your_taste_movie = '|'.join(list(map(str, value)))

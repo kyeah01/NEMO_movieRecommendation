@@ -65,7 +65,7 @@ export default {
     setMovieItems() {
       // # 1
       // 내 추천 영화 => profile your_taste_movie
-      let reAry = this.myMovie.your_taste_movie.split('|').map(Number).sort((a, b) => { return a - b })
+      let reAry = this.myMovie.your_taste_movie.split('|').map(Number).sort((a, b) => { return a - b }).filter(function(item, pos, ary) { return !pos || item != ary[pos - 1];})
       let recommendAry = []
       reAry.forEach((el) => { recommendAry.push(this.movieList.find(movie => movie.id === el)) })
 
@@ -91,12 +91,12 @@ export default {
       // # 3
       // 나름 높은거
       let highAry = []
-      for (var i=0; i < this.movieList.length; i++) {
-        if (Number(this.movieList[i].title.slice(-5, -1)) > 1997) {
-          highAry.push(this.movieList[i])
+      for (var k=0; k < this.movieList.length; k++) {
+        if (Number(this.movieList[k].title.slice(-5, -1)) > 1997) {
+          highAry.push(this.movieList[k])
         }
       }
-      this.movieItems.push({ varified: `${ this.myMovie.username }님을 위한 영화`, items: recommendAry })
+      this.movieItems.push({ varified: `당신에게 딱 맞는 위한 영화`, items: recommendAry })
       this.movieItems.push({ varified: "since 98's", items: highAry })
     },
     async selectMovie(id) {

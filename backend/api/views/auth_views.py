@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
 from django.shortcuts import get_object_or_404, render
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from api.models import create_profile, Profile
 
 # login에 필요한 것들 import
@@ -12,6 +14,7 @@ from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 
 @api_view(['POST'])
+@permission_classes((IsAdminUser, ))
 def signup_many(request):
     if request.method == 'POST':
         profiles = request.data.get('profiles', None)
@@ -29,6 +32,7 @@ def signup_many(request):
         return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
+@permission_classes((AllowAny, ))
 def signup(request):
     if request.method == 'POST':
         profiles = request.data.get('profiles', None)
@@ -37,14 +41,16 @@ def signup(request):
         age = profiles.get('age', None)
         occupation = profiles.get('occupation', None)
         gender = profiles.get('gender', None)
+        your_taste_movie = "1617|1646|1511|1547|798|888|1627|1401|849|1560|1513|834|851|1501|532|1590|542|1326|1598|1355|1098|19|1584|1596|1125|1526|1265|905|1173|1493|1567"
 
         create_profile(username=username, password=password, age=age,
-                        occupation=occupation, gender=gender)
+                        occupation=occupation, gender=gender, your_taste_movie=your_taste_movie)
 
         return Response(status=status.HTTP_201_CREATED)
 
 # 0828 / user login
 @api_view(['POST'])
+@permission_classes((AllowAny, ))
 def userLogin(request):
     
     statCode = False
@@ -79,11 +85,14 @@ def userLogin(request):
 
 # 0829 / logout
 @api_view(['POST'])
+@permission_classes((IsAuthenticated, ))
 def userLogout(request):
     logout(request)
     return Response(status=status.HTTP_200_OK)
 
 @api_view(['GET', 'PATCH'])
+@permission_classes((IsAuthenticated, ))
+@authentication_classes((JSONWebTokenAuthentication,))
 def profile(request, user_id):
     if request.method == 'GET':
         profile = get_object_or_404(Profile, id=user_id)
@@ -101,6 +110,7 @@ def profile(request, user_id):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
 def profileSearch(request):
     if request.method == 'GET':
         username = request.GET.get('username')
@@ -110,6 +120,7 @@ def profileSearch(request):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
 def profileUnRatedMovieSearch(request, user_id):
     if request.method == 'GET':
         profile = get_object_or_404(Profile, id=user_id)
@@ -118,6 +129,7 @@ def profileUnRatedMovieSearch(request, user_id):
 
 
 @api_view(['POST'])
+@permission_classes((IsAuthenticated, ))
 def subscription(request, user_id):
     serialData = {'data': {}}
     if request.method == "POST":

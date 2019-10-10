@@ -3,8 +3,8 @@
       <div class="modal-mask">
         <div class="modal-wrapper">
           <div class="modal-container">
-            
-            <img :src="imgData.imgSrc" alt="moviePoster" style="height:auto;"> 
+
+            <img :src="imgData.imgSrc" alt="moviePoster" style="height:auto;" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'">
             <div>
             <div class="modal-header">
               <div>
@@ -13,7 +13,7 @@
                 </slot>
               </div>
             </div>
-            
+
 
             <div class="modal-body">
               <slot name="body">
@@ -42,7 +42,7 @@
         </div>
       </div>
     </transition>
-  
+
 </template>
 
 <script>

@@ -1,18 +1,18 @@
 <template>
   <div>
     <h1>보고싶은 작품을 찾아보세요</h1>
-    <select class="categoryForm" :name="genre" v-model="genre" @change="chk">
+    <select class="categoryForm" :name="genre" v-model="genre" @change="selectGenre">
       <option
         :value="item.text"
         :key="item.text"
         v-for="item in genres">{{ item.text }}</option>
     </select>
-    <select class="categoryForm categoryForm__Sort" :name="sortOption" v-model="sortOption"  @change="chk">
+    <!-- <select class="categoryForm categoryForm__Sort" :name="sortOption" v-model="sortOption">
       <option
         :value="item.text"
         :key="item.text"
         v-for="item in sortOptions">{{ item.text }}</option>
-    </select>
+    </select> -->
   </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
       genres: [
         {text: "All genres"},
         {text: "Action"},{text: "Adventure"},
-        {text: "Animation"},{text: "Children"},
+        {text: "Animation"},{text: "Children's"},
         {text: "Comedy"},{text: "Crime"},
         {text: "Documentary"},{text: "Drama"},
         {text: "Fantasy"},{text: "Film-Noir"},
@@ -86,9 +86,20 @@ export default {
       ]
     }
   },
+  computed: {
+    setMovieList () {
+      return this.$store.getters.getMovieAllList
+    },
+  },
+  mounted() {
+    this.$EventBus.$on('movieSearchList', () => {
+      this.genre = 'All genres'
+    })
+  },
   methods: {
-    chk() {
-      console.log(this.genre)
+    // CategoryPage.vue => gere filter
+    selectGenre() {
+      this.$EventBus.$emit('selectGenre', this.genre)
     }
   }
 }
@@ -116,6 +127,9 @@ h1 {
   height: 7vh;
 
   color: white;
+
+  position: relative;
+  right: 32.5%;
   font-size: 1.4em;
   &__Sort {
     margin: {

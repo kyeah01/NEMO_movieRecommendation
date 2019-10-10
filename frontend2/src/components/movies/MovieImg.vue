@@ -1,7 +1,7 @@
 <template>
   <div class="movieImg">
     <!-- movie -->
-    <img v-if="isRouterChk()" :src="imgData.info.poster_url" alt="moviePoster" @click="infoActive" :class="{ selectedMovie: isSelectedMovie }">
+    <img v-if="isRouterChk()" :src="imgData.info.poster_url" alt="moviePoster" @click="infoActive" :class="{ selectedMovie: isSelectedMovie }" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'">
     <!-- category -->
     <div class="movieImg newImg" v-if="!isRouterChk()">
       <img style="cursor:default" :src="imgData.imgSrc" alt="moviePoster">
@@ -36,6 +36,7 @@ export default {
     hoverChk: false,
     showModal: false,
     selectInfo: {}
+
 
   }),
   computed: {
@@ -92,21 +93,18 @@ export default {
 
 <style lang="scss" scoped>
 .testMovie__detail {
-  // height: 43vh;
-  // width: 30vh;
-  // margin: {
-  //   left: 5px;
-  // }
   display: inline-block;
   position: relative;
+  white-space: nowrap;
+  overflow: hidden;
   top: -162px;
-  left: 0;
+  left: 2px;
 
   text-align: start;
   padding: var(--space-md);
   background-color: rgba(0, 0, 0, 0.8);
   width: auto;
-  width: 70%;
+  width: 210px;
   height: 120px;
   text-align: center;
   opacity: 0;

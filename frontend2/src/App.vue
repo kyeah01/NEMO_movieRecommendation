@@ -17,7 +17,7 @@
             <fa-icon
               icon="search"
               v-if="isNotInConfig() && searchToggle === true"
-              @click="searchToggle = !searchToggle; setFocus();"
+              @click="searchToggle = !searchToggle; setFocus(true);"
               />
             <transition name="fade" mode="out-in">
               <div>
@@ -31,7 +31,7 @@
                   alt="Search"
                 >
                 <div v-if="isNotInConfig() && searchToggle === false" class="testdiv">
-                  <p v-for="i in resultQuery">
+                  <p v-for="i in resultQuery" :key="i.id">
                     {{ i.title }}
                   </p>
                 </div>
@@ -41,7 +41,7 @@
           <router-link :to="{ name: 'Admin' }" v-if="isStaff && isNotInConfig()">Admin</router-link>
           <router-link :to="{ name: 'Movie' }" v-if="isNotInConfig()">Movie</router-link>
           <router-link :to="{ name: 'Search' }" v-if="isNotInConfig()">Search</router-link>
-          <div class="navItems__option" @click="userDropdown = !userDropdown; setFocus();" v-if="isNotInConfig()">MyInfo</div>
+          <div class="navItems__option" @click="userDropdown = !userDropdown; setFocus(false);" v-if="isNotInConfig()">MyInfo</div>
           <router-link :to="{ name: 'Sign' }" v-if="!isNotInConfig()">Login</router-link>
         </div>
       </nav>
@@ -99,8 +99,9 @@ export default {
     }
   },
   mounted() {
-    // console.log(date.getHours())
-    this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
+    if (JSON.parse(sessionStorage.getItem("drf"))) {
+      this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
+    }
     this.searchMovies()
   },
   updated() {
@@ -113,7 +114,9 @@ export default {
       this.userInfo = false
       this.isStaff = false
     }
-    this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
+    if (JSON.parse(sessionStorage.getItem("drf"))) {
+      this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
+    }
   },
   methods: {
     ...mapActions(["searchMovies"]),
@@ -122,9 +125,6 @@ export default {
         const result = await api.playSubscription(form)
         if (result) {
           this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
-          console.log("success")
-        } else {
-          console.log("error")
         }
       },
      isNotInConfig() {
@@ -136,7 +136,6 @@ export default {
       }
     },
     checkLoginANDgo() {
-        const data = JSON.parse(sessionStorage.getItem("drf"))
         if (session.check()) {
           return router.push({name : 'Movie'})
         }
@@ -154,7 +153,10 @@ export default {
     checkScroll() {
       this.whereScroll = window.pageYOffset
     },
-    setFocus() {
+    setFocus(bool) {
+      if (bool === true && this.$route.name !== 'Search') {
+        this.$router.push({ name: 'Search' })
+      }
       let _this = this
       _this.$nextTick()
         .then(() => { _this.$refs.search.focus() })
@@ -169,8 +171,7 @@ export default {
         .then(() => { _this.$refs.search.blur() })
     },
     async logOut() {
-      const data = JSON.parse(sessionStorage.getItem("drf"))
-      const result = await api.logOut()
+      await api.logOut()
       this.$router.push({ name: 'Home' },
       this.blurFocus())
     },
@@ -199,7 +200,7 @@ export default {
 <style scoped lang="scss">
 footer {
   position: absolute;
-  
+
   width:100%;
 
   line-height: 25vh;
