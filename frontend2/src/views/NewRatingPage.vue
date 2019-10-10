@@ -1,7 +1,7 @@
 <template>
   <div class="moviePage">
       <span class="newRatingTitle">영화 평점 주세요</span>
-      <newRatingCategory :movieItems="searchMovies"/>
+      <newRatingCategory :movieItems="searchMovie"/>
       <div class="lds-bg">
         <div v-if="loadScroll" class="lds-dual-ring"></div>
       </div>
@@ -17,6 +17,7 @@
 <script>
 import axios from 'axios'
 import newRatingCategory from '@/components/newrating/newRatingCategory'
+import { mapActions } from "vuex"
 
 export default {
   components: {
@@ -26,16 +27,16 @@ export default {
     loadCall: false,
     loadScroll: false,
     persons: [],
-    searchMovies: [],
+    searchMovie: [],
     cntRated : 0,
   }),
   mounted() {
-
+    this.searchMovies()
     // MovieImg.vue => 영화 정보 오픈 시 스크롤
     // this.$EventBus.$on('movieInfoActive', (payload) => {
     //   this.scrollCard(payload.varified)
     // })
-    this.scroll(this.searchMovies)
+    this.scroll(this.searchMovie)
   },
   created() {
     this.$EventBus.$on('increment', (text) => {
@@ -46,6 +47,7 @@ export default {
     this.getInitialMovies()
   },
   methods: {
+    ...mapActions(["searchMovies"]),
     goMain() {
         this.$router.push({
             name : 'Movie'
@@ -53,7 +55,7 @@ export default {
       },
     getInitialMovies () {
       for (var i = 0; i < 12; i++) {
-        this.searchMovies.push(this.$store.state.movieSearchList[i])
+        this.searchMovie.push(this.$store.state.movieSearchList[i])
       }
     },
     scroll(movieItem) {
