@@ -1,7 +1,7 @@
 const set = (name, token) => {
     sessionStorage.setItem(name, JSON.stringify(token))
 }
-const get = (name, token) => {
+const getItem = (name, token) => {
     return JSON.parse(sessionStorage.getItem(name))
 }
 const destroy = () => {
@@ -19,7 +19,7 @@ const checkStaff = () => {
 
 export default {
     set,
-    get,
+    getItem,
     destroy,
     check,
     checkStaff
