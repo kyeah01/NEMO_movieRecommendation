@@ -69,9 +69,6 @@ export default {
         return false
       }
     }
-  },
-  mounted() {
-    console.log(this.setMovieInfo)
   }
 }
 </script>

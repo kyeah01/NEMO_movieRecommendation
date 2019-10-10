@@ -155,6 +155,7 @@ export default {
       this.whereScroll = window.pageYOffset
     },
     setFocus() {
+      this.$router.push({ name: 'Search' })
       let _this = this
       _this.$nextTick()
         .then(() => { _this.$refs.search.focus() })
