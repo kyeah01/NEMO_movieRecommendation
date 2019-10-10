@@ -4,31 +4,35 @@
         <div class="modal-wrapper">
           <div class="modal-container">
             
-            <div><img :src="imgData.imgSrc" alt="moviePoster"></div>
+            <img :src="imgData.imgSrc" alt="moviePoster" style="height:auto;"> 
+            <div>
             <div class="modal-header">
               <div>
                 <slot name="header">
-                  {{ imgData.title }}
+                  <h1>{{ imgData.title }}</h1>
                 </slot>
               </div>
             </div>
+            
 
             <div class="modal-body">
               <slot name="body">
+                <h3>Genres</h3>
                 {{ imgData.genres }}
               </slot>
             </div>
 
             <div class="modal-footer">
               <slot name="footer">
+                <h3>Overview</h3>
                 {{ imgData.overview }}
               </slot>
             </div>
-
+            
             <button class="modal-default-button" @click="change()">
                   OK
             </button>
-          
+            </div>
           </div>
         </div>
       </div>
@@ -37,6 +41,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
   export default {
   props: {
     imgData: {
@@ -83,7 +89,9 @@
 }
 
 .modal-container {
-  width: 300px;
+  display: flex;
+  
+  width: 1000px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
