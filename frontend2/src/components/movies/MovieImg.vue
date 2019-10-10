@@ -5,8 +5,8 @@
     <!-- category -->
     <div class="movieImg newImg" v-if="!isRouterChk()">
       <img style="cursor:default" :src="imgData.imgSrc" alt="moviePoster">
-      
-      <!-- Modal -->  
+
+      <!-- Modal -->
     <MovieDetailModal @close="val => showModal = val" :showModal = "showModal" :imgData="{ imgSrc: imgData.imgSrc, title: imgData.title, id: imgData.id, genres: imgData.genres, overview: imgData.overview }"></MovieDetailModal>
       <div class="testMovie__detail" @click="showModal = true">
         <h2 style="color: white;">{{ imgData.title }}</h2>
@@ -68,9 +68,6 @@ export default {
         return false
       }
     }
-  },
-  mounted() {
-    console.log(this.setMovieInfo)
   }
 }
 </script>
