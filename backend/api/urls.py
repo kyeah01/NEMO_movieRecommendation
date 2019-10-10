@@ -26,8 +26,8 @@ urlpatterns = [
     path('profile/', auth_views.profileSearch, name='profileSearch'),
     url('auth/login', auth_views.userLogin, name='login'),
     url('auth/logout', auth_views.userLogout, name='logout'),
-    path('auth/', obtain_jwt_token),
 
+    path('auth/', obtain_jwt_token),
 
     path('subscription/<int:user_id>', auth_views.subscription, name="subscription"),
 ]
