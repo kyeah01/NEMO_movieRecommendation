@@ -98,14 +98,12 @@ export default {
       }
       this.movieItems.push({ varified: `${ this.myMovie.username }님을 위한 영화`, items: recommendAry })
       this.movieItems.push({ varified: "since 98's", items: highAry })
-      console.log('setMovieItems() :', 'done')
     },
     async selectMovie(id) {
       const resp = await api.searchMovies({'id': id})
       this.selectInfo = resp.data
     },
     async getMovieListItem(param, val) {
-      console.log(param, val)
       if (param === 'genre') {
         const resp = await api.searchMovies({ 'genre': val })
         this.movieItems.push({ varified: val, items: resp.data })
