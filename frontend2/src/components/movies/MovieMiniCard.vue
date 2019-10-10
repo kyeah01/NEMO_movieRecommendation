@@ -8,8 +8,10 @@
 <script>
 export default {
   props: {
-    movieId: Number,
-    require: true
+    movieId: {
+      type: Number,
+      required: true
+    }
   },
   computed: {
     setMovie() {

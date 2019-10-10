@@ -14,7 +14,7 @@ export default {
     if (typeof(params) === "number") {
       return axios.get(`${ apiUrl }/profile/${params}`)
     } else {
-      return axios.get(`${ apiUrl }/profile/`, { params })  
+      return axios.get(`${ apiUrl }/profile/`, { params })
     }
   },
   signUp(profiles) {
@@ -101,6 +101,7 @@ export default {
         button: false,
         timer: 2000,
       });
+      return res
     })
   },
   goClusterMovie(data) {
@@ -122,6 +123,7 @@ export default {
             button: false,
             timer: 2000,
           });
+          return res
         }
       )
   },
@@ -143,6 +145,7 @@ export default {
             button: false,
             timer: 2000,
           });
+          return res
         }
       )
   },

@@ -91,9 +91,9 @@ export default {
       // # 3
       // 나름 높은거
       let highAry = []
-      for (var i=0; i < this.movieList.length; i++) {
-        if (Number(this.movieList[i].title.slice(-5, -1)) > 1997) {
-          highAry.push(this.movieList[i])
+      for (var k=0; k < this.movieList.length; k++) {
+        if (Number(this.movieList[k].title.slice(-5, -1)) > 1997) {
+          highAry.push(this.movieList[k])
         }
       }
       this.movieItems.push({ varified: `당신에게 딱 맞는 위한 영화`, items: recommendAry })

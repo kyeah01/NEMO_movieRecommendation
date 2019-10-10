@@ -42,19 +42,17 @@ export default {
   },
   methods: {
     async newRating() {
-        let currentDate = new Date();
         let currentDateWithFormat = new Date().toJSON().slice(0,10).replace(/-/g,'');
         const data = JSON.parse(sessionStorage.getItem("drf"))
-        let form = { 
+        let form = {
             "user" : data.id,
             "movie" : this.imgData.id,
             "rating" : this.imgData.rating,
             "rating_date" : currentDateWithFormat
             }
-        let result = await api.newUserRating(form)
-        
+        await api.newUserRating(form)
+
         if (this.imgData.chkRated === false) {
-          console.log(this.imgData.chkRated)
           this.imgData.chkRated = true
            this.$EventBus.$emit('increment', 1);
         }

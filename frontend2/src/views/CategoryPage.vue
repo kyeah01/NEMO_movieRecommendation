@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import MovieCateForm from '@/components/movies/MovieCategoryForm'
 import MovieCategory from '@/components/movies/MovieCategoryList'
 
@@ -42,7 +41,7 @@ export default {
     this.$EventBus.$on('selectGenre', (payload) => {
       this.genreFilter(payload)
     })
-    this.scroll(this.searchMovies)
+    this.scroll()
   },
   beforeMount() {
     this.getInitialMovies()
@@ -62,7 +61,7 @@ export default {
         this.throwData = true
       }
     },
-    scroll(movieItem) {
+    scroll() {
       window.onscroll = () => {
         let bOfW = Math.round(document.documentElement.scrollTop + window.innerHeight) >= document.documentElement.offsetHeight
         if ( bOfW && this.loadCall === false && this.throwData === false ) {
