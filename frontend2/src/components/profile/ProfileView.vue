@@ -61,7 +61,7 @@
                 <MovieCard :varified="movieItem.varified" :movieInfo="selectInfo"/>
               </transition>
             </div>
-            <div class="lds-bg"/>
+            
         </div>
         <!-- 유저가 본 영화 목록 끝 -->
 
@@ -76,6 +76,7 @@
         <!-- 유저와 유사한 유저 목록 끝 -->
       <!-- 프로필 하단 컴포넌트 시작 -->
     </div>
+    <div class="lds-bg"/>
   </div>
 </template>
 
