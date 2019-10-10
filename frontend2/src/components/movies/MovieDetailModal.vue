@@ -9,7 +9,7 @@
             <div class="modal-header">
               <div>
                 <slot name="header">
-                  <h1>{{ imgData.title }}</h1>
+                  <h2>{{ imgData.title }}</h2>
                 </slot>
               </div>
             </div>
@@ -28,7 +28,12 @@
                 {{ imgData.overview }}
               </slot>
             </div>
+            <!--rating 준 user-->
+            <div v-for="info in scoredData" :scroll.passive="onScroll">
+              {{ info.user }} {{ info.rating }}
+            </div>
 
+            
             <button class="modal-default-button" @click="change()">
                   OK
             </button>
@@ -41,8 +46,13 @@
 </template>
 
 <script>
+
   export default {
   props: {
+    movieInfo: {
+      type: Object,
+      required: true
+    },
     imgData: {
       type: Object,
       required: true
@@ -57,6 +67,15 @@
           changeModal: true
       }
   },
+  mounted() {
+    console.log(this.movieInfo)
+  },
+  computed: {
+      scoredData () {
+      return this.movieInfo.rating
+    },
+  },
+
   methods: {
     change() {
       this.$emit('close', false)
@@ -88,8 +107,9 @@
 
 .modal-container {
   display: flex;
-
-  width: 1000px;
+  
+  width: 850px;
+  height: auto;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
