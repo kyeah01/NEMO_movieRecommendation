@@ -1,5 +1,7 @@
 <template>
-    <div class="SimilarUserInfo" >
+  <div>
+    
+    <div class="SimilarUserInfo" v-if="simUserInfo.username">
         <!-- similar users info -->
             <!-- 유저 이미지 -->
               <div class="SimilarUserInfo-banner">
@@ -18,12 +20,10 @@
                 <p>직업: {{simUserInfo.occupation}}</p>
                 <p>한줄평: {{simUserInfo.description}} </p>
               </div>
-             
-          
-          
-    
     </div>
-    
+    <div v-else class="lds-dual-ring">
+    </div>
+  </div>
 </template>
 
 <script>
