@@ -4,8 +4,8 @@
         <div class="modal-wrapper">
           <div class="modal-container">
 
-            <img :src="imgData.imgSrc" alt="moviePoster" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'">
-            <div>
+            <img :src="imgData.imgSrc" alt="moviePoster" style="height:500px;" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'">
+            <div class="modal-detail">
               <div class="modal-header">
                 <div>
                   <slot name="header">
@@ -46,10 +46,30 @@
                 </slot>
               </div>
               <!--rating 준 user-->
-              <div v-for="info in scoredData">
-                {{ info.user }} {{ info.rating }}
+              <h3>User Rating</h3>
+              <div class="modal-rating">
+                <div v-for="info in scoredData" >
+                    <ul class="rating">
+                      <span> {{ info.user }}</span>
+                      <input type="radio" :id="info.user+'5'" :name="info.user+'5'" value="5" v-model="info.rating" /><label class = "full" :for="info.user+'5'" title="Awesome - 5 stars"></label>
+                      <!-- <input type="radio" :id="imgData.title+'4.5'" :name="imgData.title+'4.5'" value="4.5" v-model="imgData.rating" /><label class="half" :for="imgData.title+'4.5'" title="Pretty good - 4.5 stars" @click="newRating()"></label> -->
+                      <input type="radio" :id="info.user+'4'" :name="info.user+'4'" value="4" v-model="info.rating"/><label class = "full" :for="info.user+'4'" title="Pretty good - 4 stars" ></label>
+                      <!-- <input type="radio" :id="imgData.title+'3.5'" :name="imgData.title+'3.5'" value="3.5" v-model="imgData.rating" /><label class="half" :for="imgData.title+'3.5'" title="Meh - 3.5 stars" @click="newRating()"></label> -->
+                      <input type="radio" :id="info.user+'3'" :name="info.user+'3'" value="3" v-model="info.rating"/><label class = "full" :for="info.user+'3'" title="Meh - 3 stars" ></label>
+                      <!-- <input type="radio" :id="imgData.title+'2.5'" :name="imgData.title+'2.5'" value="2.5" v-model="imgData.rating" /><label class="half" :for="imgData.title+'2.5'" title="Kinda bad - 2.5 stars" @click="newRating()"></label> -->
+                      <input type="radio" :id="info.user+'2'" :name="info.user+'2'" value="2" v-model="info.rating" /><label class = "full" :for="info.user+'2'" title="Kinda bad - 2 stars" ></label>
+                      <!-- <input type="radio" :id="imgData.title+'1.5'" :name="imgData.title+'1.5'" value="1.5" v-model="imgData.rating" /><label class="half" :for="imgData.title+'1.5'" title="Meh - 1.5 stars" @click="newRating()"></label> -->
+                      <input type="radio" :id="info.user+'1'" :name="info.user+'1'" value="1"  v-model="info.rating"/><label class = "full" :for="info.user+'1'" title="Sucks big time - 1 star" ></label>
+                      <!-- <input type="radio" :id="imgData.title+'0.5'" :name="imgData.title+'0.5'" value="0.5" v-model="imgData.rating"/><label class="half" :for="imgData.title+'0.5'" title="Sucks big time - 0.5 stars" @click="newRating()"></label> -->
+                  </ul>
+                </div>
               </div>
 
+              
+              <div class="btn btn--primary modal-default-button" @click="change()">
+                    OK
+              </div>
+              </div>
             </div>
           </div>
         </div>
@@ -59,9 +79,11 @@
 </template>
 
 <script>
-import newRatingImg from '@/components/newrating/newRatingImg'
-
+  import star from '@/components/modules/star'
   export default {
+    components: {
+      star
+    },
   props: {
     movieInfo: {
       type: Object,
@@ -107,9 +129,23 @@ import newRatingImg from '@/components/newrating/newRatingImg'
 
 </script>
 
-<style>
+<style lang="scss" scope>
 /*modal*/
+ul {
+  padding: 0px;
+  width: 80%;
 
+  span{
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 40px;
+  }
+}
+
+.modal-detail{
+  padding-left: 20px;
+  text-align: start;
+}
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -175,6 +211,22 @@ import newRatingImg from '@/components/newrating/newRatingImg'
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
+.modal-rating {
+  height: 250px;
+  overflow: auto;
+}
 
+.rating > input:checked ~ label/* show gold star when clicked */
+{color: red !important;}/* hover previous stars in list */
 
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: lightgrey !important;} 
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover
+{ color: red !important;  }
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label {
+  color: red !important;
+}
 </style>

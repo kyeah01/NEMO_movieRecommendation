@@ -1,15 +1,12 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework.decorators import api_view
 from api.models import Movie, Rating
 from api.serializers import MovieListSerializer, MovieDetailSerializer
 from rest_framework.response import Response
 
-# 인증
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 @api_view(['GET', 'POST', 'DELETE'])
-@permission_classes((IsAuthenticatedOrReadOnly, ))
 def movies(request):
 
     if request.method == 'GET':
