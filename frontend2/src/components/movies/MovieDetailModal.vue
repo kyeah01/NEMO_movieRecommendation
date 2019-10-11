@@ -31,10 +31,8 @@
               <div class="modal-body">
                 <slot name="body">
                   <h3>Genres</h3>
-                  <p v-for="genre in imgData.genres"  style="display: inline;">
-                    | {{ genre }}
-                  </p>
-
+                  <li v-for="genre in imgData.genres.slice(0, imgData.genres.length-1)" style="display:inline;" > {{genre}} |</li>
+                  <li v-for="genre in imgData.genres.slice(imgData.genres.length-1, imgData.genres.length)" style="display:inline;" > {{genre}} </li>
                 </slot>
               </div>
 
@@ -80,6 +78,7 @@
 <script>
   import star from '@/components/modules/star'
   import api from '@/api'
+  import swal from 'sweetalert';
   export default {
     components: {
       star
@@ -132,7 +131,7 @@
           text: "\n",   
           icon: "success",
           button: false,
-          timer: 2000})
+          timer: 1000})
     }
     },
     change() {
