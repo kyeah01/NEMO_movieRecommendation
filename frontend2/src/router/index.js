@@ -28,17 +28,12 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to, from, next)
   if (to.name == 'Home' || to.name == 'Sign') {
-    console.log(1)
     if (sessionStorage.hasOwnProperty('drf')) {
-    console.log(2)
       return next('/movie')
     }
   } else {
-    console.log(3)
     if (!sessionStorage.hasOwnProperty('drf')) {
-    console.log(4)
       return next('/')
     }
   }

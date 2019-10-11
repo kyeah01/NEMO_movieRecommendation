@@ -7,12 +7,12 @@
       <img @click="toggleModal(imgData.id)" style="cursor:default width:260px;height:373px; min-width:250px; max-width: 250px;" :src="imgData.imgSrc" alt="moviePoster" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'">
 
       <!-- Modal -->
-    <MovieDetailModal @close="val => showModal = val" :showModal = "showModal" :movieInfo="selectInfo" :imgData="{ imgSrc: imgData.imgSrc, title: imgData.title, id: imgData.id, genres: imgData.genres, overview: imgData.overview }"></MovieDetailModal>
+    <MovieDetailModal v-if="showModal" @close="val => showModal = val" :showModal = "showModal" :movieInfo="selectInfo" :imgData="{ imgSrc: imgData.imgSrc, title: imgData.title, id: imgData.id, genres: imgData.genres, overview: imgData.overview }"></MovieDetailModal>
       <div class="testMovie__detail" @click="toggleModal(imgData.id)">
         <h2 style="color: white;">{{ imgData.title }}</h2>
         <ul style=" display:inline;">
-          <li v-for="genre in imgData.genres.slice(0, imgData.genres.length-1)" style="color: white; text-align:left; margin-bottom:2px; display:inline;" > {{genre}} |</li>
-          <li v-for="genre in imgData.genres.slice(imgData.genres.length-1, imgData.genres.length)" style="color: white; text-align:left; margin-bottom:2px; display:inline;" > {{genre}} </li>
+          <li v-for="genre in imgData.genres.slice(0, imgData.genres.length-1)" :key="genre" style="color: white; text-align:left; margin-bottom:2px; display:inline;" > {{genre}} |</li>
+          <li v-for="genre in imgData.genres.slice(imgData.genres.length-1, imgData.genres.length)" :key="genre" style="color: white; text-align:left; margin-bottom:2px; display:inline;" > {{genre}} </li>
         </ul>
       </div>
     </div>
