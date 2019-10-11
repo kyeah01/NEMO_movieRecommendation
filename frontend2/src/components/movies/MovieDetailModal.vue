@@ -65,7 +65,7 @@
                 </div>
               </div>
 
-              
+
               <div class="btn btn--primary modal-default-button" @click="change()">
                     OK
               </div>
@@ -89,10 +89,6 @@
       type: Object,
       required: true
     },
-    movieItems: {
-      type: Array,
-      required: true
-    },
     imgData: {
       type: Object,
       required: true
@@ -106,13 +102,6 @@
       return {
           changeModal: true
       }
-  },
-  mounted() {
-    /*jslint devel: true */
-    /* eslint-disable no-console */
-    /*eslint no-undef: "error"*/
-    /*eslint-env node*/
-    console.log(this.movieItems)
   },
   computed: {
       scoredData () {
@@ -220,7 +209,7 @@ ul {
 {color: red !important;}/* hover previous stars in list */
 
 .rating:not(:checked) > label:hover, /* hover current star */
-.rating:not(:checked) > label:hover ~ label { color: lightgrey !important;} 
+.rating:not(:checked) > label:hover ~ label { color: lightgrey !important;}
 
 .rating > input:checked + label:hover, /* hover current star when changing rating */
 .rating > input:checked ~ label:hover
