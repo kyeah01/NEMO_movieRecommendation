@@ -1,8 +1,8 @@
 const set = (name, token) => {
     sessionStorage.setItem(name, JSON.stringify(token))
 }
-const get = (name, token) => {
-    return JSON.parse(sessionStorage.getItem(name))
+const get = () => {
+    return JSON.parse(sessionStorage.getItem('drf')).username
 }
 const destroy = () => {
     sessionStorage.removeItem("drf")
