@@ -8,7 +8,7 @@
       
       <!-- Modal -->  
     <MovieDetailModal @close="val => showModal = val" :showModal = "showModal" :movieInfo="selectInfo" :imgData="{ imgSrc: imgData.imgSrc, title: imgData.title, id: imgData.id, genres: imgData.genres, overview: imgData.overview }"></MovieDetailModal>
-      <div class="testMovie__detail" @click="showModal = true">
+      <div class="testMovie__detail" @click="toggleModal(imgData.id)">
         <h2 style="color: white;">{{ imgData.title }}</h2>
         <p style="color: white;">{{ imgData.genres }}</p>
       </div>
@@ -18,7 +18,7 @@
 
 <script>
 import MovieDetailModal from '@/components/movies/MovieDetailModal'
-import { mapState, mapActions, mapGetters } from "vuex"
+import { mapActions, mapGetters } from "vuex"
 import api from '@/api'
 
 export default {
@@ -30,6 +30,10 @@ export default {
       type: Object,
       required: true
     },
+    movieItems: {
+      type: Array,
+      required: true
+    }
   },
   data: () => ({
     isSelectedMovie: false,
@@ -48,12 +52,6 @@ export default {
     }
   },
 
-  mounted() {
-    this.selectMovie(this.imgData.id)
-    this.searchMovies()
-    // console.log(this.selectInfo)
-  },
-
   watch: {
     setToggle (val) {
       if (!val) { this.isSelectedMovie = false }
@@ -68,7 +66,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["searchMovies"]),
+    // ...mapActions(["searchMovies"]),
     async selectMovie(id) {
       const resp = await api.searchMovies({'id': id})
       this.selectInfo = resp.data
@@ -85,6 +83,10 @@ export default {
       } else {
         return false
       }
+    },
+    toggleModal(id) {
+      this.showModal = true
+      this.selectMovie(id)
     }
   }
 

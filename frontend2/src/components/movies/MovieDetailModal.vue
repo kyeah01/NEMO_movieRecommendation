@@ -4,39 +4,52 @@
         <div class="modal-wrapper">
           <div class="modal-container">
 
-            <img :src="imgData.imgSrc" alt="moviePoster" style="height:auto;" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'">
+            <img :src="imgData.imgSrc" alt="moviePoster" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'">
             <div>
-            <div class="modal-header">
-              <div>
-                <slot name="header">
-                  <h2>{{ imgData.title }}</h2>
+              <div class="modal-header">
+                <div>
+                  <slot name="header">
+                    <h2>{{ imgData.title }}</h2>
+                  </slot>
+                </div>
+                <div class="testRatings__detail-body">
+                  <fieldset class="rating">
+                    <input type="radio" :id="imgData.title+'5'" :name="imgData.title+'5'" value="5" v-model="imgData.rating" /><label class = "full" :for="imgData.title+'5'" title="Awesome - 5 stars" @click="newRating()"></label>
+                    <!-- <input type="radio" :id="imgData.title+'4.5'" :name="imgData.title+'4.5'" value="4.5" v-model="imgData.rating" /><label class="half" :for="imgData.title+'4.5'" title="Pretty good - 4.5 stars" @click="newRating()"></label> -->
+                    <input type="radio" :id="imgData.title+'4'" :name="imgData.title+'4'" value="4" v-model="imgData.rating"/><label class = "full" :for="imgData.title+'4'" title="Pretty good - 4 stars" @click="newRating()"></label>
+                    <!-- <input type="radio" :id="imgData.title+'3.5'" :name="imgData.title+'3.5'" value="3.5" v-model="imgData.rating" /><label class="half" :for="imgData.title+'3.5'" title="Meh - 3.5 stars" @click="newRating()"></label> -->
+                    <input type="radio" :id="imgData.title+'3'" :name="imgData.title+'3'" value="3" v-model="imgData.rating"/><label class = "full" :for="imgData.title+'3'" title="Meh - 3 stars" @click="newRating()"></label>
+                    <!-- <input type="radio" :id="imgData.title+'2.5'" :name="imgData.title+'2.5'" value="2.5" v-model="imgData.rating" /><label class="half" :for="imgData.title+'2.5'" title="Kinda bad - 2.5 stars" @click="newRating()"></label> -->
+                    <input type="radio" :id="imgData.title+'2'" :name="imgData.title+'2'" value="2" v-model="imgData.rating" /><label class = "full" :for="imgData.title+'2'" title="Kinda bad - 2 stars" @click="newRating()"></label>
+                    <!-- <input type="radio" :id="imgData.title+'1.5'" :name="imgData.title+'1.5'" value="1.5" v-model="imgData.rating" /><label class="half" :for="imgData.title+'1.5'" title="Meh - 1.5 stars" @click="newRating()"></label> -->
+                    <input type="radio" :id="imgData.title+'1'" :name="imgData.title+'1'" value="1"  v-model="imgData.rating"/><label class = "full" :for="imgData.title+'1'" title="Sucks big time - 1 star" @click="newRating()"></label>
+                    <!-- <input type="radio" :id="imgData.title+'0.5'" :name="imgData.title+'0.5'" value="0.5" v-model="imgData.rating"/><label class="half" :for="imgData.title+'0.5'" title="Sucks big time - 0.5 stars" @click="newRating()"></label> -->
+                </fieldset>
+              </div>
+              </div>
+
+              <button class="modal-default-button" @click="change()">
+                    OK
+              </button>
+
+              <div class="modal-body">
+                <slot name="body">
+                  <h3>Genres</h3>
+                  {{ imgData.genres }}
                 </slot>
               </div>
-            </div>
 
+              <div class="modal-footer">
+                <slot name="footer">
+                  <h3>Overview</h3>
+                  {{ imgData.overview }}
+                </slot>
+              </div>
+              <!--rating 준 user-->
+              <div v-for="info in scoredData">
+                {{ info.user }} {{ info.rating }}
+              </div>
 
-            <div class="modal-body">
-              <slot name="body">
-                <h3>Genres</h3>
-                {{ imgData.genres }}
-              </slot>
-            </div>
-
-            <div class="modal-footer">
-              <slot name="footer">
-                <h3>Overview</h3>
-                {{ imgData.overview }}
-              </slot>
-            </div>
-            <!--rating 준 user-->
-            <div v-for="info in scoredData" :scroll.passive="onScroll">
-              {{ info.user }} {{ info.rating }}
-            </div>
-
-            
-            <button class="modal-default-button" @click="change()">
-                  OK
-            </button>
             </div>
           </div>
         </div>
@@ -46,11 +59,16 @@
 </template>
 
 <script>
+import newRatingImg from '@/components/newrating/newRatingImg'
 
   export default {
   props: {
     movieInfo: {
       type: Object,
+      required: true
+    },
+    movieItems: {
+      type: Array,
       required: true
     },
     imgData: {
@@ -68,7 +86,11 @@
       }
   },
   mounted() {
-    console.log(this.movieInfo)
+    /*jslint devel: true */
+    /* eslint-disable no-console */
+    /*eslint no-undef: "error"*/
+    /*eslint-env node*/
+    console.log(this.movieItems)
   },
   computed: {
       scoredData () {
@@ -107,7 +129,6 @@
 
 .modal-container {
   display: flex;
-  
   width: 850px;
   height: auto;
   margin: 0px auto;
