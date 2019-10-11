@@ -11,16 +11,16 @@
                   <slot name="header">
                     <h2>{{ imgData.title }}</h2>
                       <div class="testRatings__detail-body" style="display: inline-block;">
-                        <fieldset class="rating">
-                          <input type="radio" :id="imgData.title+'5'" :name="imgData.title+'5'" value="5" v-model="imgData.rating" /><label class = "full" :for="imgData.title+'5'" title="Awesome - 5 stars" @click="newRating()"></label>
+                        <fieldset class="rating" @change="newRating()">
+                          <input type="radio" :id="imgData.title+'5'" :name="imgData.title+'5'" value="5" v-model="editScore" /><label class = "full" :for="imgData.title+'5'" title="Awesome - 5 stars"></label>
                           <!-- <input type="radio" :id="imgData.title+'4.5'" :name="imgData.title+'4.5'" value="4.5" v-model="imgData.rating" /><label class="half" :for="imgData.title+'4.5'" title="Pretty good - 4.5 stars" @click="newRating()"></label> -->
-                          <input type="radio" :id="imgData.title+'4'" :name="imgData.title+'4'" value="4" v-model="imgData.rating"/><label class = "full" :for="imgData.title+'4'" title="Pretty good - 4 stars" @click="newRating()"></label>
+                          <input type="radio" :id="imgData.title+'4'" :name="imgData.title+'4'" value="4" v-model="editScore"/><label class = "full" :for="imgData.title+'4'" title="Pretty good - 4 stars"></label>
                           <!-- <input type="radio" :id="imgData.title+'3.5'" :name="imgData.title+'3.5'" value="3.5" v-model="imgData.rating" /><label class="half" :for="imgData.title+'3.5'" title="Meh - 3.5 stars" @click="newRating()"></label> -->
-                          <input type="radio" :id="imgData.title+'3'" :name="imgData.title+'3'" value="3" v-model="imgData.rating"/><label class = "full" :for="imgData.title+'3'" title="Meh - 3 stars" @click="newRating()"></label>
+                          <input type="radio" :id="imgData.title+'3'" :name="imgData.title+'3'" value="3" v-model="editScore"/><label class = "full" :for="imgData.title+'3'" title="Meh - 3 stars"></label>
                           <!-- <input type="radio" :id="imgData.title+'2.5'" :name="imgData.title+'2.5'" value="2.5" v-model="imgData.rating" /><label class="half" :for="imgData.title+'2.5'" title="Kinda bad - 2.5 stars" @click="newRating()"></label> -->
-                          <input type="radio" :id="imgData.title+'2'" :name="imgData.title+'2'" value="2" v-model="imgData.rating" /><label class = "full" :for="imgData.title+'2'" title="Kinda bad - 2 stars" @click="newRating()"></label>
+                          <input type="radio" :id="imgData.title+'2'" :name="imgData.title+'2'" value="2" v-model="editScore" /><label class = "full" :for="imgData.title+'2'" title="Kinda bad - 2 stars"></label>
                           <!-- <input type="radio" :id="imgData.title+'1.5'" :name="imgData.title+'1.5'" value="1.5" v-model="imgData.rating" /><label class="half" :for="imgData.title+'1.5'" title="Meh - 1.5 stars" @click="newRating()"></label> -->
-                          <input type="radio" :id="imgData.title+'1'" :name="imgData.title+'1'" value="1"  v-model="imgData.rating"/><label class = "full" :for="imgData.title+'1'" title="Sucks big time - 1 star" @click="newRating()"></label>
+                          <input type="radio" :id="imgData.title+'1'" :name="imgData.title+'1'" value="1"  v-model="editScore"/><label class = "full" :for="imgData.title+'1'" title="Sucks big time - 1 star"></label>
                           <!-- <input type="radio" :id="imgData.title+'0.5'" :name="imgData.title+'0.5'" value="0.5" v-model="imgData.rating"/><label class="half" :for="imgData.title+'0.5'" title="Sucks big time - 0.5 stars" @click="newRating()"></label> -->
                         </fieldset>
                       </div>
@@ -31,8 +31,8 @@
               <div class="modal-body">
                 <slot name="body">
                   <h3>Genres</h3>
-                  <li v-for="genre in imgData.genres.slice(0, imgData.genres.length-1)" style="display:inline;" > {{genre}} |</li>
-                  <li v-for="genre in imgData.genres.slice(imgData.genres.length-1, imgData.genres.length)" style="display:inline;" > {{genre}} </li>
+                  <li v-for="genre in imgData.genres.slice(0, imgData.genres.length-1)" :key="genre" style="display:inline;" > {{genre}} |</li>
+                  <li v-for="genre in imgData.genres.slice(imgData.genres.length-1, imgData.genres.length)" :key="genre" style="display:inline;" > {{genre}} </li>
                 </slot>
               </div>
 
@@ -45,7 +45,7 @@
               <!--rating 준 user-->
               <h3>User Rating</h3>
               <div class="modal-rating">
-                <div v-for="info in scoredData" :key="info">
+                <div v-for="info in scoredData" :key="info.id">
                     <ul class="rating">
                       <span> {{ info.user }}</span>
                       <input type="radio" :id="info.user+'5'" :name="info.user+'5'" value="5" v-model="info.rating" /><label class = "full" :for="info.user+'5'" title="Awesome - 5 stars"></label>
@@ -75,6 +75,7 @@
 
 <script>
   import api from '@/api'
+  import session from '@/api/modules/session'
   import swal from 'sweetalert';
   export default {
   props: {
@@ -93,16 +94,25 @@
 
   data: function() {
       return {
-          changeModal: true
+          changeModal: true,
+          editScore: 0,
+          callValue: false
       }
   },
 
   computed: {
-      scoredData () {
+    scoredData () {
       return this.movieInfo.rating
-    },
+    }
   },
-
+  watch: {
+    scoredData() {
+      if (!this.callValue) {
+        this.editScore = this.movieInfo.rating.filter(rate => rate.user === session.get())[0].rating
+        this.callValue = true
+      }
+    }
+  },
   methods: {
     async newRating() {
     let currentDateWithFormat = new Date().toJSON().slice(0,10).replace(/-/g,'');
@@ -110,7 +120,7 @@
     let form = {
         "user" : data.id,
         "movie" : this.imgData.id,
-        "rating" : this.imgData.rating,
+        "rating" : this.editScore,
         "rating_date" : currentDateWithFormat
         }
     await api.newUserRating(form)
@@ -121,7 +131,7 @@
       }
     else {
         swal({
-          title : `${this.imgData.rating}점 줬다`,
+          title : `${this.editScore}점 줬다`,
           text: "\n",
           icon: "success",
           button: false,
