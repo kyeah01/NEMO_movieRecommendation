@@ -131,9 +131,13 @@
     font-size: 120%;
     text-align: left;
     left: 2vw;
-    .movieR{
+    .movieR {
       display: inline;
+    }
+    .movieG {
       margin: {
+        top: 0;
+        bottom: 0;
       }
     }
   }
