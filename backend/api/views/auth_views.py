@@ -69,9 +69,15 @@ def userLogin(request):
         serialData['data'] = serializer.data
         profile = get_object_or_404(Profile, id=serializer.data['id'])
         serializer = ProfileSerializer(profile)
+            
         if serializer.data['subscription_date'] :
-            now = round(datetime.now().timestamp()) - (int(serializer.data['subscription_date']))
-            serialData['data'].update({'subscription':serializer.data['subscription'], 'remainingPeriod' : now})
+            if round(datetime.now().timestamp()) > int(serializer.data['subscription_date']) + 2592000:
+                profile.subscription = False
+                profile = profile.save()  
+                serialData['data'].update({'subscription':serializer.data['subscription']})
+            else :
+                now = round(datetime.now().timestamp()) - (int(serializer.data['subscription_date']))
+                serialData['data'].update({'subscription':serializer.data['subscription'], 'remainingPeriod' : now})
         else:
             serialData['data'].update({'subscription':serializer.data['subscription']})
         return Response(data=serialData , status=status.HTTP_200_OK)
