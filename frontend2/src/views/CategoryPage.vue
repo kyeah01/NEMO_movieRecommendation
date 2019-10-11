@@ -1,5 +1,5 @@
 <template>
-  <div class="moviePage">
+  <div class="moviePage" @wheel="scroll()">
     <div>
       <MovieCateForm/>
       <MovieCategory :movieItems="showSearchMovies"/>
@@ -62,7 +62,6 @@ export default {
       }
     },
     scroll() {
-      window.onscroll = () => {
         let bOfW = Math.round(document.documentElement.scrollTop + window.innerHeight) >= document.documentElement.offsetHeight
         if ( bOfW && this.loadCall === false && this.throwData === false ) {
           this.loadCall = true
@@ -84,7 +83,6 @@ export default {
             this.loadCall = false
           }, 1000)
         }
-      }
     },
     genreFilter(genre) {
       let filterGenre
