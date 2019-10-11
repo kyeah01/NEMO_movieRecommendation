@@ -5,12 +5,12 @@
     <!-- category -->
     <div class="movieImg newImg" v-if="!isRouterChk()">
       <img @click="toggleModal(imgData.id)" style="cursor:default width:260px;height:373px; min-width:250px; max-width: 250px;" :src="imgData.imgSrc" alt="moviePoster" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'">
-      
-      <!-- Modal -->  
+
+      <!-- Modal -->
     <MovieDetailModal @close="val => showModal = val" :showModal = "showModal" :movieInfo="selectInfo" :imgData="{ imgSrc: imgData.imgSrc, title: imgData.title, id: imgData.id, genres: imgData.genres, overview: imgData.overview }"></MovieDetailModal>
       <div class="testMovie__detail" @click="toggleModal(imgData.id)">
         <h2 style="color: white;">{{ imgData.title }}</h2>
-        <li v-for="genre in imgData.genres" style="color: white; text-align:left; margin-bottom:2px;" >{{genre}}</li>
+        <li v-for="genre in imgData.genres" :key="genre" style="color: white; text-align:left; margin-bottom:2px;" >{{genre}}</li>
       </div>
     </div>
   </div>
@@ -18,7 +18,6 @@
 
 <script>
 import MovieDetailModal from '@/components/movies/MovieDetailModal'
-import { mapActions, mapGetters } from "vuex"
 import api from '@/api'
 
 export default {
