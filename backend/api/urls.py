@@ -1,12 +1,8 @@
 from django.conf.urls import url
 from django.urls import path
 from api.views import movie_views, rating_views, auth_views, clustering_views
-from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 
 urlpatterns = [
-    path('auth/verify/', verify_jwt_token),
-    path('auth/refresh/', refresh_jwt_token),
-    path('auth/', obtain_jwt_token),
     # 초기 setup을 위한 url
     url('auth/signup-many/$', auth_views.signup_many, name='sign_up_many'),
     url('auth/signup/$', auth_views.signup, name='sign_up'),

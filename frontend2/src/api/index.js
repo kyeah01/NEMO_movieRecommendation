@@ -4,14 +4,6 @@ import swal from 'sweetalert';
 
 const apiUrl = '/api'
 
-const authAxios = axios.create({
-  baseURL: apiUrl,
-  headers: {
-    ...session.get('token'),
-    'Content-Type': 'application/json',
-  },
-})
-
 export default {
   searchMovies(params) {
     return axios.get(`${apiUrl}/movies/`, {
@@ -20,9 +12,9 @@ export default {
   },
   searchProfile(params) {
     if (typeof(params) === "number") {
-      return authAxios.get(`/profile/${params}`)
+      return axios.get(`${ apiUrl }/profile/${params}`)
     } else {
-      return authAxios.get('/profile/', { params })
+      return axios.get(`${ apiUrl }/profile/`, { params })  
     }
   },
   signUp(profiles) {
@@ -36,42 +28,28 @@ export default {
       })
   },
   logIn(form) {
-    const data = {
+    const data = JSON.stringify({
       username: form.id,
       password: form.pw
-    }
-    return axios.post(`${ apiUrl }/auth/`, data)
-      .then(res => {
-      if (res.status === 200) {
-        session.set('token', { Authorization : "jwt " + res.data.token})
-        authAxios.get('/profile/', {
-            params : { username : data.username }
-          })
-          .then(res => {
-            const drf = {
-                "id": res.data.id,
-                "username": res.data.username,
-                "is_staff": res.data.is_staff,
-                "profile":
-                {
-                  "gender": res.data.gender,
-                  "age": res.data.age,
-                  "Occupation": res.data.occupation
-                },
-                "subscription": res.data.subscription
-              }
-            session.set('drf', drf)
-          })
+    })
+    return axios.post(`${ apiUrl }/auth/login`, data, {
+      // request headers에 데이터를 json type으로 보냄
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).then(res => {
+      if (res.data.data && res.data.status === true) {
+        session.set('drf', res.data.data)
         swal({
-          title : data.username + "님 반갑습니다!",
+          title : res.data.data.username + "님 반갑습니다!",
           text : "로그인에 성공 하였습니다.",
           icon: "success",
           button: false,
           timer: 2000,
         });
-        return data.username
+        return res.data.data.username
       }
-      else {
+      if (res.data.status === false) {
         swal({
           title : "아이디 혹은 비밀번호를 확인하세요.",
           text : "로그인에 실패했습니다.",
@@ -84,10 +62,10 @@ export default {
     })
   },
   logOut() {
-    return authAxios.post('/auth/logout')
+    return axios.post(`${ apiUrl }/auth/logout`)
       .then(res => {
         if (res.status === 200) {
-          const data = session.get("drf")
+          const data = JSON.parse(sessionStorage.getItem("drf"))
           swal({
             title : data.username + "님 안녕히 가십시오!",
             text : "로그아웃에 성공 하였습니다.",
@@ -108,7 +86,14 @@ export default {
       method: data.method,
       params: data.params
     })
-    return authAxios.post('/cluster/user/', datas).then(res => {
+    return axios.post(`${apiUrl}/cluster/user/`,
+      datas,{
+        // request headers에 데이터를 json type으로 보냄
+        headers: {
+          'Content-Type': 'application/json',
+        }
+
+    }).then(res => {
       swal({
         title : "클러스터 완료",
         text : "아무튼 완료",
@@ -116,7 +101,6 @@ export default {
         button: false,
         timer: 2000,
       });
-      return res
     })
   },
   goClusterMovie(data) {
@@ -124,8 +108,13 @@ export default {
       method: data.method,
       params: data.params
     })
-    return authAxios.post('/cluster/movie/', datas )
-      .then(res=> {
+    return axios.post(`${apiUrl}/cluster/movie/`,
+      datas,{
+        // request headers에 데이터를 json type으로 보냄
+        headers: {
+          'Content-Type': 'application/json',
+        }
+    }).then(res=> {
           swal({
             title : "클러스터 완료",
             text : "아무튼 완료",
@@ -133,7 +122,6 @@ export default {
             button: false,
             timer: 2000,
           });
-          return res
         }
       )
   },
@@ -155,7 +143,6 @@ export default {
             button: false,
             timer: 2000,
           });
-          return res
         }
       )
   },
@@ -165,12 +152,21 @@ export default {
       age: data.age,
       description : data.description
     })
-    return authAxios.patch('/profile/${data.id}', datas )
+    return axios.patch(`${apiUrl}/profile/${data.id}`,
+      datas,{
+        // request headers에 데이터를 json type으로 보냄
+        headers: {
+          'Content-Type': 'application/json',
+        }
+    })
   },
   playSubscription(data) {
-    return authAxios.post(`/subscription/${data.id}`)
+    return axios.post(`${apiUrl}/subscription/${data.id}`,{
         // request headers에 데이터를 json type으로 보냄
-      .then(res => {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(res => {
           if (res.data.data && res.status === 200) {
             session.set('drf', res.data.data)
             return true
