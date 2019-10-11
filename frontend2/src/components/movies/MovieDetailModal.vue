@@ -45,7 +45,7 @@
               <!--rating 준 user-->
               <h3>User Rating</h3>
               <div class="modal-rating">
-                <div v-for="info in scoredData" >
+                <div v-for="info in scoredData" :key="info">
                     <ul class="rating">
                       <span> {{ info.user }}</span>
                       <input type="radio" :id="info.user+'5'" :name="info.user+'5'" value="5" v-model="info.rating" /><label class = "full" :for="info.user+'5'" title="Awesome - 5 stars"></label>
@@ -70,19 +70,13 @@
             </div>
           </div>
         </div>
-      </div>
     </transition>
-
 </template>
 
 <script>
-  import star from '@/components/modules/star'
   import api from '@/api'
   import swal from 'sweetalert';
   export default {
-    components: {
-      star
-    },
   props: {
     movieInfo: {
       type: Object,
@@ -119,7 +113,7 @@
         "rating" : this.imgData.rating,
         "rating_date" : currentDateWithFormat
         }
-    await api.newUserRating(form) 
+    await api.newUserRating(form)
 
     if (this.imgData.chkRated === false) {
       this.imgData.chkRated = true
@@ -127,8 +121,8 @@
       }
     else {
         swal({
-          title : `${this.imgData.rating}점 줬다`,       
-          text: "\n",   
+          title : `${this.imgData.rating}점 줬다`,
+          text: "\n",
           icon: "success",
           button: false,
           timer: 1000})
