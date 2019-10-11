@@ -64,7 +64,7 @@
                 </div>
               </div>
 
-              
+
               <div class="btn btn--primary modal-default-button" @click="change()">
                     OK
               </div>
@@ -87,10 +87,6 @@
   props: {
     movieInfo: {
       type: Object,
-      required: true
-    },
-    movieItems: {
-      type: Array,
       required: true
     },
     imgData: {
@@ -238,7 +234,7 @@ ul {
 {color: red !important;}/* hover previous stars in list */
 
 .rating:not(:checked) > label:hover, /* hover current star */
-.rating:not(:checked) > label:hover ~ label { color: lightgrey !important;} 
+.rating:not(:checked) > label:hover ~ label { color: lightgrey !important;}
 
 .rating > input:checked + label:hover, /* hover current star when changing rating */
 .rating > input:checked ~ label:hover

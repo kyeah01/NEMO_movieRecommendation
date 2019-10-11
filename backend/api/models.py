@@ -36,7 +36,8 @@ def create_profile(**kwargs):
         user=user,
         gender=kwargs['gender'],
         age=kwargs['age'],
-        occupation=kwargs['occupation']
+        occupation=kwargs['occupation'],
+        your_taste_movie=kwargs['your_taste_movie']
     )
 
     return profile

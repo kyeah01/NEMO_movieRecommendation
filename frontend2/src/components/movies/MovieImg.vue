@@ -30,10 +30,6 @@ export default {
       type: Object,
       required: true
     },
-    movieItems: {
-      type: Array,
-      required: true
-    }
   },
   data: () => ({
     isSelectedMovie: false,
@@ -85,8 +81,8 @@ export default {
       }
     },
     toggleModal(id) {
-      this.showModal = true
       this.selectMovie(id)
+      this.showModal = true
     }
   }
 
