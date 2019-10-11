@@ -10,7 +10,10 @@
     <MovieDetailModal @close="val => showModal = val" :showModal = "showModal" :movieInfo="selectInfo" :imgData="{ imgSrc: imgData.imgSrc, title: imgData.title, id: imgData.id, genres: imgData.genres, overview: imgData.overview }"></MovieDetailModal>
       <div class="testMovie__detail" @click="toggleModal(imgData.id)">
         <h2 style="color: white;">{{ imgData.title }}</h2>
-        <li v-for="genre in imgData.genres" :key="genre" style="color: white; text-align:left; margin-bottom:2px;" >{{genre}}</li>
+        <ul style=" display:inline;">
+          <li v-for="genre in imgData.genres.slice(0, imgData.genres.length-1)" style="color: white; text-align:left; margin-bottom:2px; display:inline;" > {{genre}} |</li>
+          <li v-for="genre in imgData.genres.slice(imgData.genres.length-1, imgData.genres.length)" style="color: white; text-align:left; margin-bottom:2px; display:inline;" > {{genre}} </li>
+        </ul>
       </div>
     </div>
   </div>
