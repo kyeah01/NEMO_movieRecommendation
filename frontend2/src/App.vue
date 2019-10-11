@@ -103,6 +103,7 @@ export default {
       this.subscription = JSON.parse(sessionStorage.getItem("drf")).subscription
     }
     this.searchMovies()
+    this.checkScroll()
   },
   updated() {
     if (session.check()) {
@@ -151,7 +152,9 @@ export default {
           },this.blurFocus())
     },
     checkScroll() {
-      this.whereScroll = window.pageYOffset
+      window.onscroll = () => {
+        this.whereScroll = window.pageYOffset
+      }
     },
     setFocus(bool) {
       if (bool === true && this.$route.name !== 'Search') {

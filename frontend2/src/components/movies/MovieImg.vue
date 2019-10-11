@@ -4,13 +4,16 @@
     <img v-if="isRouterChk()" :src="imgData.info.poster_url" alt="moviePoster" @click="infoActive" :class="{ selectedMovie: isSelectedMovie }" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'">
     <!-- category -->
     <div class="movieImg newImg" v-if="!isRouterChk()">
-      <img style="cursor:default width:260px;height:373px; min-width:250px; max-width: 250px;" :src="imgData.imgSrc" alt="moviePoster" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'">
+      <img @click="toggleModal(imgData.id)" style="cursor:default width:260px;height:373px; min-width:250px; max-width: 250px;" :src="imgData.imgSrc" alt="moviePoster" onerror="this.onerror=null; this.src='http://kaverisias.com/wp-content/uploads/2018/01/catalog-default-img.gif'">
 
       <!-- Modal -->
     <MovieDetailModal @close="val => showModal = val" :showModal = "showModal" :movieInfo="selectInfo" :imgData="{ imgSrc: imgData.imgSrc, title: imgData.title, id: imgData.id, genres: imgData.genres, overview: imgData.overview }"></MovieDetailModal>
       <div class="testMovie__detail" @click="toggleModal(imgData.id)">
         <h2 style="color: white;">{{ imgData.title }}</h2>
-        <p style="color: white;">{{ imgData.genres }}</p>
+        <ul style=" display:inline;">
+          <li v-for="genre in imgData.genres.slice(0, imgData.genres.length-1)" style="color: white; text-align:left; margin-bottom:2px; display:inline;" > {{genre}} |</li>
+          <li v-for="genre in imgData.genres.slice(imgData.genres.length-1, imgData.genres.length)" style="color: white; text-align:left; margin-bottom:2px; display:inline;" > {{genre}} </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -18,7 +21,6 @@
 
 <script>
 import MovieDetailModal from '@/components/movies/MovieDetailModal'
-import { mapActions, mapGetters } from "vuex"
 import api from '@/api'
 
 export default {
