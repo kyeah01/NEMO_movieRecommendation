@@ -2,7 +2,6 @@
     Movie Recommendation Project
 </p>
 
-#### 
 
 <h1>Table of Contents</h1>
 
@@ -10,11 +9,9 @@
 
 # Project Description
 
-GitHub: [NEMO](<https://github.com/rngus3050/The-NextMovie>)
+GitHub: [NEMO](<https://github.com/kyeah01/NEMO_movieRecommendation>)
 
  **The-NextMovie**(이하, NEMO)는 영화 평점 및 유저 데이터 기반 **`영화 맞춤 추천 사이트`** 입니다. 사용자의 취향 및 직업군, 성별, 나이 등을 `Clustering Algorithm` 과 `Recommand Algotirhm` 기반으로 **유사한 유저**를 선별하고 **선호하는 영화**를 추천해주며, 아직 감상하지 않은 영화에 대한 **예상 점수**를 계산해 주어 사용자에게 수준 높은 문화 활동의 경험을 장려하고자 제작되었습니다.
-
-------
 
 
 
@@ -22,13 +19,13 @@ GitHub: [NEMO](<https://github.com/rngus3050/The-NextMovie>)
 
 ## Prerequisites
 
-- `front` 폴더에서 npm을 install 합니다.
+- `front` 폴더에서 npm 모듈을 install 합니다.
 
   ```bash
   $ npm install
   ```
 
-- `backend` 폴더에서 pip를 setup합니다.
+- `backend` 폴더에서 pip 모듈을 setup합니다.
 
   ```bash
   $ pip install -r requirements.txt
@@ -77,9 +74,11 @@ GitHub: [NEMO](<https://github.com/rngus3050/The-NextMovie>)
 
 
 
-### 핵심 기술
+# 서비스 소개
 
-#### 사용자 평점 기반 영화 추천 서비스
+## 핵심기술
+
+### 사용자 평점 기반 영화 추천 서비스
 
 ------
 
@@ -95,7 +94,7 @@ GitHub: [NEMO](<https://github.com/rngus3050/The-NextMovie>)
 
 
 
-#### 빠른 검색
+### 빠른 검색
 
 ------
 
@@ -105,7 +104,7 @@ GitHub: [NEMO](<https://github.com/rngus3050/The-NextMovie>)
 
 
 
-#### 평점 관리 기능
+### 평점 관리 기능
 
 ------
 
@@ -117,7 +116,7 @@ GitHub: [NEMO](<https://github.com/rngus3050/The-NextMovie>)
 
 
 
-#### 유사 유저 정보 제공
+### 유사 유저 정보 제공
 
 ------
 
@@ -129,7 +128,7 @@ GitHub: [NEMO](<https://github.com/rngus3050/The-NextMovie>)
 
 
 
-#### 5가지 유형의 추천 알고리즘
+### 5가지 유형의 추천 알고리즘
 
 ------
 
@@ -204,14 +203,18 @@ GitHub: [NEMO](<https://github.com/rngus3050/The-NextMovie>)
 
 ##### 사용 기술 및 도구
 
-- Django
-- K-means 
-- Hierarchical
-- Gaussian Mixture Model
-- KNN Algotirhm
-- Matrix Factorization
-- VUE
-- SCSS
+- Vuex (3.1.1)
+- Vue.js (2.6.10)
+- SCSS (sass-loder : 8.0.0, node-sass: 4.12.0)
+- vue CLI (3.12.0)
+- Django (2.2.4)
+- Django REST Framework (3.10.2)
+- Django REST Framework-jwt (1.11.0)
+- python (3.6.8)
+- numpy (1.17.0)
+- pandas (0.25.1)
+- virtualenv (16.7.7)
+- K-means, Hierarchical, Gaussian Mixture Model, KNN Algotirhm, Matrix Factorization
 
 
 
